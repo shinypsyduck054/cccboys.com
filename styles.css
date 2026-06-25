@@ -123,9 +123,10 @@ img { max-width: 100%; height: auto; display: block; }
   gap: 24px;
 }
 .primary-nav-brand {
-  font-family: var(--font-slab);
-  font-size: 1.45rem;
-  letter-spacing: 0.02em;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.7rem;
+  letter-spacing: 0.04em;
   color: var(--ink);
   text-decoration: none;
   line-height: 1;
@@ -911,10 +912,21 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .footer-rule {
   max-width: var(--max-w);
-  margin: 0 auto 28px;
+  margin: 0 auto 20px;
   height: 0;
   border-top: 2px solid var(--ink);
   border-bottom: 1px solid var(--ink);
+}
+.footer-est {
+  max-width: var(--max-w);
+  margin: 0 auto 24px;
+  font-family: var(--font-type);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--red-deep);
+  font-weight: 700;
 }
 .footer-grid {
   max-width: var(--max-w);
