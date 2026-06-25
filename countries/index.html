@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The CCC was American. The work isn't. An interactive map of countries whose cooperative, conservation, and worker-owned traditions parallel the Civilian Conservation Corps. Where the CCC Boys are looking for branches abroad." />
+  <meta property="og:title" content="CCC BOYS · COUNTRIES" />
+  <meta property="og:description" content="Where they did similar work. Where you could be next." />
+  <meta property="og:type" content="website" />
+  <title>CCC BOYS · COUNTRIES</title>
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23a83232'/><text x='50%25' y='62%25' font-family='Georgia,serif' font-size='34' font-weight='900' fill='%23f4ead5' text-anchor='middle'>C</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Big+Shoulders+Stencil+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .dashboard-wrap { max-width: 1240px; margin: 0 auto; padding: 24px; position: relative; z-index: 10; }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px 26px;
+      margin: 32px 0 24px;
+      padding: 24px 28px;
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      position: relative;
+    }
+    .stats-row::before {
+      content: "ACROSS REGIONS \2014 28 COUNTRIES TRACKED";
+      position: absolute;
+      top: -10px; left: 18px;
+      background: var(--paper);
+      padding: 0 8px;
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+    }
+    .stat-tile { text-align: center; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.4rem;
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+    }
+    .stat-num .stat-unit {
+      font-family: var(--font-type);
+      font-size: 0.9rem;
+      vertical-align: super;
+      margin-left: 2px;
+      color: var(--red-deep);
+    }
+    .stat-label {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 8px;
+    }
+
+    .map-shell {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+      margin-top: 32px;
+    }
+    @media (max-width: 900px) {
+      .map-shell { grid-template-columns: 1fr; }
+    }
+
+    .map-card {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      padding: 18px;
+      position: relative;
+      min-height: 320px;
+    }
+    .map-card::before {
+      content: "INTERACTIVE \2014 HOVER OR TAP A COUNTRY";
+      position: absolute;
+      top: -10px; left: 18px;
+      background: var(--paper);
+      padding: 0 8px;
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+    }
+    #world-map-obj {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 2754 / 1398;
+    }
+
+    .info-panel {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      padding: 18px 20px;
+      position: relative;
+      min-height: 320px;
+    }
+    .info-panel::before {
+      content: "COUNTRY DETAILS";
+      position: absolute;
+      top: -10px; left: 18px;
+      background: var(--paper);
+      padding: 0 8px;
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+    }
+    .info-default {
+      font-family: var(--font-type);
+      font-size: 0.85rem;
+      color: var(--ink-faded);
+      line-height: 1.7;
+      padding-top: 12px;
+    }
+    .info-country-name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.8rem;
+      letter-spacing: 0.02em;
+      margin-top: 8px;
+      line-height: 1.1;
+    }
+    .info-country-code {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+    }
+    .info-stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin: 16px 0 8px;
+    }
+    .info-stat {
+      background: var(--paper);
+      border-left: 3px solid var(--red);
+      padding: 8px 10px;
+    }
+    .info-stat-val {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.05rem;
+      color: var(--red-deep);
+      line-height: 1.2;
+    }
+    .info-stat-label {
+      font-family: var(--font-type);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 4px;
+    }
+    .info-signature {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: var(--paper);
+      border-left: 3px solid var(--red);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .info-signature-label {
+      font-family: var(--font-type);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-link {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 18px;
+      background: var(--red);
+      color: var(--cream);
+      font-family: var(--font-type);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--red-deep);
+    }
+    .info-link:hover { background: var(--red-deep); }
+    .info-link.disabled {
+      background: var(--paper);
+      color: var(--ink-faded);
+      border: 1px dashed var(--rule-soft);
+      cursor: not-allowed;
+    }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+    }
+    .legend-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--ink);
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    /* === DATA TABLE === */
+    .table-card {
+      margin-top: 36px;
+      padding: 18px;
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      position: relative;
+    }
+    .table-card::before {
+      content: "EVERY COUNTRY \2014 ON THIS PAGE";
+      position: absolute;
+      top: -10px; left: 18px;
+      background: var(--paper);
+      padding: 0 8px;
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+    }
+    .table-tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 6px 0 14px;
+      flex-wrap: wrap;
+    }
+    .table-tools-left {
+      font-family: var(--font-type);
+      font-size: 12px;
+      color: var(--ink-faded);
+      letter-spacing: 0.1em;
+    }
+    .table-tools-right {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .sort-btn {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      padding: 6px 12px;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .sort-btn.active { background: var(--ink); color: var(--cream); }
+    .sort-btn:hover { background: var(--mustard); }
+    .sort-btn.active:hover { background: var(--ink-soft); }
+
+    .data-table-wrap {
+      max-height: 540px;
+      overflow-y: auto;
+      border: 1px solid var(--rule-soft);
+      background: var(--paper);
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+    }
+    .data-table thead th {
+      position: sticky;
+      top: 0;
+      background: var(--paper-dark);
+      color: var(--ink);
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 2px solid var(--ink);
+      z-index: 2;
+    }
+    .data-table tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px dashed var(--rule-soft);
+      vertical-align: top;
+    }
+    .data-table tbody tr:hover { background: rgba(197, 150, 63, 0.12); }
+    .data-table .t-code {
+      font-family: var(--font-type);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--ink-faded);
+      width: 60px;
+      text-transform: uppercase;
+    }
+    .data-table .t-name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      font-size: 1.05rem;
+      color: var(--ink);
+      width: 160px;
+    }
+    .data-table .t-name a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .data-table .t-name a:hover { color: var(--red-deep); text-decoration: underline; }
+    .data-table .t-region {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--red-deep);
+      text-transform: uppercase;
+      width: 100px;
+    }
+    .data-table .t-era {
+      font-family: var(--font-type);
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      width: 140px;
+    }
+    .data-table .t-tradition {
+      font-family: var(--font-body);
+      font-style: italic;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+    .data-table .t-inst {
+      font-family: var(--font-body);
+      font-weight: 600;
+      color: var(--red-deep);
+      font-size: 0.9rem;
+    }
+    @media (max-width: 820px) {
+      .data-table .t-era, .data-table .t-inst { display: none; }
+    }
+    @media (max-width: 600px) {
+      .data-table .t-region { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="paper-grain" aria-hidden="true"></div>
+  <div class="paper-edge" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <span class="topbar-left">EST. 2026 &middot; IN THE SPIRIT OF 1933</span>
+      <span class="topbar-right">ALL COUNTRIES &middot; VOL. I</span>
+    </div>
+  </header>
+  <nav class="primary-nav" aria-label="Primary">
+    <div class="primary-nav-inner">
+      <a href="/" class="primary-nav-brand">CCC<span class="nav-dot">&middot;</span>BOYS</a>
+      <button class="primary-nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="primary-nav-links" id="primary-nav-drawer">
+        <button class="primary-nav-close" type="button" aria-label="Close menu">&times;</button>
+        <a href="/#history">History</a>
+        <a href="/#present">Present</a>
+        <a href="/#future">Future</a>
+        <a href="/states">States</a>
+        <a href="/countries" aria-current="page">Countries</a>
+        <a href="mailto:join@cccboys.com?subject=Letter%20to%20the%20corps" class="nav-cta">Write Us</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-rule"></div>
+      <div class="hero-eyebrow">A NOTICE FROM ABROAD</div>
+      <h1 class="hero-title">EVERY<span class="hero-amp">&middot;</span>COUNTRY</h1>
+      <div class="hero-sub">THE CCC WAS AMERICAN. THE WORK ISN'T.</div>
+      <div class="hero-rule"></div>
+      <p class="hero-blurb">
+        The Civilian Conservation Corps was a U.S. program. The instinct
+        behind it &mdash; pool labor, share the work, build things that
+        outlast you &mdash; was never just American. Cooperatives,
+        conservation corps, worker-owned firms, and land-reform brigades
+        ran in parallel across Europe, Latin America, Asia, Africa, and
+        Oceania. Some are older than the CCC. Some are bigger. All are
+        still here.
+      </p>
+      <p class="hero-blurb">
+        Click any country on the map. Or scroll the table below. Every
+        country here has a real institution behind it, still operating.
+      </p>
+    </section>
+
+    <div class="dashboard-wrap">
+
+      <div class="stats-row">
+        <div class="stat-tile">
+          <div class="stat-num">28</div>
+          <div class="stat-label">Countries Tracked</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">5</div>
+          <div class="stat-label">World Regions</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">1844</div>
+          <div class="stat-label">Oldest (Rochdale)</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">100<span class="stat-unit">M+</span></div>
+          <div class="stat-label">Co-op Members</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Country Pages Live</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">25</div>
+          <div class="stat-label">Page Stubs Open</div>
+        </div>
+      </div>
+
+      <div class="map-shell">
+        <div class="map-card">
+          <object id="world-map-obj" data="/images/world.svg" type="image/svg+xml" aria-label="World map showing 28 countries with cooperative or conservation-corps traditions"></object>
+          <div class="legend">
+            <span><span class="legend-swatch" style="background:#d9c8a0;"></span>No page</span>
+            <span><span class="legend-swatch" style="background:#c5963f;"></span>Highlighted country</span>
+            <span><span class="legend-swatch" style="background:#6f4a1c;"></span>Page live</span>
+            <span><span class="legend-swatch" style="background:#9c2a23;"></span>Hover / active</span>
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <div id="info-content">
+            <div class="info-default">
+              <strong>Click any country</strong> on the map to see what they
+              built and who's still doing it. Or scroll the table below for
+              the full list, sortable by name, region, or era.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-tools">
+          <div class="table-tools-left">
+            28 countries with real cooperative or conservation traditions.
+          </div>
+          <div class="table-tools-right">
+            <button class="sort-btn active" data-sort="name">A &mdash; Z</button>
+            <button class="sort-btn" data-sort="region">By Region</button>
+            <button class="sort-btn" data-sort="era">By Era</button>
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table" id="countries-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Country</th>
+                <th>Region</th>
+                <th>Era</th>
+                <th>Institution</th>
+                <th>What They Built</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-code="ar" data-region="Americas" data-era="2001"><td class="t-code">AR</td><td class="t-name">Argentina</td><td class="t-region">Americas</td><td class="t-era">2001-present</td><td class="t-inst">Empresas Recuperadas</td><td class="t-tradition">After Argentina's 2001 crisis, workers occupied bankrupt firms and re-opened them as co-ops; today over 300 ERTs employ around 13,000 people.</td></tr>
+              <tr data-code="au" data-region="Oceania" data-era="1982"><td class="t-code">AU</td><td class="t-name">Australia</td><td class="t-region">Oceania</td><td class="t-era">1982; 2014-2018</td><td class="t-inst">CVA + Green Army</td><td class="t-tradition">Australia's Conservation Volunteers (since 1982) and the federal Green Army (2014-2018) put thousands of young Australians into hands-on conservation work.</td></tr>
+              <tr data-code="at" data-region="Europe" data-era="1886"><td class="t-code">AT</td><td class="t-name">Austria</td><td class="t-region">Europe</td><td class="t-era">1886-present</td><td class="t-inst">Raiffeisenverband</td><td class="t-tradition">Austria's first Raiffeisen bank opened in 1886; by 1918 over 2,000 local rural co-op banks operated under what is now the Raiffeisenverband.</td></tr>
+              <tr data-code="br" data-region="Americas" data-era="1984"><td class="t-code">BR</td><td class="t-name">Brazil</td><td class="t-region">Americas</td><td class="t-era">1984; OCB today</td><td class="t-inst">Sistema OCB + MST</td><td class="t-tradition">Brazil's OCB federation organises 4,880 co-ops with 19 million members, while the MST has settled about 475,000 landless families since 1984.</td></tr>
+              <tr data-code="ca" data-region="Americas" data-era="1900"><td class="t-code">CA</td><td class="t-name">Canada</td><td class="t-region">Americas</td><td class="t-era">1900-present</td><td class="t-inst">Desjardins Group</td><td class="t-tradition">Alphonse Desjardins founded North America's first savings and credit co-op in Levis, Quebec in 1900; the group now serves about 7 million members.</td></tr>
+              <tr data-code="cl" data-region="Americas" data-era="1938"><td class="t-code">CL</td><td class="t-name">Chile</td><td class="t-region">Americas</td><td class="t-era">1938; 1949</td><td class="t-inst">COLUN + Capel</td><td class="t-tradition">Chile's farmer co-ops include Capel (pisco, 1938) and COLUN (dairy, 1949), the latter handling roughly 80% of cooperative milk in the country.</td></tr>
+              <tr data-code="dk" data-region="Europe" data-era="1882"><td class="t-code">DK</td><td class="t-name">Denmark</td><td class="t-region">Europe</td><td class="t-era">1882-present</td><td class="t-inst">Arla Foods</td><td class="t-tradition">Denmark's farmer-owned dairy co-ops began in 1882 and consolidated into Arla, now owned by over 8,400 farmers across seven countries.</td></tr>
+              <tr data-code="fi" data-region="Europe" data-era="1904"><td class="t-code">FI</td><td class="t-name">Finland</td><td class="t-region">Europe</td><td class="t-era">1904-present</td><td class="t-inst">S Group (SOK)</td><td class="t-tradition">S Group's 19 regional co-ops, founded under SOK in 1904, are owned by 1.7 million members and reach roughly seven in ten Finnish households.</td></tr>
+              <tr data-code="fr" data-region="Europe" data-era="1884"><td class="t-code">FR</td><td class="t-name">France</td><td class="t-region">Europe</td><td class="t-era">1884-present</td><td class="t-inst">Confederation des SCOP</td><td class="t-tradition">France's SCOP legal form gives workers majority ownership and voting control; the national confederation coordinates roughly 2,590 worker co-ops.</td></tr>
+              <tr data-code="de" data-region="Europe" data-era="1862"><td class="t-code">DE</td><td class="t-name">Germany</td><td class="t-region">Europe</td><td class="t-era">1862-present</td><td class="t-inst">DGRV</td><td class="t-tradition">Twin 19th-century traditions of rural Raiffeisen and urban Schulze-Delitzsch co-ops produced today's DGRV network covering over 22 million members.</td></tr>
+              <tr data-code="in" data-region="Asia" data-era="1946"><td class="t-code">IN</td><td class="t-name">India</td><td class="t-region">Asia</td><td class="t-era">1946; 1967</td><td class="t-inst">Amul + IFFCO</td><td class="t-tradition">Amul's 3.6 million dairy farmers and IFFCO's 35,000 co-ops reaching 50 million farmers make India one of the largest co-op economies on earth.</td></tr>
+              <tr data-code="il" data-region="Asia" data-era="1910"><td class="t-code">IL</td><td class="t-name">Israel</td><td class="t-region">Asia</td><td class="t-era">1910-present</td><td class="t-inst">Kibbutz movement</td><td class="t-tradition">Since the founding of Degania in 1910, Israel's kibbutzim have organised collective communities, now around 270 settlements with 126,000 members.</td></tr>
+              <tr data-code="it" data-region="Europe" data-era="1886"><td class="t-code">IT</td><td class="t-name">Italy</td><td class="t-region">Europe</td><td class="t-era">1886; 1947</td><td class="t-inst">Legacoop</td><td class="t-tradition">Italy's 1886 cooperative federation Legacoop coordinates over 10,000 enterprises across every production sector, backed by Article 45 of the constitution.</td></tr>
+              <tr data-code="jp" data-region="Asia" data-era="1951"><td class="t-code">JP</td><td class="t-name">Japan</td><td class="t-region">Asia</td><td class="t-era">1951; 1954</td><td class="t-inst">JA Group + JCCU</td><td class="t-tradition">Japan's agricultural co-op JA federates 584 locals serving over 4 million farming households, alongside the consumer co-op union JCCU.</td></tr>
+              <tr data-code="ke" data-region="Africa" data-era="1908"><td class="t-code">KE</td><td class="t-name">Kenya</td><td class="t-region">Africa</td><td class="t-era">1908-present</td><td class="t-inst">Cooperative Alliance of Kenya</td><td class="t-tradition">Kenya has over 25,000 registered co-ops and SACCOs serving 14 million members, contributing close to 45% of GDP when indirect activity is counted.</td></tr>
+              <tr data-code="mx" data-region="Americas" data-era="1917"><td class="t-code">MX</td><td class="t-name">Mexico</td><td class="t-region">Americas</td><td class="t-era">1917; 1934-1940</td><td class="t-inst">Ejido system</td><td class="t-tradition">Post-revolution land reform created roughly 30,000 ejidos holding land collectively, covering over half of Mexico's surface area.</td></tr>
+              <tr data-code="nl" data-region="Europe" data-era="1897"><td class="t-code">NL</td><td class="t-name">Netherlands</td><td class="t-region">Europe</td><td class="t-era">1897-present</td><td class="t-inst">Rabobank</td><td class="t-tradition">Dutch farmers built Raiffeisen-style credit co-ops in 1897 that merged into Rabobank, now the dominant lender to Dutch agriculture.</td></tr>
+              <tr data-code="nz" data-region="Oceania" data-era="2001"><td class="t-code">NZ</td><td class="t-name">New Zealand</td><td class="t-region">Oceania</td><td class="t-era">2001; 2020</td><td class="t-inst">Fonterra + Jobs for Nature</td><td class="t-tradition">Fonterra is owned by roughly 10,000 dairy farmers; the Jobs for Nature programme has hired nearly 5,000 people for conservation work since 2020.</td></tr>
+              <tr data-code="no" data-region="Europe" data-era="1900"><td class="t-code">NO</td><td class="t-name">Norway</td><td class="t-region">Europe</td><td class="t-era">Early 1900s</td><td class="t-inst">Coop Norge + Felleskjopet</td><td class="t-tradition">Coop Norge unites Norwegian consumer co-ops with over 2.6 million members; Felleskjopet is the farmer-owned agricultural supply co-op.</td></tr>
+              <tr data-code="pt" data-region="Europe" data-era="1974"><td class="t-code">PT</td><td class="t-name"><a href="/pt/">Portugal</a></td><td class="t-region">Europe</td><td class="t-era">1974-1976</td><td class="t-inst">UCPs / CONFAGRI</td><td class="t-tradition">After the 1974 revolution, workers occupied over a million hectares in the Alentejo and formed roughly 500 collective production units later registered as co-ops.</td></tr>
+              <tr data-code="za" data-region="Africa" data-era="1995"><td class="t-code">ZA</td><td class="t-name">South Africa</td><td class="t-region">Africa</td><td class="t-era">1995-present</td><td class="t-inst">Working for Water</td><td class="t-tradition">Launched in 1995, Working for Water hires tens of thousands of low-income South Africans each year to clear invasive species and restore watersheds.</td></tr>
+              <tr data-code="kr" data-region="Asia" data-era="1997"><td class="t-code">KR</td><td class="t-name">South Korea</td><td class="t-region">Asia</td><td class="t-era">1997-present</td><td class="t-inst">iCOOP Korea</td><td class="t-tradition">Founded during the 1997 financial crisis to support local producers, iCOOP Korea now unites about 100 consumer co-ops with 310,000 members.</td></tr>
+              <tr data-code="es" data-region="Europe" data-era="1956"><td class="t-code">ES</td><td class="t-name"><a href="/es/">Spain</a></td><td class="t-region">Europe</td><td class="t-era">1956-present</td><td class="t-inst">Mondragon Corporation</td><td class="t-tradition">Federation of worker cooperatives founded in the Basque town of Mondragon in 1956, now Spain's fifth-largest private employer.</td></tr>
+              <tr data-code="se" data-region="Europe" data-era="1899"><td class="t-code">SE</td><td class="t-name">Sweden</td><td class="t-region">Europe</td><td class="t-era">1899-present</td><td class="t-inst">Kooperativa Forbundet</td><td class="t-tradition">Founded in 1899, the Swedish consumer co-op federation KF unites 26 regional societies representing more than 4 million member-owners.</td></tr>
+              <tr data-code="ch" data-region="Europe" data-era="1941"><td class="t-code">CH</td><td class="t-name">Switzerland</td><td class="t-region">Europe</td><td class="t-era">1941-present</td><td class="t-inst">Migros</td><td class="t-tradition">Gottlieb and Adele Duttweiler transferred Migros to its customers in 1941, creating a co-op now owned by roughly a quarter of all Swiss residents.</td></tr>
+              <tr data-code="tz" data-region="Africa" data-era="1967"><td class="t-code">TZ</td><td class="t-name">Tanzania</td><td class="t-region">Africa</td><td class="t-era">1967-1976</td><td class="t-inst">Ujamaa villagisation</td><td class="t-tradition">Julius Nyerere's Ujamaa programme resettled around 11 million Tanzanians into cooperative villages between 1967 and 1976.</td></tr>
+              <tr data-code="uk" data-region="Europe" data-era="1844"><td class="t-code">UK</td><td class="t-name"><a href="/uk/">United Kingdom</a></td><td class="t-region">Europe</td><td class="t-era">1844; 1919</td><td class="t-inst">Rochdale Pioneers + Forestry Commission</td><td class="t-tradition">The 1844 Rochdale Pioneers set the template for modern cooperatives; the 1919 Forestry Commission employed thousands to replant Britain after WWI.</td></tr>
+              <tr data-code="uy" data-region="Americas" data-era="1970"><td class="t-code">UY</td><td class="t-name">Uruguay</td><td class="t-region">Americas</td><td class="t-era">1970-present</td><td class="t-inst">FUCVAM</td><td class="t-tradition">FUCVAM federates Uruguay's mutual-aid housing co-ops, where members build each other's homes and hold them as collective property.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <section class="enlist">
+      <div class="enlist-card">
+        <div class="enlist-stamp">WOULD YOU LIKE TO KNOW MORE?</div>
+        <h2 class="enlist-title">YOUR COUNTRY COULD BE NEXT.</h2>
+        <p>
+          The CCC Boys corps is based in Colleton County, South Carolina.
+          The framework, the technology, the apprenticeship curriculum,
+          and the playbook are all open source. As builders in their own
+          countries raise their hands, branches form. Three country pages
+          are live. The rest are stubs waiting for someone to fill them in.
+        </p>
+        <a class="enlist-btn" href="mailto:join@cccboys.com?subject=Letter%20to%20the%20corps">
+          <span class="enlist-btn-label">WRITE THE CORPS</span>
+          <span class="enlist-btn-addr">join@cccboys.com</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-rule"></div>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-mark">CCC&middot;BOYS</div>
+        <div class="footer-tag">A collective of builders.</div>
+      </div>
+      <div class="footer-credits">
+        <div class="footer-credits-title">SOURCES &amp; CREDITS</div>
+        <div>
+          Country data compiled from Wikipedia, ILO cooperative reports,
+          national federation websites, and the International Cooperative
+          Alliance. Member counts and dates are sourced from each
+          institution's own published figures. World map adapted from
+          Wikimedia Commons (BlankMap-World.svg, public domain). Built
+          and researched by Psyduck AI; reviewed by Justin Connolley.
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; MMXXVI CCC BOYS. Built by hand. Multiplied by machine.
+      &middot; <a href="/">cccboys.com</a>
+      &middot; <a href="mailto:support@cccboys.com">support@cccboys.com</a>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // Country metadata, keyed by ISO-2 (lowercase). For the United Kingdom,
+      // our URL path is /uk/ but the SVG element id is "gb" (ISO-3166-1).
+      var COUNTRIES = [
+        { code:'ar', name:'Argentina', region:'Americas', era:'2001-present', inst:'Empresas Recuperadas', live:false, line:"After Argentina's 2001 crisis, workers occupied bankrupt firms and re-opened them as co-ops; today over 300 ERTs employ around 13,000 people." },
+        { code:'au', name:'Australia', region:'Oceania', era:'1982; 2014-2018', inst:'CVA + Green Army', live:false, line:"Australia's Conservation Volunteers (since 1982) and the federal Green Army (2014-2018) put thousands of young Australians into hands-on conservation work." },
+        { code:'at', name:'Austria', region:'Europe', era:'1886-present', inst:'Raiffeisenverband', live:false, line:"Austria's first Raiffeisen bank opened in 1886; by 1918 over 2,000 local rural co-op banks operated under what is now the Raiffeisenverband." },
+        { code:'br', name:'Brazil', region:'Americas', era:'1984; OCB today', inst:'Sistema OCB + MST', live:false, line:"Brazil's OCB federation organises 4,880 co-ops with 19 million members, while the MST has settled about 475,000 landless families since 1984." },
+        { code:'ca', name:'Canada', region:'Americas', era:'1900-present', inst:'Desjardins Group', live:false, line:"Alphonse Desjardins founded North America's first savings and credit co-op in Levis, Quebec in 1900; the group now serves about 7 million members." },
+        { code:'cl', name:'Chile', region:'Americas', era:'1938; 1949', inst:'COLUN + Capel', live:false, line:"Chile's farmer co-ops include Capel (pisco, 1938) and COLUN (dairy, 1949), the latter handling roughly 80% of cooperative milk in the country." },
+        { code:'dk', name:'Denmark', region:'Europe', era:'1882-present', inst:'Arla Foods', live:false, line:"Denmark's farmer-owned dairy co-ops began in 1882 and consolidated into Arla, now owned by over 8,400 farmers across seven countries." },
+        { code:'fi', name:'Finland', region:'Europe', era:'1904-present', inst:'S Group (SOK)', live:false, line:"S Group's 19 regional co-ops, founded under SOK in 1904, are owned by 1.7 million members and reach roughly seven in ten Finnish households." },
+        { code:'fr', name:'France', region:'Europe', era:'1884-present', inst:'Confederation des SCOP', live:false, line:"France's SCOP legal form gives workers majority ownership and voting control; the national confederation coordinates roughly 2,590 worker co-ops." },
+        { code:'de', name:'Germany', region:'Europe', era:'1862-present', inst:'DGRV', live:false, line:"Twin 19th-century traditions of rural Raiffeisen and urban Schulze-Delitzsch co-ops produced today's DGRV network covering over 22 million members." },
+        { code:'in', name:'India', region:'Asia', era:'1946; 1967', inst:'Amul + IFFCO', live:false, line:"Amul's 3.6 million dairy farmers and IFFCO's 35,000 co-ops reaching 50 million farmers make India one of the largest co-op economies on earth." },
+        { code:'il', name:'Israel', region:'Asia', era:'1910-present', inst:'Kibbutz movement', live:false, line:"Since the founding of Degania in 1910, Israel's kibbutzim have organised collective agricultural and industrial communities, now around 270 settlements with 126,000 members." },
+        { code:'it', name:'Italy', region:'Europe', era:'1886; 1947', inst:'Legacoop', live:false, line:"Italy's 1886 cooperative federation Legacoop coordinates over 10,000 enterprises across every production sector, backed by Article 45 of the constitution." },
+        { code:'jp', name:'Japan', region:'Asia', era:'1951; 1954', inst:'JA Group + JCCU', live:false, line:"Japan's agricultural co-op JA federates 584 locals serving over 4 million farming households, alongside the consumer co-op union JCCU." },
+        { code:'ke', name:'Kenya', region:'Africa', era:'1908-present', inst:'Cooperative Alliance of Kenya', live:false, line:"Kenya has over 25,000 registered co-ops and SACCOs serving 14 million members, contributing close to 45% of GDP when indirect activity is counted." },
+        { code:'mx', name:'Mexico', region:'Americas', era:'1917; 1934-1940', inst:'Ejido system', live:false, line:"Post-revolution land reform created roughly 30,000 ejidos holding land collectively, covering over half of Mexico's surface area." },
+        { code:'nl', name:'Netherlands', region:'Europe', era:'1897-present', inst:'Rabobank', live:false, line:"Dutch farmers built Raiffeisen-style credit co-ops in 1897 that merged into Rabobank, now the dominant lender to Dutch agriculture." },
+        { code:'nz', name:'New Zealand', region:'Oceania', era:'2001; 2020', inst:'Fonterra + Jobs for Nature', live:false, line:"Fonterra is owned by roughly 10,000 dairy farmers; the Jobs for Nature programme has hired nearly 5,000 people for conservation work since 2020." },
+        { code:'no', name:'Norway', region:'Europe', era:'Early 1900s-present', inst:'Coop Norge + Felleskjopet', live:false, line:"Coop Norge unites Norwegian consumer co-ops with over 2.6 million members; Felleskjopet is the farmer-owned agricultural supply co-op." },
+        { code:'pt', name:'Portugal', region:'Europe', era:'1974-1976', inst:'UCPs / CONFAGRI', live:true, line:"After the 1974 revolution, workers occupied over a million hectares in the Alentejo and formed roughly 500 collective production units later registered as co-ops." },
+        { code:'za', name:'South Africa', region:'Africa', era:'1995-present', inst:'Working for Water', live:false, line:"Launched in 1995, Working for Water hires tens of thousands of low-income South Africans each year to clear invasive species and restore watersheds." },
+        { code:'kr', name:'South Korea', region:'Asia', era:'1997-present', inst:'iCOOP Korea', live:false, line:"Founded during the 1997 financial crisis to support local producers, iCOOP Korea now unites about 100 consumer co-ops with 310,000 members." },
+        { code:'es', name:'Spain', region:'Europe', era:'1956-present', inst:'Mondragon Corporation', live:true, line:"Federation of worker cooperatives founded in the Basque town of Mondragon in 1956, now Spain's fifth-largest private employer." },
+        { code:'se', name:'Sweden', region:'Europe', era:'1899-present', inst:'Kooperativa Forbundet', live:false, line:"Founded in 1899, the Swedish consumer co-op federation KF unites 26 regional societies representing more than 4 million member-owners." },
+        { code:'ch', name:'Switzerland', region:'Europe', era:'1941-present', inst:'Migros', live:false, line:"Gottlieb and Adele Duttweiler transferred Migros to its customers in 1941, creating a co-op now owned by roughly a quarter of all Swiss residents." },
+        { code:'tz', name:'Tanzania', region:'Africa', era:'1967-1976', inst:'Ujamaa villagisation', live:false, line:"Julius Nyerere's Ujamaa programme resettled around 11 million Tanzanians into cooperative villages between 1967 and 1976." },
+        { code:'uk', name:'United Kingdom', region:'Europe', era:'1844; 1919', inst:'Rochdale Pioneers + Forestry Commission', live:true, line:"The 1844 Rochdale Pioneers set the template for modern cooperatives; the 1919 Forestry Commission employed thousands to replant Britain after WWI." },
+        { code:'uy', name:'Uruguay', region:'Americas', era:'1970-present', inst:'FUCVAM', live:false, line:"FUCVAM federates Uruguay's mutual-aid housing co-ops, where members build each other's homes and hold them as collective property." }
+      ];
+
+      var SVG_OVERRIDE = { uk: 'gb' };
+      var BY_CODE = {};
+      COUNTRIES.forEach(function(c) { BY_CODE[c.code] = c; });
+
+      var info = document.getElementById('info-content');
+      var activeEl = null;
+      var svgDoc = null;
+
+      function showCountry(c) {
+        info.innerHTML =
+          '<div class="info-country-code">' + c.code.toUpperCase() + ' &middot; ' + c.region.toUpperCase() + '</div>' +
+          '<div class="info-country-name">' + c.name + '</div>' +
+          '<div class="info-stats">' +
+            '<div class="info-stat"><div class="info-stat-val">' + c.era + '</div><div class="info-stat-label">Era</div></div>' +
+            '<div class="info-stat"><div class="info-stat-val">' + c.inst + '</div><div class="info-stat-label">Key Institution</div></div>' +
+          '</div>' +
+          '<div class="info-signature">' +
+            '<span class="info-signature-label">WHAT THEY BUILT</span>' +
+            c.line +
+          '</div>' +
+          (c.live
+            ? '<a class="info-link" href="/' + c.code + '/">Read full ' + c.name + ' page &rarr;</a>'
+            : '<span class="info-link disabled">Page not yet written</span>');
+      }
+
+      function setActiveSvgEl(el) {
+        if (activeEl && svgDoc) activeEl.removeAttribute('data-active');
+        activeEl = el;
+        if (el) el.setAttribute('data-active', 'true');
+      }
+
+      function hookSvg() {
+        var obj = document.getElementById('world-map-obj');
+        if (!obj) return;
+        var doc = obj.contentDocument;
+        if (!doc) return;
+        svgDoc = doc;
+
+        // Inject styles for the world SVG
+        var style = doc.createElement('style');
+        style.textContent =
+          'svg { background: var(--paper-2); }' +
+          '* { fill: #d9c8a0; stroke: #1d160e; stroke-width: 0.5; transition: fill 0.15s; }' +
+          '.oceanxx, [class*="ocean"] { fill: #ead4a5 !important; stroke: none !important; }' +
+          '[id].ccc-hl { fill: #c5963f; cursor: pointer; stroke-width: 0.8; }' +
+          '[id].ccc-live { fill: #6f4a1c; cursor: pointer; stroke-width: 0.8; }' +
+          '[id].ccc-hl:hover, [id].ccc-live:hover, [id][data-active="true"] { fill: #9c2a23; stroke-width: 1.5; }';
+        doc.documentElement.appendChild(style);
+
+        COUNTRIES.forEach(function(c) {
+          var iso = SVG_OVERRIDE[c.code] || c.code;
+          var el = doc.getElementById(iso);
+          if (!el) return;
+          el.classList.add(c.live ? 'ccc-live' : 'ccc-hl');
+          el.setAttribute('aria-label', c.name);
+          el.style.cursor = 'pointer';
+
+          el.addEventListener('mouseenter', function() { showCountry(c); setActiveSvgEl(el); });
+          el.addEventListener('click', function() {
+            if (c.live) window.location.href = '/' + c.code + '/';
+            else showCountry(c);
+          });
+        });
+      }
+
+      var obj = document.getElementById('world-map-obj');
+      if (obj) {
+        if (obj.contentDocument && obj.contentDocument.readyState === 'complete') hookSvg();
+        else obj.addEventListener('load', hookSvg);
+      }
+
+      // Table sorting
+      var tbody = document.querySelector('#countries-table tbody');
+      function sortBy(key) {
+        var rows = Array.from(tbody.querySelectorAll('tr'));
+        if (key === 'name') {
+          rows.sort(function(a, b) {
+            return a.querySelector('.t-name').textContent.localeCompare(b.querySelector('.t-name').textContent);
+          });
+        } else if (key === 'region') {
+          rows.sort(function(a, b) {
+            var ra = a.getAttribute('data-region');
+            var rb = b.getAttribute('data-region');
+            if (ra === rb) {
+              return a.querySelector('.t-name').textContent.localeCompare(b.querySelector('.t-name').textContent);
+            }
+            return ra.localeCompare(rb);
+          });
+        } else if (key === 'era') {
+          rows.sort(function(a, b) {
+            return parseInt(a.getAttribute('data-era'), 10) - parseInt(b.getAttribute('data-era'), 10);
+          });
+        }
+        rows.forEach(function(r) { tbody.appendChild(r); });
+      }
+
+      document.querySelectorAll('.sort-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.sort-btn').forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          sortBy(btn.getAttribute('data-sort'));
+        });
+      });
+    })();
+  </script>
+
+  <script src="/script.js"></script>
+</body>
+</html>

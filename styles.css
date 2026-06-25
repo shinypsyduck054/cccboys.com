@@ -200,9 +200,36 @@ img { max-width: 100%; height: auto; display: block; }
 .primary-nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .primary-nav-toggle[aria-expanded="true"] span:nth-child(3) { top: 20px; transform: translateX(-50%) rotate(-45deg); }
 
+/* Close button inside drawer (hidden by default; only visible on mobile) */
+.primary-nav-close {
+  display: none;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 56px;
+  height: 56px;
+  background: transparent;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--font-slab);
+  font-size: 2.4rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  z-index: 110;
+}
+.primary-nav-close:hover,
+.primary-nav-close:focus-visible {
+  background: var(--ink);
+  color: var(--cream);
+  outline: none;
+}
+
 /* Mobile drawer (hidden by default) */
 @media (max-width: 760px) {
   .primary-nav-toggle { display: inline-flex; }
+  .primary-nav-close { display: inline-flex; align-items: center; justify-content: center; }
   .primary-nav-links {
     position: fixed;
     inset: 0;
@@ -235,6 +262,134 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 1.2rem;
     padding: 14px 28px;
   }
+}
+
+/* ===========================
+   PAGE BANNER (image or focused map)
+   =========================== */
+.page-banner {
+  position: relative;
+  background: var(--paper-2);
+  border-bottom: 3px double var(--ink);
+  overflow: hidden;
+}
+.page-banner-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+}
+.page-banner-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  max-height: 460px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--ink);
+  background: #2a221a;
+}
+.page-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: sepia(0.18) contrast(1.04);
+}
+.page-banner-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(80,55,20,0.04) 0 2px,
+      transparent 2px 12px
+    ),
+    var(--paper);
+}
+.page-banner-map svg { width: 100%; height: 100%; display: block; }
+.page-banner-map .state, .page-banner-map [id] {
+  fill: #d9c8a0;
+  stroke: #1d160e;
+  stroke-width: 0.8;
+  transition: fill 0.2s;
+}
+.page-banner-map .focus-target {
+  fill: #9c2a23;
+  stroke-width: 1.8;
+}
+.page-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20,15,8,0.0) 40%,
+    rgba(20,15,8,0.55) 100%
+  );
+  pointer-events: none;
+}
+.page-banner-stamp {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  font-family: var(--font-type);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: var(--cream);
+  color: var(--ink);
+  padding: 4px 10px;
+  border: 1px solid var(--ink);
+  z-index: 2;
+}
+.page-banner-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 22px 12px;
+  color: var(--cream);
+  font-family: var(--font-type);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.page-banner-caption-text {
+  flex: 1 1 auto;
+  max-width: 70%;
+  line-height: 1.4;
+}
+.page-banner-credit {
+  flex: 0 0 auto;
+  font-size: 10px;
+  opacity: 0.85;
+  font-style: italic;
+}
+.page-banner-credit a { color: var(--cream); text-decoration: underline; }
+.page-banner-map + .page-banner-overlay,
+.page-banner-map ~ .page-banner-caption {
+  color: var(--ink);
+}
+.page-banner-frame.is-map .page-banner-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(244,234,213,0.0) 40%,
+    rgba(244,234,213,0.85) 100%
+  );
+}
+.page-banner-frame.is-map .page-banner-caption,
+.page-banner-frame.is-map .page-banner-caption a { color: var(--ink); }
+
+@media (max-width: 700px) {
+  .page-banner-frame { aspect-ratio: 4 / 3; max-height: 360px; }
+  .page-banner-caption { font-size: 10px; padding: 10px 14px; }
+  .page-banner-caption-text { max-width: 100%; }
 }
 
 /* ===========================
