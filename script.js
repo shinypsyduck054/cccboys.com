@@ -1,8 +1,34 @@
-// CCC BOYS · v0.20.3
+// CCC BOYS · v0.20.4
 // Lightweight enhancements only. Site is fully static without JS.
 
 (function () {
   'use strict';
+
+  // Hamburger nav toggle
+  var navToggle = document.querySelector('.primary-nav-toggle');
+  var navLinks = document.querySelector('.primary-nav-links');
+  if (navToggle && navLinks) {
+    var closeNav = function () {
+      navLinks.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+    var openNav = function () {
+      navLinks.classList.add('is-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+    navToggle.addEventListener('click', function () {
+      if (navLinks.classList.contains('is-open')) closeNav(); else openNav();
+    });
+    // Close drawer when a link is clicked (mobile)
+    navLinks.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeNav);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navLinks.classList.contains('is-open')) closeNav();
+    });
+  }
 
   // Reveal panels on scroll
   if ('IntersectionObserver' in window) {
