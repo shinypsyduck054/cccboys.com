@@ -3,46 +3,265 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="The Civilian Conservation Corps worked in every U.S. state from 1933 to 1942. The CCC Boys carry that work forward. Explore what they built in your state, and what we're doing now." />
-  <meta property="og:title" content="CCC BOYS · ALL STATES" />
-  <meta property="og:description" content="What they built across the country. What you can do now." />
+  <meta name="description" content="Where the Civilian Conservation Corps did its work, 1933 to 1942. An interactive map of every state, with camp counts and signature projects, and where the CCC Boys are picking it back up." />
+  <meta property="og:title" content="CCC BOYS · INTERACTIVE STATES MAP" />
+  <meta property="og:description" content="Where they worked. What they built. Where you are." />
   <meta property="og:type" content="website" />
-  <title>CCC BOYS · ALL STATES</title>
+  <title>CCC BOYS · INTERACTIVE STATES MAP</title>
   <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23a83232'/><text x='50%25' y='62%25' font-family='Georgia,serif' font-size='34' font-weight='900' fill='%23f4ead5' text-anchor='middle'>C</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Big+Shoulders+Stencil+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
   <style>
-    .states-grid {
+    .dashboard-wrap { max-width: 1240px; margin: 0 auto; padding: 24px; position: relative; z-index: 10; }
+    .stats-row {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 12px 18px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px 26px;
+      margin: 32px 0 24px;
+      padding: 24px 28px;
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      position: relative;
+    }
+    .stats-row::before {
+      content: "AS OF 1942 \2014 OFFICIAL TALLY";
+      position: absolute;
+      top: -10px; left: 18px;
+      background: var(--paper);
+      padding: 0 8px;
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+    }
+    .stat-tile { text-align: center; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.4rem;
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+    }
+    .stat-num .stat-unit {
+      font-family: var(--font-type);
+      font-size: 0.9rem;
+      vertical-align: super;
+      margin-left: 2px;
+      color: var(--red-deep);
+    }
+    .stat-label {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 8px;
+    }
+
+    .map-shell {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
       margin-top: 32px;
     }
-    .state-link {
-      display: block;
-      padding: 14px 16px;
+    @media (max-width: 900px) {
+      .map-shell { grid-template-columns: 1fr; }
+    }
+
+    .map-card {
       background: var(--paper-2);
-      border: 1px solid var(--rule-soft);
+      border: 2px solid var(--ink);
       border-radius: 2px;
-      color: var(--ink);
-      text-decoration: none;
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      transition: background 0.15s ease, transform 0.15s ease;
+      padding: 18px;
+      position: relative;
     }
-    .state-link:hover {
-      background: var(--cream);
-      transform: translateY(-1px);
-    }
-    .state-link .abbr {
+    .map-card::before {
+      content: "INTERACTIVE \2014 HOVER OR TAP A STATE";
+      position: absolute;
+      top: -10px; left: 18px;
+      background: var(--paper);
+      padding: 0 8px;
       font-family: var(--font-type);
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+    }
+
+    #us-map { width: 100%; height: auto; max-height: 70vh; }
+    #us-map .state {
+      fill: var(--paper-dark);
+      stroke: var(--ink);
+      stroke-width: 0.8;
+      cursor: pointer;
+      transition: fill 0.15s ease, stroke-width 0.15s ease;
+    }
+    #us-map .state.lvl-1 { fill: #e8d3a6; }
+    #us-map .state.lvl-2 { fill: #d9bb86; }
+    #us-map .state.lvl-3 { fill: #c5963f; }
+    #us-map .state.lvl-4 { fill: #a06d2c; }
+    #us-map .state.lvl-5 { fill: #6f4a1c; }
+    #us-map .state:hover, #us-map .state:focus {
+      fill: var(--red);
+      stroke-width: 1.6;
+      outline: none;
+    }
+    #us-map .state.active {
+      fill: var(--red-deep);
+      stroke-width: 1.8;
+    }
+
+    .info-panel {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      padding: 18px 20px;
+      position: relative;
+      min-height: 320px;
+    }
+    .info-panel::before {
+      content: "STATE DETAILS";
+      position: absolute;
+      top: -10px; left: 18px;
+      background: var(--paper);
+      padding: 0 8px;
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+    }
+    .info-default {
+      font-family: var(--font-type);
+      font-size: 0.85rem;
       color: var(--ink-faded);
-      margin-right: 8px;
+      line-height: 1.7;
+      padding-top: 12px;
+    }
+    .info-state-name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.8rem;
+      letter-spacing: 0.02em;
+      margin-top: 8px;
+      line-height: 1.1;
+    }
+    .info-state-abbr {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+    }
+    .info-camps {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 16px 0 4px;
+    }
+    .info-camps-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.2rem;
+      color: var(--red-deep);
+      line-height: 1;
+    }
+    .info-camps-label {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .info-signature {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: var(--paper);
+      border-left: 3px solid var(--red);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .info-signature-label {
+      font-family: var(--font-type);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-link {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 18px;
+      background: var(--red);
+      color: var(--cream);
+      font-family: var(--font-type);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--red-deep);
+    }
+    .info-link:hover { background: var(--red-deep); }
+
+    .top5-card {
+      margin-top: 20px;
+      padding: 16px 18px;
+      background: var(--paper);
+      border: 1px solid var(--rule-soft);
+    }
+    .top5-label {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+      margin-bottom: 10px;
+    }
+    .top5-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+    }
+    .top5-list li {
+      padding: 4px 0;
+      border-bottom: 1px dashed var(--rule-soft);
+    }
+    .top5-list li:last-child { border-bottom: none; }
+    .rank-num {
+      font-family: var(--font-type);
+      font-size: 11px;
+      color: var(--red-deep);
+      margin-right: 6px;
+    }
+    .rank-camps {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink-faded);
+      float: right;
+    }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+    }
+    .legend-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--ink);
+      vertical-align: middle;
+      margin-right: 5px;
     }
   </style>
 </head>
@@ -63,89 +282,154 @@
     <section class="hero">
       <div class="hero-rule"></div>
       <div class="hero-eyebrow">A NOTICE TO BUILDERS</div>
-      <h1 class="hero-title">ALL<span class="hero-amp">·</span>STATES</h1>
-      <div class="hero-sub">EVERY STATE GOT CCC WORK. EVERY STATE COULD HAVE A CHAPTER.</div>
+      <h1 class="hero-title">EVERY<span class="hero-amp">·</span>STATE</h1>
+      <div class="hero-sub">WHERE THEY WORKED, 1933 TO 1942. WHERE YOU ARE NOW.</div>
       <div class="hero-rule"></div>
       <p class="hero-blurb">
-        From 1933 to 1942, the Civilian Conservation Corps operated in
-        every U.S. state and territory. They planted three billion trees,
-        built eight hundred state parks, dug fire roads, fought erosion,
-        and put up the bones of public infrastructure that's still in
-        use almost a century later.
+        The Civilian Conservation Corps put up roughly forty-five hundred camps
+        across all forty-eight contiguous states, Alaska, and Hawaii. Three
+        million enrollees planted three billion trees, built eight hundred
+        state parks, dug fire roads through wilderness that nobody could
+        reach, and stitched soil back onto Dust Bowl farms. The work is still
+        standing.
       </p>
       <p class="hero-blurb">
-        We're picking the work back up. South Carolina is the first chapter.
-        Other states are next, as builders raise their hands. Find your
-        state below.
+        Click any state. See what they built. See where we're going next.
       </p>
     </section>
 
-    <section class="block">
-      <div class="block-eyebrow">FIFTY STATES</div>
-      <h2 class="block-title">WHAT THEY BUILT WHERE YOU ARE.</h2>
-      <div class="states-grid">
-        <a class="state-link" href="/al"><span class="abbr">AL</span>Alabama</a>
-        <a class="state-link" href="/ak"><span class="abbr">AK</span>Alaska</a>
-        <a class="state-link" href="/az"><span class="abbr">AZ</span>Arizona</a>
-        <a class="state-link" href="/ar"><span class="abbr">AR</span>Arkansas</a>
-        <a class="state-link" href="/ca"><span class="abbr">CA</span>California</a>
-        <a class="state-link" href="/co"><span class="abbr">CO</span>Colorado</a>
-        <a class="state-link" href="/ct"><span class="abbr">CT</span>Connecticut</a>
-        <a class="state-link" href="/de"><span class="abbr">DE</span>Delaware</a>
-        <a class="state-link" href="/fl"><span class="abbr">FL</span>Florida</a>
-        <a class="state-link" href="/ga"><span class="abbr">GA</span>Georgia</a>
-        <a class="state-link" href="/hi"><span class="abbr">HI</span>Hawaii</a>
-        <a class="state-link" href="/id"><span class="abbr">ID</span>Idaho</a>
-        <a class="state-link" href="/il"><span class="abbr">IL</span>Illinois</a>
-        <a class="state-link" href="/in"><span class="abbr">IN</span>Indiana</a>
-        <a class="state-link" href="/ia"><span class="abbr">IA</span>Iowa</a>
-        <a class="state-link" href="/ks"><span class="abbr">KS</span>Kansas</a>
-        <a class="state-link" href="/ky"><span class="abbr">KY</span>Kentucky</a>
-        <a class="state-link" href="/la"><span class="abbr">LA</span>Louisiana</a>
-        <a class="state-link" href="/me"><span class="abbr">ME</span>Maine</a>
-        <a class="state-link" href="/md"><span class="abbr">MD</span>Maryland</a>
-        <a class="state-link" href="/ma"><span class="abbr">MA</span>Massachusetts</a>
-        <a class="state-link" href="/mi"><span class="abbr">MI</span>Michigan</a>
-        <a class="state-link" href="/mn"><span class="abbr">MN</span>Minnesota</a>
-        <a class="state-link" href="/ms"><span class="abbr">MS</span>Mississippi</a>
-        <a class="state-link" href="/mo"><span class="abbr">MO</span>Missouri</a>
-        <a class="state-link" href="/mt"><span class="abbr">MT</span>Montana</a>
-        <a class="state-link" href="/ne"><span class="abbr">NE</span>Nebraska</a>
-        <a class="state-link" href="/nv"><span class="abbr">NV</span>Nevada</a>
-        <a class="state-link" href="/nh"><span class="abbr">NH</span>New Hampshire</a>
-        <a class="state-link" href="/nj"><span class="abbr">NJ</span>New Jersey</a>
-        <a class="state-link" href="/nm"><span class="abbr">NM</span>New Mexico</a>
-        <a class="state-link" href="/ny"><span class="abbr">NY</span>New York</a>
-        <a class="state-link" href="/nc"><span class="abbr">NC</span>North Carolina</a>
-        <a class="state-link" href="/nd"><span class="abbr">ND</span>North Dakota</a>
-        <a class="state-link" href="/oh"><span class="abbr">OH</span>Ohio</a>
-        <a class="state-link" href="/ok"><span class="abbr">OK</span>Oklahoma</a>
-        <a class="state-link" href="/or"><span class="abbr">OR</span>Oregon</a>
-        <a class="state-link" href="/pa"><span class="abbr">PA</span>Pennsylvania</a>
-        <a class="state-link" href="/ri"><span class="abbr">RI</span>Rhode Island</a>
-        <a class="state-link" href="/sc"><span class="abbr">SC</span>South Carolina</a>
-        <a class="state-link" href="/sd"><span class="abbr">SD</span>South Dakota</a>
-        <a class="state-link" href="/tn"><span class="abbr">TN</span>Tennessee</a>
-        <a class="state-link" href="/tx"><span class="abbr">TX</span>Texas</a>
-        <a class="state-link" href="/ut"><span class="abbr">UT</span>Utah</a>
-        <a class="state-link" href="/vt"><span class="abbr">VT</span>Vermont</a>
-        <a class="state-link" href="/va"><span class="abbr">VA</span>Virginia</a>
-        <a class="state-link" href="/wa"><span class="abbr">WA</span>Washington</a>
-        <a class="state-link" href="/wv"><span class="abbr">WV</span>West Virginia</a>
-        <a class="state-link" href="/wi"><span class="abbr">WI</span>Wisconsin</a>
-        <a class="state-link" href="/wy"><span class="abbr">WY</span>Wyoming</a>
+    <div class="dashboard-wrap">
+
+      <div class="stats-row">
+        <div class="stat-tile">
+          <div class="stat-num">3<span class="stat-unit">M</span></div>
+          <div class="stat-label">Enrollees</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">3<span class="stat-unit">B</span></div>
+          <div class="stat-label">Trees Planted</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">~4,500</div>
+          <div class="stat-label">Camps</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">~800</div>
+          <div class="stat-label">State Parks Built</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">9</div>
+          <div class="stat-label">Years Of Work</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num">50</div>
+          <div class="stat-label">States We Cover</div>
+        </div>
       </div>
-    </section>
+
+      <div class="map-shell">
+        <div class="map-card">
+          <svg id="us-map" viewBox="174 100 959 593" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="map-title">
+            <title id="map-title">Civilian Conservation Corps Camp Counts By State, 1933-1942</title>
+    <path class="state" id="AK" data-name="Alaska" data-abbr="ak" data-camps="10" data-signature="Tongass Forest ranger stations" d="AK" tabindex="0" role="link" aria-label="Alaska"></path>
+    <path class="state" id="AL" data-name="Alabama" data-abbr="al" data-camps="50" data-signature="Cheaha & Oak Mountain State Parks" d="AL" tabindex="0" role="link" aria-label="Alabama"></path>
+    <path class="state" id="AR" data-name="Arkansas" data-abbr="ar" data-camps="55" data-signature="Petit Jean State Park (state's first)" d="AR" tabindex="0" role="link" aria-label="Arkansas"></path>
+    <path class="state" id="AZ" data-name="Arizona" data-abbr="az" data-camps="40" data-signature="Grand Canyon North Rim infrastructure" d="AZ" tabindex="0" role="link" aria-label="Arizona"></path>
+    <path class="state" id="CA" data-name="California" data-abbr="ca" data-camps="165" data-signature="Sierra Nevada fire roads, Big Sur trails" d="CA" tabindex="0" role="link" aria-label="California"></path>
+    <path class="state" id="CO" data-name="Colorado" data-abbr="co" data-camps="40" data-signature="Mesa Verde road network" d="CO" tabindex="0" role="link" aria-label="Colorado"></path>
+    <path class="state" id="CT" data-name="Connecticut" data-abbr="ct" data-camps="30" data-signature="Mohawk Mountain, Squantz Pond" d="CT" tabindex="0" role="link" aria-label="Connecticut"></path>
+    <path class="state" id="DE" data-name="Delaware" data-abbr="de" data-camps="10" data-signature="Brandywine Creek conservation" d="DE" tabindex="0" role="link" aria-label="Delaware"></path>
+    <path class="state" id="FL" data-name="Florida" data-abbr="fl" data-camps="45" data-signature="Highlands Hammock, Florida Caverns" d="FL" tabindex="0" role="link" aria-label="Florida"></path>
+    <path class="state" id="GA" data-name="Georgia" data-abbr="ga" data-camps="50" data-signature="Vogel & F.D. Roosevelt State Parks" d="GA" tabindex="0" role="link" aria-label="Georgia"></path>
+    <path class="state" id="HI" data-name="Hawaii" data-abbr="hi" data-camps="5" data-signature="Hawaii Volcanoes National Park trails" d="HI" tabindex="0" role="link" aria-label="Hawaii"></path>
+    <path class="state" id="IA" data-name="Iowa" data-abbr="ia" data-camps="55" data-signature="Backbone State Park (state's first)" d="IA" tabindex="0" role="link" aria-label="Iowa"></path>
+    <path class="state" id="ID" data-name="Idaho" data-abbr="id" data-camps="40" data-signature="Craters of the Moon, Heyburn State Park" d="ID" tabindex="0" role="link" aria-label="Idaho"></path>
+    <path class="state" id="IL" data-name="Illinois" data-abbr="il" data-camps="65" data-signature="Starved Rock State Park" d="IL" tabindex="0" role="link" aria-label="Illinois"></path>
+    <path class="state" id="IN" data-name="Indiana" data-abbr="in" data-camps="60" data-signature="Brown County State Park (state's largest)" d="IN" tabindex="0" role="link" aria-label="Indiana"></path>
+    <path class="state" id="KS" data-name="Kansas" data-abbr="ks" data-camps="30" data-signature="Lake Scott, Dust Bowl shelterbelts" d="KS" tabindex="0" role="link" aria-label="Kansas"></path>
+    <path class="state" id="KY" data-name="Kentucky" data-abbr="ky" data-camps="55" data-signature="Cumberland Falls State Resort Park" d="KY" tabindex="0" role="link" aria-label="Kentucky"></path>
+    <path class="state" id="LA" data-name="Louisiana" data-abbr="la" data-camps="45" data-signature="Kisatchie National Forest reforestation" d="LA" tabindex="0" role="link" aria-label="Louisiana"></path>
+    <path class="state" id="MA" data-name="Massachusetts" data-abbr="ma" data-camps="70" data-signature="Mount Greylock summit" d="MA" tabindex="0" role="link" aria-label="Massachusetts"></path>
+    <path class="state" id="MD" data-name="Maryland" data-abbr="md" data-camps="30" data-signature="Patapsco Valley, Catoctin Mountain" d="MD" tabindex="0" role="link" aria-label="Maryland"></path>
+    <path class="state" id="ME" data-name="Maine" data-abbr="me" data-camps="50" data-signature="Acadia carriage roads" d="ME" tabindex="0" role="link" aria-label="Maine"></path>
+    <path class="state" id="MI" data-name="Michigan" data-abbr="mi" data-camps="150" data-signature="Porcupine Mountains Wilderness" d="MI" tabindex="0" role="link" aria-label="Michigan"></path>
+    <path class="state" id="MN" data-name="Minnesota" data-abbr="mn" data-camps="60" data-signature="Itasca, Gooseberry Falls" d="MN" tabindex="0" role="link" aria-label="Minnesota"></path>
+    <path class="state" id="MO" data-name="Missouri" data-abbr="mo" data-camps="60" data-signature="Big Spring, Bennett Spring" d="MO" tabindex="0" role="link" aria-label="Missouri"></path>
+    <path class="state" id="MS" data-name="Mississippi" data-abbr="ms" data-camps="45" data-signature="Tishomingo, soil conservation" d="MS" tabindex="0" role="link" aria-label="Mississippi"></path>
+    <path class="state" id="MT" data-name="Montana" data-abbr="mt" data-camps="50" data-signature="Glacier National Park infrastructure" d="MT" tabindex="0" role="link" aria-label="Montana"></path>
+    <path class="state" id="NC" data-name="North Carolina" data-abbr="nc" data-camps="75" data-signature="Mt. Mitchell, Smokies infrastructure" d="NC" tabindex="0" role="link" aria-label="North Carolina"></path>
+    <path class="state" id="ND" data-name="North Dakota" data-abbr="nd" data-camps="25" data-signature="Theodore Roosevelt badlands" d="ND" tabindex="0" role="link" aria-label="North Dakota"></path>
+    <path class="state" id="NE" data-name="Nebraska" data-abbr="ne" data-camps="30" data-signature="Chadron State Park, shelterbelts" d="NE" tabindex="0" role="link" aria-label="Nebraska"></path>
+    <path class="state" id="NH" data-name="New Hampshire" data-abbr="nh" data-camps="40" data-signature="White Mountain National Forest" d="NH" tabindex="0" role="link" aria-label="New Hampshire"></path>
+    <path class="state" id="NJ" data-name="New Jersey" data-abbr="nj" data-camps="40" data-signature="High Point State Park monument" d="NJ" tabindex="0" role="link" aria-label="New Jersey"></path>
+    <path class="state" id="NM" data-name="New Mexico" data-abbr="nm" data-camps="50" data-signature="Bandelier National Monument" d="NM" tabindex="0" role="link" aria-label="New Mexico"></path>
+    <path class="state" id="NV" data-name="Nevada" data-abbr="nv" data-camps="25" data-signature="Lake Tahoe State Park" d="NV" tabindex="0" role="link" aria-label="Nevada"></path>
+    <path class="state" id="NY" data-name="New York" data-abbr="ny" data-camps="140" data-signature="Adirondack Park trail system" d="NY" tabindex="0" role="link" aria-label="New York"></path>
+    <path class="state" id="OH" data-name="Ohio" data-abbr="oh" data-camps="60" data-signature="Hocking Hills sandstone trails" d="OH" tabindex="0" role="link" aria-label="Ohio"></path>
+    <path class="state" id="OK" data-name="Oklahoma" data-abbr="ok" data-camps="45" data-signature="Beavers Bend, Robbers Cave" d="OK" tabindex="0" role="link" aria-label="Oklahoma"></path>
+    <path class="state" id="OR" data-name="Oregon" data-abbr="or" data-camps="80" data-signature="Crater Lake, Silver Falls" d="OR" tabindex="0" role="link" aria-label="Oregon"></path>
+    <path class="state" id="PA" data-name="Pennsylvania" data-abbr="pa" data-camps="135" data-signature="Cook Forest virgin pines" d="PA" tabindex="0" role="link" aria-label="Pennsylvania"></path>
+    <path class="state" id="RI" data-name="Rhode Island" data-abbr="ri" data-camps="10" data-signature="Burlingame, Lincoln Woods" d="RI" tabindex="0" role="link" aria-label="Rhode Island"></path>
+    <path class="state" id="SC" data-name="South Carolina" data-abbr="sc" data-camps="35" data-signature="Hunting Island, Francis Marion restoration" d="SC" tabindex="0" role="link" aria-label="South Carolina"></path>
+    <path class="state" id="SD" data-name="South Dakota" data-abbr="sd" data-camps="25" data-signature="Custer State Park, Needles Highway" d="SD" tabindex="0" role="link" aria-label="South Dakota"></path>
+    <path class="state" id="TN" data-name="Tennessee" data-abbr="tn" data-camps="55" data-signature="Great Smoky Mountains National Park" d="TN" tabindex="0" role="link" aria-label="Tennessee"></path>
+    <path class="state" id="TX" data-name="Texas" data-abbr="tx" data-camps="65" data-signature="Bastrop, Big Bend, Palo Duro Canyon" d="TX" tabindex="0" role="link" aria-label="Texas"></path>
+    <path class="state" id="UT" data-name="Utah" data-abbr="ut" data-camps="30" data-signature="Bryce Canyon rim road" d="UT" tabindex="0" role="link" aria-label="Utah"></path>
+    <path class="state" id="VA" data-name="Virginia" data-abbr="va" data-camps="85" data-signature="Skyline Drive & Shenandoah" d="VA" tabindex="0" role="link" aria-label="Virginia"></path>
+    <path class="state" id="VT" data-name="Vermont" data-abbr="vt" data-camps="30" data-signature="Green Mountain trails" d="VT" tabindex="0" role="link" aria-label="Vermont"></path>
+    <path class="state" id="WA" data-name="Washington" data-abbr="wa" data-camps="90" data-signature="Mount Rainier, Olympic National Park" d="WA" tabindex="0" role="link" aria-label="Washington"></path>
+    <path class="state" id="WI" data-name="Wisconsin" data-abbr="wi" data-camps="100" data-signature="Devil's Lake, Peninsula State Park" d="WI" tabindex="0" role="link" aria-label="Wisconsin"></path>
+    <path class="state" id="WV" data-name="West Virginia" data-abbr="wv" data-camps="55" data-signature="Babcock State Park (Glade Creek Mill)" d="WV" tabindex="0" role="link" aria-label="West Virginia"></path>
+    <path class="state" id="WY" data-name="Wyoming" data-abbr="wy" data-camps="40" data-signature="Yellowstone & Grand Teton infrastructure" d="WY" tabindex="0" role="link" aria-label="Wyoming"></path>
+          </svg>
+          <div class="legend">
+            <span><span class="legend-swatch" style="background:#e8d3a6;"></span>1–40 camps</span>
+            <span><span class="legend-swatch" style="background:#d9bb86;"></span>41–60</span>
+            <span><span class="legend-swatch" style="background:#c5963f;"></span>61–90</span>
+            <span><span class="legend-swatch" style="background:#a06d2c;"></span>91–130</span>
+            <span><span class="legend-swatch" style="background:#6f4a1c;"></span>130+</span>
+          </div>
+        </div>
+
+        <aside class="info-panel">
+          <div id="info-content">
+            <p class="info-default">
+              Hover or tap a state on the map to see how many CCC camps it
+              hosted, what they're best remembered for building, and a link
+              to the state's full page.
+            </p>
+            <p class="info-default" style="margin-top:10px;">
+              States shaded darker had more camps. California, Michigan,
+              New York, Pennsylvania, and Wisconsin had the heaviest CCC
+              presence in the country.
+            </p>
+          </div>
+
+          <div class="top5-card">
+            <div class="top5-label">TOP 5 BY CAMP COUNT</div>
+            <ul class="top5-list">
+        <li><span class="rank-num">1.</span> <strong>California</strong> <span class="rank-camps">165 camps</span></li>
+        <li><span class="rank-num">2.</span> <strong>Michigan</strong> <span class="rank-camps">150 camps</span></li>
+        <li><span class="rank-num">3.</span> <strong>New York</strong> <span class="rank-camps">140 camps</span></li>
+        <li><span class="rank-num">4.</span> <strong>Pennsylvania</strong> <span class="rank-camps">135 camps</span></li>
+        <li><span class="rank-num">5.</span> <strong>Wisconsin</strong> <span class="rank-camps">100 camps</span></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+    </div>
 
     <section class="enlist">
       <div class="enlist-card">
         <div class="enlist-stamp">WOULD YOU LIKE TO KNOW MORE?</div>
         <h2 class="enlist-title">YOUR STATE COULD BE NEXT.</h2>
         <p>
-          We're building the framework, the technology, the apprenticeship
-          curriculum, and the playbook out in the open. As builders raise
-          their hands in their own communities, branches form. South
-          Carolina is the first. Yours could be next.
+          The CCC Boys corps is based in Colleton County, South Carolina.
+          The framework, the technology, the apprenticeship curriculum, and
+          the playbook are all open source. As builders in their own
+          communities raise their hands, branches form. South Carolina is
+          the first. Yours could be next.
         </p>
         <a class="enlist-btn" href="mailto:join@cccboys.com?subject=Letter%20to%20the%20corps">
           <span class="enlist-btn-label">WRITE THE CORPS</span>
@@ -164,11 +448,15 @@
         <div class="footer-tag">A collective of builders.</div>
       </div>
       <div class="footer-credits">
-        <div class="footer-credits-title">PHOTOGRAPHS</div>
+        <div class="footer-credits-title">SOURCES &amp; CREDITS</div>
         <div>
-          Public domain via the National Archives and Library of Congress,
-          digitized on Wikimedia Commons. Originals: U.S. Civilian
-          Conservation Corps, 1933 to 1942.
+          CCC camp count estimates compiled from National Park Service
+          records, U.S. Forest Service archives, state park system
+          histories, and James McEntee's <em>Now They Are Men</em> (1940).
+          Numbers are approximate and rounded for the dashboard. State map
+          paths adapted from the public domain
+          <em>Republican primaries 2016</em> SVG by Wikimedia contributors.
+          Built and researched by Psyduck AI; reviewed by Justin Connolley.
         </div>
       </div>
     </div>
@@ -178,6 +466,65 @@
       &middot; <a href="mailto:support@cccboys.com">support@cccboys.com</a>
     </div>
   </footer>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // Assign heat-map level by camp count
+      var states = document.querySelectorAll('#us-map .state');
+      states.forEach(function(el) {
+        var n = parseInt(el.getAttribute('data-camps') || '0', 10);
+        var lvl = 1;
+        if (n > 130) lvl = 5;
+        else if (n > 90) lvl = 4;
+        else if (n > 60) lvl = 3;
+        else if (n > 40) lvl = 2;
+        el.classList.add('lvl-' + lvl);
+      });
+
+      var info = document.getElementById('info-content');
+      var activeEl = null;
+
+      function showState(el) {
+        if (activeEl) activeEl.classList.remove('active');
+        activeEl = el;
+        el.classList.add('active');
+
+        var name = el.getAttribute('data-name');
+        var abbr = el.getAttribute('data-abbr');
+        var camps = el.getAttribute('data-camps');
+        var sig = el.getAttribute('data-signature');
+
+        info.innerHTML =
+          '<div class="info-state-abbr">' + abbr.toUpperCase() + '</div>' +
+          '<div class="info-state-name">' + name + '</div>' +
+          '<div class="info-camps">' +
+            '<span class="info-camps-num">' + camps + '</span>' +
+            '<span class="info-camps-label">CCC Camps, 1933–1942</span>' +
+          '</div>' +
+          '<div class="info-signature">' +
+            '<span class="info-signature-label">SIGNATURE BUILD</span>' +
+            (el.getAttribute('data-signature') || '') +
+          '</div>' +
+          '<a class="info-link" href="/' + abbr + '/">Read full ' + name + ' page →</a>';
+      }
+
+      states.forEach(function(el) {
+        el.addEventListener('mouseenter', function() { showState(el); });
+        el.addEventListener('focus', function() { showState(el); });
+        el.addEventListener('click', function() {
+          window.location.href = '/' + el.getAttribute('data-abbr') + '/';
+        });
+        el.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            window.location.href = '/' + el.getAttribute('data-abbr') + '/';
+          }
+        });
+      });
+    })();
+  </script>
 
   <script src="/script.js"></script>
 </body>

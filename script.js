@@ -1,4 +1,4 @@
-// CCC BOYS · v0.19.0
+// CCC BOYS · v0.20.0
 // Lightweight enhancements only. Site is fully static without JS.
 
 (function () {
