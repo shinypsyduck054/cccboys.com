@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DRAFT. Worked scenarios for CCC Boys corps governance: graduating an apprentice, spinning off a product, decommissioning, more." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>CCC BOYS · SCENARIOS (DRAFT)</title>
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23a83232'/><text x='50%25' y='62%25' font-family='Georgia,serif' font-size='34' font-weight='900' fill='%23f4ead5' text-anchor='middle'>C</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Big+Shoulders+Stencil+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .draft-banner {
+      background: repeating-linear-gradient(45deg, #9c2a23 0 18px, #6f1d18 18px 36px);
+      color: #f6ecd4; text-align: center; padding: 14px 24px;
+      font-family: var(--font-type); letter-spacing: 0.22em;
+      text-transform: uppercase; font-size: 13px; font-weight: 700;
+      border-bottom: 3px double #1d160e; position: relative; z-index: 11;
+    }
+    .draft-banner strong { color: #fcd34d; letter-spacing: 0.3em; }
+    .draft-stamp-corner {
+      position: fixed; top: 12px; right: 12px; background: var(--cream);
+      border: 3px solid var(--red); color: var(--red); font-family: var(--font-display);
+      font-weight: 900; font-size: 14px; letter-spacing: 0.25em; padding: 6px 14px;
+      transform: rotate(-12deg); z-index: 100; box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+    .gov-wrap { max-width: var(--max-w); margin: 0 auto; padding: 40px 24px; position: relative; z-index: 10; }
+    .breadcrumb {
+      font-family: var(--font-type); font-size: 12px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-faded); margin-bottom: 28px;
+    }
+    .breadcrumb a { color: var(--red-deep); text-decoration: none; border-bottom: 1px solid var(--rule-soft); }
+
+    .scenario-toc {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+    }
+    .scenario-toc-title {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 1.1rem; letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .scenario-toc ol {
+      padding-left: 22px;
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+    .scenario-toc ol li a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule-soft);
+      text-decoration: none;
+    }
+    .scenario-toc ol li a:hover { color: var(--red-deep); }
+
+    .scenario {
+      margin: 48px 0;
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      padding: 26px 28px;
+      position: relative;
+    }
+    .scenario-stamp {
+      position: absolute;
+      top: -14px;
+      left: 22px;
+      background: var(--red);
+      color: var(--cream);
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border: 2px solid var(--red-deep);
+    }
+    .scenario-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+    .scenario-tagline {
+      font-family: var(--font-slab);
+      font-size: 0.95rem;
+      color: var(--red-deep);
+      letter-spacing: 0.05em;
+      margin-bottom: 22px;
+    }
+    .scenario-block {
+      margin: 18px 0;
+    }
+    .scenario-block-label {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--red-deep);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .scenario-block-body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .scenario-block-body ol, .scenario-block-body ul {
+      padding-left: 22px;
+      margin-top: 8px;
+    }
+    .scenario-block-body li { margin-bottom: 5px; }
+
+    .scenario-why {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--paper);
+      border-left: 4px solid var(--mustard);
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+    }
+    .scenario-why strong { font-style: normal; color: var(--ink); }
+  </style>
+</head>
+<body>
+
+  <div class="paper-grain" aria-hidden="true"></div>
+  <div class="paper-edge" aria-hidden="true"></div>
+
+  <div class="draft-banner">
+    <strong>DRAFT</strong> &middot; FOR INTERNAL REVIEW ONLY &middot; NOT YET CANONICAL CORPS POLICY
+  </div>
+  <div class="draft-stamp-corner">DRAFT</div>
+
+  <nav class="primary-nav" aria-label="Primary">
+    <div class="primary-nav-inner">
+      <a href="/" class="primary-nav-brand">CCC<span class="nav-dot">&middot;</span>BOYS</a>
+      <button class="primary-nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="primary-nav-links" id="primary-nav-drawer">
+        <button class="primary-nav-close" type="button" aria-label="Close menu">&times;</button>
+        <a href="/#past">Past</a>
+        <a href="/#present">Present</a>
+        <a href="/#future">Future</a>
+        <a href="/states">States</a>
+        <a href="mailto:join@cccboys.com?subject=Letter%20to%20the%20corps" class="nav-cta">Write Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-rule"></div>
+      <div class="hero-eyebrow">DRAFT &middot; GOVERNANCE &middot; PAGE 03</div>
+      <h1 class="hero-title">WORKED<span class="hero-amp">&middot;</span>EXAMPLES</h1>
+      <div class="hero-sub">Six scenarios. Real situations. How the corps actually handles each.</div>
+      <div class="hero-rule"></div>
+      <p class="hero-blurb">
+        Policy on paper is theory. These walk-throughs are the corps under stress.
+        Each scenario follows the same shape: setup, process, outcome, why it works
+        this way. Read what feels relevant. Skip what does not. Flag the ones that
+        do not sit right so we can iron them out before they happen for real.
+      </p>
+    </section>
+
+    <div class="gov-wrap">
+
+      <div class="breadcrumb">
+        <a href="/draft/governance/">Governance</a> &rsaquo; Scenarios
+      </div>
+
+      <div class="scenario-toc">
+        <div class="scenario-toc-title">THE SIX SCENARIOS</div>
+        <ol>
+          <li><a href="#scenario-1">Apprentice graduates to Member</a></li>
+          <li><a href="#scenario-2">Member is offered a Founder seat</a></li>
+          <li><a href="#scenario-3">A product line spins off as its own subsidiary</a></li>
+          <li><a href="#scenario-4">A product gets an outside acquisition offer</a></li>
+          <li><a href="#scenario-5">A product is decommissioned</a></li>
+          <li><a href="#scenario-6">A Member chooses to leave</a></li>
+        </ol>
+      </div>
+
+      <article class="scenario" id="scenario-1">
+        <div class="scenario-stamp">SCENARIO 01</div>
+        <div class="scenario-title">APPRENTICE GRADUATES TO MEMBER</div>
+        <div class="scenario-tagline">After 18 months of training, a marine apprentice is ready for the handshake.</div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">SETUP</div>
+          <div class="scenario-block-body">
+            Maria joined the corps as a marine Apprentice 18 months ago. She has worked the depot, the boat lift, and shadowed Jeremy on three hurricane prep contracts. Her Member sponsor (a senior trades Member) believes she has cleared the journey check on technical skills and absorbed the four rules in practice, not just in writing.
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">PROCESS</div>
+          <div class="scenario-block-body">
+            <ol>
+              <li>Sponsor files a Member nomination on the corps dashboard. Includes hours logged, products worked on, journey-check results, and a one-paragraph sponsor statement.</li>
+              <li>Notification goes to every active Member with a 7-day window to comment, ask questions, or raise objections.</li>
+              <li>Vote opens on day 8. Simple majority of voting Members required. Vote is passkey-signed on the neobank rails; abstentions count as present.</li>
+              <li>If majority approves, Maria's account upgrades to Member at the next pay cycle. Her wage rate steps from apprentice to Member. Her surplus-claim history is preserved.</li>
+              <li>If vote fails, sponsor and Apprentice receive structured feedback. Apprenticeship can extend up to 6 more months, then re-vote.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">OUTCOME</div>
+          <div class="scenario-block-body">
+            Maria is now a voting Member. Her next paycheck pays at the Member rate. Her hours on past products convert their accumulated apprentice-rate surplus claims to Member-rate claims going forward. She gets her name on the roster, her vote on member matters, and full access to every CCC Boys app (which she already had as an Apprentice).
+          </div>
+        </div>
+
+        <div class="scenario-why">
+          <strong>Why this way:</strong> Membership is sponsored, not bought. The 7-day comment window prevents rubber-stamp votes. Passkey-signed votes on the rail mean the membership ledger is auditable; no one can later say "I do not remember voting on Maria." The retroactive surplus conversion honors the work she did at apprentice rates without inflating her past payroll.
+        </div>
+      </article>
+
+      <article class="scenario" id="scenario-2">
+        <div class="scenario-stamp">SCENARIO 02</div>
+        <div class="scenario-title">MEMBER IS OFFERED A FOUNDER SEAT</div>
+        <div class="scenario-tagline">A senior Member has carried a pillar for years and the existing Founders want to formalize it.</div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">SETUP</div>
+          <div class="scenario-block-body">
+            Three years in, a Member named Ray has been the operational lead on the shingle depot and the practical face of the corps with paving contractors across SC and NC. He carries the depot pillar in a way no other Member could. The four existing Founders want to recognize that with a Founder seat.
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">PROCESS</div>
+          <div class="scenario-block-body">
+            <ol>
+              <li>One Founder makes the proposal on the Founder-only dashboard.</li>
+              <li>Unanimous existing-Founder vote required (per the formation agreement, Founders are added only by unanimous consent of sitting Founders).</li>
+              <li>Ray is offered the seat. He has a 30-day window to accept or decline. He can decline without prejudice; Member status is preserved.</li>
+              <li>If accepted, a layered Founder agreement is drafted: vesting terms on any capital contribution, board-equivalent voting weight on existential decisions, founder-specific surplus track.</li>
+              <li>The agreement is signed (passkey on the rails plus paper copy filed with the SC Secretary of State if needed).</li>
+              <li>Membership is notified that the Founder roster has grown by one. Members do not vote on Founder additions but receive full transparency.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">OUTCOME</div>
+          <div class="scenario-block-body">
+            Ray is now a Founder. His existing Member rights are unchanged. He gains board-equivalent voting weight on bylaws changes, dissolution decisions, and major capital decisions. He takes on stewardship responsibilities for the brand and the four rules at the Founder level.
+          </div>
+        </div>
+
+        <div class="scenario-why">
+          <strong>Why this way:</strong> Founder seats are layered, not separate. Adding a Founder requires unanimity among existing Founders because the seat is a long-term stewardship commitment, not a reward. The Member rights and obligations stay the same; only the existential-decision layer is added. The transparency to Membership prevents the Founder tier from becoming an opaque elite.
+        </div>
+      </article>
+
+      <article class="scenario" id="scenario-3">
+        <div class="scenario-stamp">SCENARIO 03</div>
+        <div class="scenario-title">A PRODUCT LINE SPINS OFF</div>
+        <div class="scenario-tagline">The marine pillar has grown into its own thing. Time to give it its own subsidiary.</div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">SETUP</div>
+          <div class="scenario-block-body">
+            By Y3, the marine pillar (Coastal Boat Works integration, marine apprenticeships, hurricane prep contracts) is generating $1.2M in annual revenue, employs eight Members and eleven Apprentices, and has a brand of its own among SC and GA boatyards. Operating it as one product line inside the corps is starting to constrain it. The Members on it want to spin it out as its own subsidiary, still corps-controlled, so it can take on bonded contracts and carry its own liability insurance.
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">PROCESS</div>
+          <div class="scenario-block-body">
+            <ol>
+              <li>Marine pillar Members file a Spin-Off Proposal on the dashboard. Includes proposed subsidiary structure (LLC, ownership split, board composition), what stays with the corps (brand license, neobank rails integration, voting representation in the parent), and what migrates (Member contracts, surplus claims, operating assets).</li>
+              <li>30-day membership review window. Public comment, Q&amp;A from non-marine Members, Founder review for existential implications.</li>
+              <li>Supermajority Member vote required (two-thirds, not simple majority). Founder unanimity required if the spin-off includes any change to brand licensing or cross-subsidy obligations.</li>
+              <li>If approved, the spin-off forms. The corps retains controlling interest (51% minimum). Marine Members migrate their Member contracts and surplus claims to the new subsidiary.</li>
+              <li>The new subsidiary's brand license obligates it to honor the four rules, the wage-first ordering, and the open-source playbook commitments.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">OUTCOME</div>
+          <div class="scenario-block-body">
+            CCC Boys Marine LLC is formed as a controlled subsidiary. It can take on bonded marine contracts, carry separate liability insurance, and recruit Members on its own. The corps retains 51% ownership, voting representation on the subsidiary board, and the brand license. Cross-subsidy obligations to the corps general fund remain (smaller percentage, but ongoing).
+          </div>
+        </div>
+
+        <div class="scenario-why">
+          <strong>Why this way:</strong> The supermajority threshold prevents factional spin-offs that fracture the corps. Founder unanimity on brand licensing protects the brand from being diluted by undisciplined subsidiaries. The 51% retention keeps the corps in control while the subsidiary gets the operational autonomy it needs. This is the same shape as the international branches described in [[project_cccboys_consolidated]] but for a domestic pillar.
+        </div>
+      </article>
+
+      <article class="scenario" id="scenario-4">
+        <div class="scenario-stamp">SCENARIO 04</div>
+        <div class="scenario-title">A PRODUCT GETS AN OUTSIDE ACQUISITION OFFER</div>
+        <div class="scenario-tagline">A regional paving conglomerate wants to buy the shingle depot. Now what.</div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">SETUP</div>
+          <div class="scenario-block-body">
+            The shingle depot has been running for four years. RAS feedstock contracts are mature. A regional paving conglomerate (real interest, not a tire-kicker) offers $4.2M cash to acquire the depot, the equipment, and the active feedstock contracts. They would integrate the depot into their existing recycling operation. Members on the depot are split.
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">PROCESS</div>
+          <div class="scenario-block-body">
+            <ol>
+              <li>The offer is logged in the dashboard. All Members can see the terms, the buyer, the diligence requirements.</li>
+              <li>A 60-day evaluation window opens. Independent valuation commissioned. Member working group from inside and outside the depot pillar reviews terms.</li>
+              <li>Founder review for brand and mission alignment: would selling break the four rules? Would it leave the depot's Apprentices and Members worse off? Would the buyer honor or break the corps' open-source playbook for shingle reclamation?</li>
+              <li>If Founders flag a mission-breaking concern, the offer is declined without Member vote. The four rules are floor, not negotiable.</li>
+              <li>If Founders clear the mission check, the offer goes to Member vote. Supermajority required to accept.</li>
+              <li>If approved, proceeds enter the corps according to the same waterfall: depot product account first, depot Members get their accumulated surplus claims paid out in full from the proceeds, depot Apprentices' wage-floor obligations are honored, then runway reserve is topped to 5-year target for the corps general fund, then surplus distributes to corps-wide Members on a pro-rata basis weighted by hours contributed to the depot historically.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">OUTCOME</div>
+          <div class="scenario-block-body">
+            Two possible exits depending on the vote and Founder review:
+            <ul>
+              <li><strong>Decline:</strong> the depot stays in the corps. The Members who built it keep building it. The brand stays clean. The corps loses a $4.2M payday but keeps a pillar.</li>
+              <li><strong>Accept:</strong> proceeds flow through the waterfall. Depot Members get their surplus claims paid in full. The corps general fund gets a 5-year runway buffer. Corps-wide Members get a one-time surplus distribution. The Members who worked the depot can roll into other pillars or take the proceeds and leave honorably.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="scenario-why">
+          <strong>Why this way:</strong> The Founder mission veto exists because some money is not worth taking. If the buyer would break the four rules with the asset, it does not matter what the price is. After that filter, the Members vote because they are the ones who built it. The waterfall on proceeds is the same wage-first ordering applied to a one-time inflow; the Members who built it get paid out first, the corps gets a long runway, the broader Membership shares the upside last.
+        </div>
+      </article>
+
+      <article class="scenario" id="scenario-5">
+        <div class="scenario-stamp">SCENARIO 05</div>
+        <div class="scenario-title">A PRODUCT IS DECOMMISSIONED</div>
+        <div class="scenario-tagline">An app stopped getting downloads. Time to sunset gracefully.</div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">SETUP</div>
+          <div class="scenario-block-body">
+            CCC Boys shipped a niche app two years ago (a specialty tool for a specific code-cycle in one region). The code cycle changed. The app is now obsolete. Downloads have flatlined; no Patron is using it; no Apprentice or Member is actively maintaining it.
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">PROCESS</div>
+          <div class="scenario-block-body">
+            <ol>
+              <li>A Member files a Decommission Proposal on the dashboard. Includes evidence: download trend, last meaningful update, no active maintainer.</li>
+              <li>30-day window. Any Member can claim maintainership and revive the app instead, which cancels the decommission.</li>
+              <li>If no one claims it, simple majority Member vote to sunset.</li>
+              <li>If approved: sunset timeline begins. Users with active unlocks are notified. App stays available for download and use for 12 months. After that, the App Store listing is removed but accounts that purchased the unlock retain offline-mode functionality forever (no remote kill switch, no rug pull).</li>
+              <li>The product account is closed. Remaining cash distributes per the waterfall (wage backpay first, then runway top-up, then corps cross-subsidy, then surplus to Members who built it).</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">OUTCOME</div>
+          <div class="scenario-block-body">
+            The app is sunset gracefully. Users keep what they paid for. The Members who built it get a final wage and surplus settlement. The corps moves on. No support tickets. No abrupt shutdown. No betrayed Supporters.
+          </div>
+        </div>
+
+        <div class="scenario-why">
+          <strong>Why this way:</strong> Decommission has to be an honorable exit. The corps' brand depends on Supporters trusting that a $1 unlock means lifetime access. Pulling the app offline without honoring that promise would corrupt every other unlock in the catalog. The 12-month buffer plus permanent offline-mode access means even users who paid yesterday for an app we sunset tomorrow are made whole.
+        </div>
+      </article>
+
+      <article class="scenario" id="scenario-6">
+        <div class="scenario-stamp">SCENARIO 06</div>
+        <div class="scenario-title">A MEMBER CHOOSES TO LEAVE</div>
+        <div class="scenario-tagline">Life happens. A Member needs to step away. Here is what that looks like.</div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">SETUP</div>
+          <div class="scenario-block-body">
+            A Member has accepted a job outside the corps, or moved out of state, or simply needs to focus on family. They want to leave on good terms. They have accumulated surplus claims, ongoing work in flight, an Apprentice they are mentoring.
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">PROCESS</div>
+          <div class="scenario-block-body">
+            <ol>
+              <li>Member files a Departure Notice on the dashboard. 30-day default notice; can be longer by Member preference.</li>
+              <li>Active work is handed off. The Apprentice they were mentoring is reassigned to another Member sponsor.</li>
+              <li>The departing Member's accumulated surplus claims are settled per the surplus distribution schedule. They can take cash, hold the position in the surplus pool to compound, or convert to a debt instrument the corps repays over time.</li>
+              <li>Voting rights, access to internal dashboards, free apps, and the Member badge expire on the departure date. Outstanding wages are paid out in full.</li>
+              <li>The Member's record on the roster is preserved with the date and an "Honorable Departure" stamp. They can re-apply for Membership later through normal sponsor channels.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-block-label">OUTCOME</div>
+          <div class="scenario-block-body">
+            The Member exits with their full wage, full surplus settlement, their Apprentice mentored to another sponsor, and a path back if they want it. The corps loses a contributor but does not lose their goodwill. No non-compete. No clawback. No drama.
+          </div>
+        </div>
+
+        <div class="scenario-why">
+          <strong>Why this way:</strong> A worker-owned cooperative cannot have golden handcuffs without breaking the cooperative principle. Members who want to leave must be able to leave whole. The path back exists because life is long; a Member who leaves at 30 might come back at 40. The Honorable Departure stamp is documentation that protects both sides if they ever transact again.
+        </div>
+      </article>
+
+      <div style="margin: 48px 0 24px; padding: 22px 24px; background: var(--paper-dark); border: 2px solid var(--ink);">
+        <div style="font-family: var(--font-display); font-weight: 900; font-size: 1.15rem; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 8px;">SCENARIOS NOT YET DRAFTED</div>
+        <div style="font-family: var(--font-body); font-size: 0.95rem; line-height: 1.55; color: var(--ink-soft);">
+          The hardest scenarios are yet to be written, on purpose. They need lived experience and lawyer review before going on paper:
+          <ul style="margin-top: 8px; padding-left: 22px;">
+            <li>Removal of a Member for breach of the four rules (process, supermajority threshold, due process protections)</li>
+            <li>Founder departure or removal (almost never; how)</li>
+            <li>Corps dissolution (asset distribution; we hope this never happens)</li>
+            <li>State chapter formation and federation governance (Y2+)</li>
+            <li>International branch formation under brand license (Y3+)</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-rule"></div>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-mark">CCC&middot;BOYS</div>
+        <div class="footer-tag">A collective of builders. Scenarios draft.</div>
+      </div>
+      <div class="footer-credits">
+        <div class="footer-credits-title">STATUS</div>
+        <div>
+          Draft scenarios for internal review. None of these have been adjudicated yet.
+          When the first real version of any scenario happens, the corps will document
+          how it actually went, and update the policy if reality diverges from theory.
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; CCC BOYS &middot; EST. 2026 &middot; IN THE SPIRIT OF 1933 &middot; VOL. I
+      &middot; <a href="/draft/governance/">Back to governance</a>
+      &middot; <a href="mailto:support@cccboys.com">support@cccboys.com</a>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>

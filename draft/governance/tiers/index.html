@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DRAFT. CCC Boys tiers explained: Founder, Member, Apprentice, Patron, Supporter." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>CCC BOYS · TIERS (DRAFT)</title>
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23a83232'/><text x='50%25' y='62%25' font-family='Georgia,serif' font-size='34' font-weight='900' fill='%23f4ead5' text-anchor='middle'>C</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Big+Shoulders+Stencil+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .draft-banner {
+      background: repeating-linear-gradient(45deg, #9c2a23 0 18px, #6f1d18 18px 36px);
+      color: #f6ecd4; text-align: center; padding: 14px 24px;
+      font-family: var(--font-type); letter-spacing: 0.22em;
+      text-transform: uppercase; font-size: 13px; font-weight: 700;
+      border-bottom: 3px double #1d160e; position: relative; z-index: 11;
+    }
+    .draft-banner strong { color: #fcd34d; letter-spacing: 0.3em; }
+    .draft-stamp-corner {
+      position: fixed; top: 12px; right: 12px; background: var(--cream);
+      border: 3px solid var(--red); color: var(--red); font-family: var(--font-display);
+      font-weight: 900; font-size: 14px; letter-spacing: 0.25em; padding: 6px 14px;
+      transform: rotate(-12deg); z-index: 100; box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+    .gov-wrap { max-width: var(--max-w); margin: 0 auto; padding: 40px 24px; position: relative; z-index: 10; }
+    .breadcrumb {
+      font-family: var(--font-type); font-size: 12px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-faded); margin-bottom: 28px;
+    }
+    .breadcrumb a { color: var(--red-deep); text-decoration: none; border-bottom: 1px solid var(--rule-soft); }
+
+    .tier-card {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-left: 8px solid var(--red);
+      padding: 28px 28px 24px;
+      margin: 28px 0;
+      position: relative;
+    }
+    .tier-card.tier-outside { border-left-color: var(--mustard); }
+    .tier-card-eyebrow {
+      font-family: var(--font-type);
+      font-size: 11px; letter-spacing: 0.22em;
+      color: var(--red-deep);
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .tier-card-eyebrow.outside { color: var(--ink-soft); }
+    .tier-card-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.4rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+    .tier-card-tagline {
+      font-family: var(--font-slab);
+      font-size: 1rem;
+      color: var(--red-deep);
+      letter-spacing: 0.05em;
+      margin-bottom: 22px;
+    }
+    .tier-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 14px;
+    }
+    .tier-card-cell {
+      background: var(--paper);
+      border-left: 3px solid var(--red);
+      padding: 12px 14px;
+    }
+    .tier-card-cell-label {
+      font-family: var(--font-type);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .tier-card-cell-body {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .tier-card-note {
+      margin-top: 18px;
+      padding: 12px 16px;
+      background: rgba(252,211,77,0.18);
+      border: 1px dashed var(--mustard);
+      font-family: var(--font-type);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+    .tier-card-note strong { color: var(--red-deep); }
+
+    .naming-note {
+      margin: 36px 0;
+      padding: 22px 24px;
+      background: var(--paper-dark);
+      border: 2px solid var(--ink);
+      border-left: 8px solid var(--mustard);
+    }
+    .naming-note-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .naming-note-body { font-family: var(--font-body); font-size: 0.95rem; line-height: 1.55; color: var(--ink); }
+    .naming-note-body em { font-style: italic; color: var(--red-deep); }
+
+    .split-header {
+      margin: 40px 0 24px;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--ink);
+      position: relative;
+    }
+    .split-header::before, .split-header::after {
+      content: '';
+      display: inline-block;
+      width: 60px;
+      height: 0;
+      border-top: 2px solid var(--ink);
+      vertical-align: middle;
+      margin: 0 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="paper-grain" aria-hidden="true"></div>
+  <div class="paper-edge" aria-hidden="true"></div>
+
+  <div class="draft-banner">
+    <strong>DRAFT</strong> &middot; FOR INTERNAL REVIEW ONLY &middot; NOT YET CANONICAL CORPS POLICY
+  </div>
+  <div class="draft-stamp-corner">DRAFT</div>
+
+  <nav class="primary-nav" aria-label="Primary">
+    <div class="primary-nav-inner">
+      <a href="/" class="primary-nav-brand">CCC<span class="nav-dot">&middot;</span>BOYS</a>
+      <button class="primary-nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="primary-nav-links" id="primary-nav-drawer">
+        <button class="primary-nav-close" type="button" aria-label="Close menu">&times;</button>
+        <a href="/#past">Past</a>
+        <a href="/#present">Present</a>
+        <a href="/#future">Future</a>
+        <a href="/states">States</a>
+        <a href="mailto:join@cccboys.com?subject=Letter%20to%20the%20corps" class="nav-cta">Write Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-rule"></div>
+      <div class="hero-eyebrow">DRAFT &middot; GOVERNANCE &middot; PAGE 01</div>
+      <h1 class="hero-title">LEVELS OF<span class="hero-amp">&middot;</span>BELONGING</h1>
+      <div class="hero-sub">Five tiers. Two roads. The handshake is the same on every rung.</div>
+      <div class="hero-rule"></div>
+    </section>
+
+    <div class="gov-wrap">
+
+      <div class="breadcrumb">
+        <a href="/draft/governance/">Governance</a> &rsaquo; Tiers
+      </div>
+
+      <div class="naming-note">
+        <div class="naming-note-title">PROPOSED NAMING</div>
+        <div class="naming-note-body">
+          We need a name for the recurring tier (the $1 a month one). <em>Subscriber</em> reads like SaaS.
+          <em>Recurring Supporter</em> is honest but bland. The working draft proposes <strong>Patron</strong>,
+          the historical name for someone who funds work they believe in. Other candidates to weigh:
+          <em>Sustainer</em> (used by NPR, has nonprofit dignity), <em>Standing Supporter</em> (descriptive but flat),
+          <em>Friend of the Corps</em> (warm but soft). Justin's call. The drafts below use Patron throughout.
+        </div>
+      </div>
+
+      <div class="split-header">INSIDE THE CORPS</div>
+
+      <article class="tier-card">
+        <div class="tier-card-eyebrow">TIER 01 &middot; THE COFOUNDERS</div>
+        <div class="tier-card-title">FOUNDER</div>
+        <div class="tier-card-tagline">Member first. Founder on top.</div>
+        <p>The cofounders of the corps (Justin Connolley, Joey Nettles, Jeremy Connolley, Jabbey, plus any future founder additions by unanimous existing-founder vote). A Founder is a Member with additional layered terms: vesting on early capital contributions, board-equivalent seats on cross-pillar decisions, deeper voting weight on existential matters like bylaws changes and dissolution.</p>
+        <div class="tier-card-grid">
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">HOW YOU JOIN</div>
+            <div class="tier-card-cell-body">Cofounded the corps at formation, or added later by unanimous existing-Founder vote. Cannot be voted out by membership majority. Can resign.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU PAY</div>
+            <div class="tier-card-cell-body">Capital contribution at formation (cash, equipment, or labor). Ongoing: same wage-first rules as any Member.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU GET</div>
+            <div class="tier-card-cell-body">All Member rights, plus board-equivalent voting weight on existential decisions, plus a founder-specific surplus track per the formation agreement.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU OWE</div>
+            <div class="tier-card-cell-body">Active participation in corps operations. Stewardship of the brand and the four rules. Long-term commitment to the cooperative structure.</div>
+          </div>
+        </div>
+        <div class="tier-card-note">
+          <strong>Note:</strong> Founder status does not exempt anyone from member-tier rules. The wage-first ordering, the four rules, and the cooperative voting structure apply to Founders too.
+        </div>
+      </article>
+
+      <article class="tier-card">
+        <div class="tier-card-eyebrow">TIER 02 &middot; THE VOTING OWNERS</div>
+        <div class="tier-card-title">MEMBER</div>
+        <div class="tier-card-tagline">You voted in. You own a share of the work.</div>
+        <p>Members are the voting owners of the corps. They draw wages first, share in surplus, vote on decisions, and get free access to every CCC Boys app as part of belonging. Membership is earned through participation, not bought.</p>
+        <div class="tier-card-grid">
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">HOW YOU JOIN</div>
+            <div class="tier-card-cell-body">Graduate from Apprenticeship (12 to 24 months typical), or direct admit by Member supermajority. Either path requires a Member sponsor.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU PAY</div>
+            <div class="tier-card-cell-body">Your labor at the corps standard hourly rate, on whatever pillar suits your skills. Optional: a small one-time membership stake to formalize the position.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU GET</div>
+            <div class="tier-card-cell-body">Wage first ordering on every product you work on. Surplus distribution. One vote in member matters. Free access to every CCC Boys app. Your name on the roster.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU OWE</div>
+            <div class="tier-card-cell-body">The four rules. Honest hours. Showing up for the work. Participation in member votes. Mentorship of at least one Apprentice when capacity allows.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tier-card">
+        <div class="tier-card-eyebrow">TIER 03 &middot; THE TRAINEES</div>
+        <div class="tier-card-title">APPRENTICE</div>
+        <div class="tier-card-tagline">Learning the trade. Paid like it matters.</div>
+        <p>Apprentices are in training on either the trades side (marine, roofing, hurricane prep, depot operations) or the software side (apps, infrastructure, AI tooling). The apprentice wage is set at a livable hourly rate on day one, not a stipend. Apprenticeship typically runs 12 to 24 months.</p>
+        <div class="tier-card-grid">
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">HOW YOU JOIN</div>
+            <div class="tier-card-cell-body">Apply through cccboys.com. Interview with a Member sponsor. Accepted by a simple Member majority. No requirement of prior trade or coding experience.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU PAY</div>
+            <div class="tier-card-cell-body">Your labor at the apprentice hourly rate. Time and attention. Willingness to be taught.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU GET</div>
+            <div class="tier-card-cell-body">Livable apprentice wage from day one. Hands-on training. A Member as mentor. Free access to every CCC Boys app. A real path to Member status.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU OWE</div>
+            <div class="tier-card-cell-body">Show up. Learn the four rules. Treat tools and people well. Complete the apprenticeship curriculum (trades or software). Pass the journey check at the end.</div>
+          </div>
+        </div>
+        <div class="tier-card-note">
+          <strong>Two-track Apprenticeship:</strong> the trades side and the software side run in parallel. A trades apprentice might work the depot in the morning and study for the electrical license in the afternoon. A software apprentice might ship app features one week and pair-program with Jabbey on the neobank rails the next. Apprentices can cross tracks.
+        </div>
+      </article>
+
+      <div class="split-header">OUTSIDE THE CORPS</div>
+
+      <article class="tier-card tier-outside">
+        <div class="tier-card-eyebrow outside">TIER 04 &middot; RECURRING SUPPORTERS</div>
+        <div class="tier-card-title">PATRON</div>
+        <div class="tier-card-tagline">A dollar a month. The whole library, always.</div>
+        <p>Patrons pay an optional $1 per month in supporter dues. In exchange they get every current and every future CCC Boys app unlocked, the supporter badge, their name on the public roster, and the satisfaction of being one of the people who keeps the work going. Not a customer, a supporter.</p>
+        <div class="tier-card-grid">
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">HOW YOU JOIN</div>
+            <div class="tier-card-cell-body">Create a free account on cccboys.com. Opt in to the $1 a month dues. Cancel any time. Comes back next month if you reactivate.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU PAY</div>
+            <div class="tier-card-cell-body">$1 per month. Paid on corps rails (Stripe today, Dakota neobank as it comes online), not Apple or Google.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU GET</div>
+            <div class="tier-card-cell-body">Every current and future CCC Boys app unlocked. Patron badge on your account. Name on the supporter roster (opt-in). Honest gratitude.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU OWE</div>
+            <div class="tier-card-cell-body">Nothing beyond the dues. You are not asked to vote, work, or evangelize. We will not spam you. The corps takes the support, ships the work, says thank you.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tier-card tier-outside">
+        <div class="tier-card-eyebrow outside">TIER 05 &middot; ONE-TIME UNLOCKS</div>
+        <div class="tier-card-title">SUPPORTER</div>
+        <div class="tier-card-tagline">A dollar an app. As many as you need.</div>
+        <p>Supporters pay $1 once for each app they want unlocked. Lifetime access to that specific app for that account. No subscription. No upsell ads inside the apps. Anyone scrolling a category in the App Store and frustrated with the noise can find the CCC Boys version, pay a dollar, and get on with their day.</p>
+        <div class="tier-card-grid">
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">HOW YOU JOIN</div>
+            <div class="tier-card-cell-body">Create a free account on cccboys.com. Browse the app library. Pay $1 to unlock the apps you want. Sign in to the app on your phone. Done.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU PAY</div>
+            <div class="tier-card-cell-body">$1 once per app. Paid on corps rails. No App Store cut. If the corps ever decommissions an app, your unlock is honored anyway.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU GET</div>
+            <div class="tier-card-cell-body">Lifetime access to the specific app you unlocked. Supporter badge on your account. The right to say you supported the corps.</div>
+          </div>
+          <div class="tier-card-cell">
+            <div class="tier-card-cell-label">WHAT YOU OWE</div>
+            <div class="tier-card-cell-body">Nothing. Use the app. Tell the next tradesperson in your shop if you liked it. That is the distribution model.</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-rule"></div>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-mark">CCC&middot;BOYS</div>
+        <div class="footer-tag">A collective of builders. Tiers draft.</div>
+      </div>
+      <div class="footer-credits">
+        <div class="footer-credits-title">STATUS</div>
+        <div>
+          Draft for internal review. Tier definitions and naming subject to corps approval.
+          Researched and drafted by Psyduck AI; reviewed by Justin Connolley.
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; CCC BOYS &middot; EST. 2026 &middot; IN THE SPIRIT OF 1933 &middot; VOL. I
+      &middot; <a href="/draft/governance/">Back to governance</a>
+      &middot; <a href="mailto:support@cccboys.com">support@cccboys.com</a>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>

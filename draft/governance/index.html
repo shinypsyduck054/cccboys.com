@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DRAFT. How the CCC Boys corps actually works. Four rules, three pillars, wage-first ordering, member ownership." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>CCC BOYS · GOVERNANCE (DRAFT)</title>
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23a83232'/><text x='50%25' y='62%25' font-family='Georgia,serif' font-size='34' font-weight='900' fill='%23f4ead5' text-anchor='middle'>C</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Big+Shoulders+Stencil+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .draft-banner {
+      background: repeating-linear-gradient(45deg, #9c2a23 0 18px, #6f1d18 18px 36px);
+      color: #f6ecd4;
+      text-align: center;
+      padding: 14px 24px;
+      font-family: var(--font-type);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 700;
+      border-bottom: 3px double #1d160e;
+      position: relative;
+      z-index: 11;
+    }
+    .draft-banner strong { color: #fcd34d; letter-spacing: 0.3em; }
+    .draft-stamp-corner {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      background: var(--cream);
+      border: 3px solid var(--red);
+      color: var(--red);
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      padding: 6px 14px;
+      transform: rotate(-12deg);
+      z-index: 100;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+    .gov-wrap { max-width: var(--max-w); margin: 0 auto; padding: 48px 24px; position: relative; z-index: 10; }
+    .gov-section { margin: 48px 0; }
+    .gov-section-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .gov-section-rule {
+      height: 0;
+      border-top: 3px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      margin-bottom: 24px;
+      max-width: 240px;
+    }
+    .gov-section-body p { margin-bottom: 14px; line-height: 1.55; }
+    .gov-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin: 24px 0; }
+    .gov-card {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      padding: 20px 22px;
+      position: relative;
+    }
+    .gov-card-eyebrow {
+      font-family: var(--font-type);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--red-deep);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .gov-card-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .gov-card-body { font-size: 0.95rem; line-height: 1.5; color: var(--ink-soft); }
+    .gov-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+    @media (max-width: 700px) { .gov-pillars { grid-template-columns: 1fr; } }
+    .gov-pillar {
+      background: var(--paper-dark);
+      border: 2px solid var(--ink);
+      padding: 22px 18px;
+      text-align: center;
+    }
+    .gov-pillar-icon {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.2rem;
+      color: var(--red-deep);
+      margin-bottom: 8px;
+    }
+    .gov-pillar-name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .gov-pillar-body { font-family: var(--font-body); font-size: 0.92rem; line-height: 1.45; color: var(--ink-soft); }
+
+    .tier-ladder {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 720px;
+      margin: 20px auto;
+    }
+    .tier-rung {
+      display: grid;
+      grid-template-columns: 80px 1fr 90px;
+      gap: 14px;
+      align-items: center;
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      padding: 10px 16px;
+    }
+    .tier-rung.tier-inside { background: var(--paper-dark); }
+    .tier-rung.tier-outside { background: var(--paper-2); }
+    .tier-label {
+      font-family: var(--font-display);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--red-deep);
+      font-size: 0.95rem;
+    }
+    .tier-desc { font-size: 0.92rem; color: var(--ink-soft); }
+    .tier-badge {
+      font-family: var(--font-type);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-align: center;
+      padding: 4px 6px;
+      background: var(--ink);
+      color: var(--cream);
+      text-transform: uppercase;
+    }
+    .tier-badge.outside { background: var(--mustard); color: var(--ink); }
+
+    .flow-diagram {
+      max-width: 760px;
+      margin: 28px auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .flow-step {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+    .flow-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.8rem;
+      color: var(--red);
+      text-align: center;
+      line-height: 1;
+    }
+    .flow-name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .flow-desc { font-size: 0.92rem; color: var(--ink-soft); line-height: 1.45; }
+    .flow-arrow {
+      text-align: center;
+      font-family: var(--font-display);
+      color: var(--red-deep);
+      font-size: 1.4rem;
+    }
+
+    .subpage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .subpage-card {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      padding: 20px 22px;
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .subpage-card:hover {
+      background: var(--paper-dark);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+    .subpage-num {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--red-deep);
+      letter-spacing: 0.18em;
+      margin-bottom: 6px;
+    }
+    .subpage-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .subpage-desc { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.45; }
+  </style>
+</head>
+<body>
+
+  <div class="paper-grain" aria-hidden="true"></div>
+  <div class="paper-edge" aria-hidden="true"></div>
+
+  <div class="draft-banner">
+    <strong>DRAFT</strong> &middot; FOR INTERNAL REVIEW ONLY &middot; NOT YET CANONICAL CORPS POLICY
+  </div>
+  <div class="draft-stamp-corner">DRAFT</div>
+
+  <nav class="primary-nav" aria-label="Primary">
+    <div class="primary-nav-inner">
+      <a href="/" class="primary-nav-brand">CCC<span class="nav-dot">&middot;</span>BOYS</a>
+      <button class="primary-nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="primary-nav-links" id="primary-nav-drawer">
+        <button class="primary-nav-close" type="button" aria-label="Close menu">&times;</button>
+        <a href="/#past">Past</a>
+        <a href="/#present">Present</a>
+        <a href="/#future">Future</a>
+        <a href="/states">States</a>
+        <a href="mailto:join@cccboys.com?subject=Letter%20to%20the%20corps" class="nav-cta">Write Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-rule"></div>
+      <div class="hero-eyebrow">DRAFT &middot; GOVERNANCE</div>
+      <h1 class="hero-title">HOW THE<span class="hero-amp">&middot;</span>CORPS<span class="hero-amp">&middot;</span>WORKS</h1>
+      <div class="hero-sub">Four rules. Three pillars. Wage first. Members own it.</div>
+      <div class="hero-rule"></div>
+      <p class="hero-blurb">
+        The CCC Boys is a worker-owned cooperative under South Carolina Chapter 45.
+        Members run it. Members vote it. Members get paid first. The corps takes
+        care of its own. Everyone else who supports the work is honored too, on
+        terms that fit them.
+      </p>
+    </section>
+
+    <div class="gov-wrap">
+
+      <div class="gov-section">
+        <h2 class="gov-section-title">THE FOUR RULES</h2>
+        <div class="gov-section-rule"></div>
+        <div class="gov-card-grid">
+          <div class="gov-card">
+            <div class="gov-card-eyebrow">RULE I</div>
+            <div class="gov-card-title">THE GOLDEN RULE</div>
+            <div class="gov-card-body">Treat people the way we would want to be treated. The whole foundation.</div>
+          </div>
+          <div class="gov-card">
+            <div class="gov-card-eyebrow">RULE II</div>
+            <div class="gov-card-title">DON'T EXPLOIT</div>
+            <div class="gov-card-body">Revenue flows toward people, not from their desperation. If the model needs someone's worst day, it is the wrong model.</div>
+          </div>
+          <div class="gov-card">
+            <div class="gov-card-eyebrow">RULE III</div>
+            <div class="gov-card-title">BE KIND</div>
+            <div class="gov-card-body">Build things that are actually helpful. Tone matters. People remember how you treated them when they needed something.</div>
+          </div>
+          <div class="gov-card">
+            <div class="gov-card-eyebrow">RULE IV</div>
+            <div class="gov-card-title">BE THOUGHTFUL</div>
+            <div class="gov-card-body">Slow on hard-to-reverse decisions. Fast on reversible ones. Prefer the honest answer.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gov-section">
+        <h2 class="gov-section-title">THE THREE PILLARS</h2>
+        <div class="gov-section-rule"></div>
+        <p>The corps stands on three legs. Each pillar earns its own way. All three share the same handshake.</p>
+        <div class="gov-pillars">
+          <div class="gov-pillar">
+            <div class="gov-pillar-icon">&#x2693;</div>
+            <div class="gov-pillar-name">TRADES</div>
+            <div class="gov-pillar-body">Marine work out of Walterboro, hurricane prep along the coast, shingle recycling depot, apprenticeships that pay a livable wage on day one.</div>
+          </div>
+          <div class="gov-pillar">
+            <div class="gov-pillar-icon">&#x2328;</div>
+            <div class="gov-pillar-name">SOFTWARE</div>
+            <div class="gov-pillar-body">A library of $1 trade apps. NEC code lookup, conduit fill, panel schedule, marine electrical, OSHA checklists. Members and Apprentices get every app free.</div>
+          </div>
+          <div class="gov-pillar">
+            <div class="gov-pillar-icon">&#x2696;</div>
+            <div class="gov-pillar-name">RAILS</div>
+            <div class="gov-pillar-body">A neobank built on Dakota with per-product accounts, passkey-signed votes, and wage-first ordering encoded in code. No VC. No outside equity. Ever.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gov-section">
+        <h2 class="gov-section-title">WHO BELONGS TO THE CORPS</h2>
+        <div class="gov-section-rule"></div>
+        <p>Five tiers. Two roads. The road from outside to inside runs through Apprentice. The road of support runs alongside.</p>
+        <div class="tier-ladder">
+          <div class="tier-rung tier-inside">
+            <div class="tier-label">FOUNDER</div>
+            <div class="tier-desc">Original cofounders. A founder is a Member first, with additional terms layered on top.</div>
+            <div class="tier-badge">INSIDE</div>
+          </div>
+          <div class="tier-rung tier-inside">
+            <div class="tier-label">MEMBER</div>
+            <div class="tier-desc">Voting owner. Paid wage-first. Receives surplus. Free access to every app.</div>
+            <div class="tier-badge">INSIDE</div>
+          </div>
+          <div class="tier-rung tier-inside">
+            <div class="tier-label">APPRENTICE</div>
+            <div class="tier-desc">Training on the trades or the software side. Paid an apprentice wage on day one. Path to Member.</div>
+            <div class="tier-badge">INSIDE</div>
+          </div>
+          <div class="tier-rung tier-outside">
+            <div class="tier-label">PATRON</div>
+            <div class="tier-desc">Optional $1 per month dues. Unlocks every current and future app. Name on the supporter roster.</div>
+            <div class="tier-badge outside">OUTSIDE</div>
+          </div>
+          <div class="tier-rung tier-outside">
+            <div class="tier-label">SUPPORTER</div>
+            <div class="tier-desc">Pays $1 once to unlock a specific app at cccboys.com. Has an account on the corps roster.</div>
+            <div class="tier-badge outside">OUTSIDE</div>
+          </div>
+        </div>
+        <p style="margin-top:18px;font-size:0.95rem;">
+          See the <a href="/draft/governance/tiers/">full tier explanations</a> for who is in each, what they pay, what they get, what they owe.
+        </p>
+      </div>
+
+      <div class="gov-section">
+        <h2 class="gov-section-title">WHERE THE MONEY GOES</h2>
+        <div class="gov-section-rule"></div>
+        <p>Every product (an app, the depot, the marine pillar) has its own account on CCC Boys rails. Money flows in. It flows out in this exact order:</p>
+        <div class="flow-diagram">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div>
+              <div class="flow-name">WAGES</div>
+              <div class="flow-desc">Members and Apprentices who worked on this product draw their wage first. Always. Before anything else.</div>
+            </div>
+          </div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div>
+              <div class="flow-name">OPERATING COSTS</div>
+              <div class="flow-desc">Servers, materials, distribution, the costs that keep the product alive.</div>
+            </div>
+          </div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div>
+              <div class="flow-name">RUNWAY RESERVE</div>
+              <div class="flow-desc">A year of runway in the account before any surplus moves. Five years over time.</div>
+            </div>
+          </div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <div>
+              <div class="flow-name">CORPS CROSS-SUBSIDY</div>
+              <div class="flow-desc">A share to the general fund. Apprentice wages on slower products. Capital reserves. Grants matching.</div>
+            </div>
+          </div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">
+            <div class="flow-num">5</div>
+            <div>
+              <div class="flow-name">SURPLUS TO MEMBERS</div>
+              <div class="flow-desc">Whatever is left goes back to the people who built it, proportional to contribution. Not shareholders. Not investors. The builders.</div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:18px;font-size:0.95rem;">
+          See the <a href="/draft/governance/neobank/">neobank page</a> for the technical detail.
+        </p>
+      </div>
+
+      <div class="gov-section">
+        <h2 class="gov-section-title">EXPLORE THE DRAFTS</h2>
+        <div class="gov-section-rule"></div>
+        <div class="subpage-grid">
+          <a href="/draft/governance/tiers/" class="subpage-card">
+            <div class="subpage-num">PAGE 01</div>
+            <div class="subpage-title">TIERS &amp; BELONGING</div>
+            <div class="subpage-desc">Full explanation of Founder, Member, Apprentice, Patron, Supporter. What each owes, what each gets, how each joins.</div>
+          </a>
+          <a href="/draft/governance/neobank/" class="subpage-card">
+            <div class="subpage-num">PAGE 02</div>
+            <div class="subpage-title">NEOBANK &amp; PER-PRODUCT ACCOUNTS</div>
+            <div class="subpage-desc">How money lives on CCC Boys rails. Per-product accounts. The wage-first waterfall in detail. Dakota foundation.</div>
+          </a>
+          <a href="/draft/governance/scenarios/" class="subpage-card">
+            <div class="subpage-num">PAGE 03</div>
+            <div class="subpage-title">SCENARIOS</div>
+            <div class="subpage-desc">Six worked examples. Apprentice graduates. Founder joins. Product spins off. Acquisition offer. Decommission. Member leaves.</div>
+          </a>
+          <a href="/draft/governance/calculator/" class="subpage-card">
+            <div class="subpage-num">PAGE 04</div>
+            <div class="subpage-title">EARNINGS CALCULATOR</div>
+            <div class="subpage-desc">Interactive. Pick a tier, drag the sliders, see what the corps could pay you over a year based on hours and the products you contribute to.</div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-rule"></div>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-mark">CCC&middot;BOYS</div>
+        <div class="footer-tag">A collective of builders. Governance drafts.</div>
+      </div>
+      <div class="footer-credits">
+        <div class="footer-credits-title">STATUS</div>
+        <div>
+          These pages are drafts for internal review. They are not currently linked
+          from the main navigation and do not represent canonical corps policy.
+          Researched and drafted by Psyduck AI; reviewed by Justin Connolley.
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; CCC BOYS &middot; EST. 2026 &middot; IN THE SPIRIT OF 1933 &middot; VOL. I
+      &middot; <a href="/">cccboys.com</a>
+      &middot; <a href="mailto:support@cccboys.com">support@cccboys.com</a>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>
