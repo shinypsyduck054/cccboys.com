@@ -4,11 +4,11 @@ Static site for the CCC Boys collective. Vintage WPA poster aesthetic, in the sp
 
 ## Files
 
-- `index.html` — single page
-- `styles.css` — vintage type + paper texture
-- `script.js` — small scroll reveal
-- `images/` — public domain CCC era photos (NARA / LOC, via Wikimedia Commons)
-- `CNAME` — for GitHub Pages custom domain
+- `index.html`: single page
+- `styles.css`: vintage type + paper texture
+- `script.js`: small scroll reveal
+- `images/`: public domain CCC era photos (NARA / LOC, via Wikimedia Commons)
+- `CNAME`: for GitHub Pages custom domain
 
 ## Local preview
 
@@ -24,7 +24,7 @@ Or just open `index.html` in a browser. No build step.
 
 Domain is on Cloudflare. Two easy options.
 
-### Option A — Cloudflare Pages (recommended)
+### Option A: Cloudflare Pages (recommended)
 
 1. Push this folder to a GitHub repo (e.g. `shinypsyduck054/cccboys.com`).
 2. In Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect to Git**.
@@ -35,7 +35,7 @@ Domain is on Cloudflare. Two easy options.
 4. After first deploy, go to **Custom domains → Set up a custom domain → `cccboys.com`**. Cloudflare wires DNS automatically since the domain is already on Cloudflare.
 5. Add `www.cccboys.com` too if you want.
 
-### Option B — GitHub Pages + Cloudflare DNS
+### Option B: GitHub Pages + Cloudflare DNS
 
 1. Push to `shinypsyduck054/cccboys.com` and enable Pages on `main` branch root.
 2. In Cloudflare DNS, add:
@@ -47,9 +47,9 @@ Domain is on Cloudflare. Two easy options.
 
 All photographs are in the U.S. public domain (works of the federal government, pre-1989). Sourced via Wikimedia Commons from the National Archives (NARA) and Library of Congress.
 
-- `poster-1935.jpg` — CCC recruitment poster, 1935
-- `workers-willow.jpg` — CCC enrollees planting willow sprouts (NARA 286156)
-- `crew-campground.jpg` — CCC crew at campground work
-- `elk-basin-camp.jpg` — Elk Basin Camp F-139, Bovill, Idaho, 1935
-- `new-uniform.jpg` — CCC member in new spruce-green uniform, Feb 1, 1939
-- `crew-compressor.jpg` — CCC work crew with diesel compressor
+- `poster-1935.jpg`: CCC recruitment poster, 1935
+- `workers-willow.jpg`: CCC enrollees planting willow sprouts (NARA 286156)
+- `crew-campground.jpg`: CCC crew at campground work
+- `elk-basin-camp.jpg`: Elk Basin Camp F-139, Bovill, Idaho, 1935
+- `new-uniform.jpg`: CCC member in new spruce-green uniform, Feb 1, 1939
+- `crew-compressor.jpg`: CCC work crew with diesel compressor
