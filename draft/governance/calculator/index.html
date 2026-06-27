@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="DRAFT. Interactive calculator for CCC Boys member earnings estimates." />
+  <meta name="description" content="DRAFT. Internal modeling tool for CCC Boys corps economics." />
   <meta name="robots" content="noindex, nofollow" />
-  <title>CCC BOYS · EARNINGS CALCULATOR (DRAFT)</title>
+  <title>CCC BOYS · ECONOMICS MODEL (DRAFT)</title>
   <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23a83232'/><text x='50%25' y='62%25' font-family='Georgia,serif' font-size='34' font-weight='900' fill='%23f4ead5' text-anchor='middle'>C</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,213 +29,125 @@
     }
     .breadcrumb a { color: var(--red-deep); text-decoration: none; border-bottom: 1px solid var(--rule-soft); }
 
-    .disclaimer {
-      margin: 24px 0;
-      padding: 18px 22px;
+    .internal-note {
+      margin: 16px 0 28px;
+      padding: 14px 18px;
       background: rgba(252,211,77,0.18);
       border: 2px solid var(--mustard);
       border-left: 8px solid var(--red);
       font-family: var(--font-body);
-      font-size: 0.95rem;
-      line-height: 1.55;
-      color: var(--ink);
+      font-size: 0.92rem;
+      line-height: 1.5;
     }
-    .disclaimer strong { color: var(--red-deep); text-transform: uppercase; letter-spacing: 0.06em; }
+    .internal-note strong { color: var(--red-deep); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .presets {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin: 0 0 28px;
+    }
+    .preset-btn {
+      cursor: pointer;
+      background: var(--paper-2); border: 2px solid var(--ink);
+      padding: 10px 18px;
+      font-family: var(--font-display); font-weight: 900; font-size: 0.9rem;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
+      transition: background 0.12s, color 0.12s;
+    }
+    .preset-btn:hover { background: var(--paper-dark); }
+    .preset-btn.active { background: var(--ink); color: var(--cream); }
 
     .calc-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      margin: 32px 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin: 0 0 28px;
     }
-    @media (max-width: 880px) {
-      .calc-layout { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 980px) { .calc-layout { grid-template-columns: 1fr; } }
 
-    .calc-inputs, .calc-outputs {
-      background: var(--paper-2);
-      border: 2px solid var(--ink);
-      padding: 22px 24px;
+    .calc-pane {
+      background: var(--paper-2); border: 2px solid var(--ink);
+      padding: 18px 22px;
     }
-    .calc-section-title {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 1.3rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--ink);
-      margin-bottom: 4px;
+    .pane-title {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 1.15rem; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--ink);
+      margin-bottom: 2px;
     }
-    .calc-section-sub {
-      font-family: var(--font-type);
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--red-deep);
-      margin-bottom: 18px;
+    .pane-sub {
+      font-family: var(--font-type); font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--red-deep); margin-bottom: 14px;
     }
+    .pane-section {
+      margin: 18px 0 4px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--rule-soft);
+      font-family: var(--font-type); font-size: 10px;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--ink-faded);
+    }
+    .pane-section:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
 
-    .input-group {
-      margin-bottom: 22px;
-    }
+    .input-group { margin-bottom: 14px; }
     .input-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      font-family: var(--font-type);
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      margin-bottom: 6px;
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-family: var(--font-type); font-size: 11px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ink-soft); margin-bottom: 4px;
     }
     .input-value {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 1.1rem;
-      letter-spacing: 0.04em;
-      color: var(--red-deep);
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 1rem; letter-spacing: 0.02em; color: var(--red-deep);
     }
     input[type="range"] {
-      width: 100%;
-      -webkit-appearance: none;
-      appearance: none;
-      height: 6px;
-      background: var(--paper);
-      border: 1px solid var(--ink);
-      border-radius: 0;
-      outline: none;
-      cursor: pointer;
+      width: 100%; -webkit-appearance: none; appearance: none;
+      height: 6px; background: var(--paper); border: 1px solid var(--ink);
+      border-radius: 0; outline: none; cursor: pointer;
     }
     input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 22px;
-      height: 22px;
-      background: var(--red);
-      border: 2px solid var(--ink);
-      cursor: pointer;
-      border-radius: 0;
+      -webkit-appearance: none; appearance: none;
+      width: 20px; height: 20px; background: var(--red);
+      border: 2px solid var(--ink); cursor: pointer; border-radius: 0;
     }
     input[type="range"]::-moz-range-thumb {
-      width: 22px;
-      height: 22px;
-      background: var(--red);
-      border: 2px solid var(--ink);
-      cursor: pointer;
-      border-radius: 0;
-    }
-    .input-help {
-      font-family: var(--font-body);
-      font-size: 0.82rem;
-      color: var(--ink-faded);
-      margin-top: 4px;
-      line-height: 1.4;
+      width: 20px; height: 20px; background: var(--red);
+      border: 2px solid var(--ink); cursor: pointer; border-radius: 0;
     }
 
-    .tier-radios {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .tier-radio {
-      cursor: pointer;
-      background: var(--paper);
-      border: 2px solid var(--ink);
-      padding: 10px 6px;
-      text-align: center;
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 0.85rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      transition: background 0.12s, color 0.12s;
-      user-select: none;
-    }
-    .tier-radio:hover { background: var(--paper-dark); }
-    .tier-radio.active {
-      background: var(--ink);
-      color: var(--cream);
-    }
-    .tier-radio input { display: none; }
-
-    .output-block {
-      margin-bottom: 22px;
-      padding-bottom: 18px;
+    .output-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 8px 0;
       border-bottom: 1px dashed var(--rule-soft);
     }
-    .output-block:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-    .output-label {
-      font-family: var(--font-type);
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--red-deep);
-      margin-bottom: 4px;
-    }
-    .output-amount {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 2.6rem;
-      letter-spacing: 0.02em;
-      color: var(--ink);
-      line-height: 1;
-    }
-    .output-amount.amount-total {
-      color: var(--red);
-      font-size: 3rem;
-    }
-    .output-desc {
-      font-family: var(--font-body);
-      font-size: 0.92rem;
+    .output-row:last-child { border-bottom: none; }
+    .output-row-label {
+      font-family: var(--font-type); font-size: 11px;
+      letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--ink-soft);
-      line-height: 1.5;
-      margin-top: 6px;
     }
-    .output-breakdown {
-      margin-top: 8px;
-      font-family: var(--font-type);
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      color: var(--ink-faded);
-      line-height: 1.6;
+    .output-row-value {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 1.1rem; color: var(--ink);
     }
-    .comparison-bar {
-      margin-top: 14px;
-      padding: 10px 14px;
-      background: var(--paper);
-      border-left: 4px solid var(--mustard);
-      font-family: var(--font-body);
-      font-size: 0.88rem;
-      color: var(--ink-soft);
-      line-height: 1.5;
+    .output-row.total {
+      margin-top: 12px; padding: 14px 0 4px;
+      border-top: 3px solid var(--ink); border-bottom: none;
     }
-    .comparison-bar strong { color: var(--ink); }
+    .output-row.total .output-row-label { color: var(--red-deep); }
+    .output-row.total .output-row-value { color: var(--red); font-size: 1.6rem; }
 
     .math-section {
-      margin: 36px 0;
-      padding: 24px;
-      background: var(--paper-dark);
-      border: 2px solid var(--ink);
+      margin: 28px 0; padding: 22px;
+      background: var(--paper-dark); border: 2px solid var(--ink);
     }
     .math-section h3 {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 1.3rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 1.15rem; letter-spacing: 0.04em;
+      text-transform: uppercase; margin-bottom: 10px;
     }
-    .math-section p { margin-bottom: 10px; line-height: 1.55; font-size: 0.95rem; }
+    .math-section p { margin-bottom: 8px; line-height: 1.55; font-size: 0.92rem; }
     .math-formula {
-      font-family: var(--font-type);
-      font-size: 0.88rem;
-      background: var(--paper);
-      padding: 10px 14px;
-      border: 1px solid var(--rule-soft);
-      margin: 8px 0;
+      font-family: var(--font-type); font-size: 0.86rem;
+      background: var(--paper); padding: 8px 12px;
+      border: 1px solid var(--rule-soft); margin: 6px 0;
       letter-spacing: 0.02em;
     }
   </style>
@@ -246,9 +158,9 @@
   <div class="paper-edge" aria-hidden="true"></div>
 
   <div class="draft-banner">
-    <strong>DRAFT</strong> &middot; FOR INTERNAL REVIEW ONLY &middot; ESTIMATES NOT PROMISES
+    <strong>DRAFT</strong> &middot; INTERNAL MODELING TOOL &middot; NOT FOR EXTERNAL USE
   </div>
-<nav class="primary-nav" aria-label="Primary">
+  <nav class="primary-nav" aria-label="Primary">
     <div class="primary-nav-inner">
       <a href="/" class="primary-nav-brand">CCC<span class="nav-dot">&middot;</span>BOYS</a>
       <button class="primary-nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav-drawer">
@@ -269,144 +181,179 @@
 
     <section class="hero">
       <div class="hero-rule"></div>
-      <div class="hero-eyebrow">DRAFT &middot; GOVERNANCE &middot; PAGE 04</div>
-      <h1 class="hero-title">WHAT COULD<span class="hero-amp">&middot;</span>YOU<span class="hero-amp">&middot;</span>EARN</h1>
-      <div class="hero-sub">Drag the sliders. See what a working Member could draw in a year.</div>
+      <div class="hero-eyebrow">DRAFT &middot; GOVERNANCE &middot; INTERNAL TOOL</div>
+      <h1 class="hero-title">ECONOMICS<span class="hero-amp">&middot;</span>MODEL</h1>
+      <div class="hero-sub">Move every lever. Try unrealistic numbers on purpose.</div>
       <div class="hero-rule"></div>
     </section>
 
     <div class="gov-wrap">
 
       <div class="breadcrumb">
-        <a href="/draft/governance/">Governance</a> &rsaquo; Earnings Calculator
+        <a href="/draft/governance/">Governance</a> &rsaquo; Economics Model
       </div>
 
-      <div class="disclaimer">
-        <strong>Disclaimer:</strong> these are model estimates against the working waterfall in the draft governance documents. They are not employment offers, not income projections, not financial advice. Real numbers will depend on actual product performance, actual hours worked, actual waterfall percentages once locked, and the membership vote that ratifies all of it. Read this as a tool for thinking, not a promise.
+      <div class="internal-note">
+        <strong>Internal.</strong> This is a scenario sandbox for the founders. Not a sales tool. Not financial advice. Test extreme inputs on purpose. Reality will be somewhere between the small case and the wild case, and the levers we hold most often are the ones that matter most.
+      </div>
+
+      <div class="presets" id="presets">
+        <div class="preset-btn" data-preset="year1">Year 1 (lean)</div>
+        <div class="preset-btn" data-preset="year3">Year 3 (growing)</div>
+        <div class="preset-btn" data-preset="year5">Year 5+ (at scale)</div>
+        <div class="preset-btn" data-preset="bull">Bull case</div>
+        <div class="preset-btn" data-preset="reset">Reset</div>
       </div>
 
       <div class="calc-layout">
 
-        <div class="calc-inputs">
-          <div class="calc-section-title">Your Inputs</div>
-          <div class="calc-section-sub">Tier &middot; Hours &middot; Catalog Reach</div>
+        <div class="calc-pane">
+          <div class="pane-title">Inputs</div>
+          <div class="pane-sub">Every lever is a slider</div>
 
+          <div class="pane-section">Wages</div>
           <div class="input-group">
-            <div class="input-label">
-              <span>Your Tier</span>
-            </div>
-            <div class="tier-radios">
-              <label class="tier-radio" data-tier="apprentice"><input type="radio" name="tier" value="apprentice" />Apprentice</label>
-              <label class="tier-radio active" data-tier="member"><input type="radio" name="tier" value="member" checked />Member</label>
-              <label class="tier-radio" data-tier="founder"><input type="radio" name="tier" value="founder" />Founder</label>
-            </div>
-            <div class="input-help">Apprentice wage: $22/hr. Member &amp; Founder wage: $40/hr. Founder rights are governance, not pay.</div>
+            <div class="input-label"><span>Apprentice wage</span><span class="input-value" id="appWageV">$25/hr</span></div>
+            <input type="range" id="appWage" min="15" max="60" value="25" step="1" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Corps Member wage</span><span class="input-value" id="memWageV">$55/hr</span></div>
+            <input type="range" id="memWage" min="25" max="200" value="55" step="1" />
           </div>
 
+          <div class="pane-section">People</div>
           <div class="input-group">
-            <div class="input-label">
-              <span>Hours per week</span>
-              <span class="input-value" id="hoursValue">30 hrs</span>
-            </div>
-            <input type="range" id="hours" min="5" max="40" value="30" step="1" />
-            <div class="input-help">Hours per week you contribute to corps work. The corps is built around real labor.</div>
+            <div class="input-label"><span>Apprentices</span><span class="input-value" id="appCountV">2</span></div>
+            <input type="range" id="appCount" min="0" max="500" value="2" step="1" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Corps Members</span><span class="input-value" id="memCountV">3</span></div>
+            <input type="range" id="memCount" min="1" max="10000" value="3" step="1" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Avg hours/week per active person</span><span class="input-value" id="hrsV">40</span></div>
+            <input type="range" id="hrs" min="10" max="60" value="40" step="1" />
           </div>
 
+          <div class="pane-section">Software catalog</div>
           <div class="input-group">
-            <div class="input-label">
-              <span>Apps you contributed to</span>
-              <span class="input-value" id="appsValue">3 apps</span>
-            </div>
-            <input type="range" id="apps" min="1" max="20" value="3" step="1" />
-            <div class="input-help">Number of apps in the catalog you've built or co-built this year.</div>
+            <div class="input-label"><span>$1 one-shot apps</span><span class="input-value" id="appsV">25</span></div>
+            <input type="range" id="apps" min="0" max="5000" value="25" step="1" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Avg paid uses per $1 app per year</span><span class="input-value" id="appUsesV">800</span></div>
+            <input type="range" id="appUses" min="0" max="100000" value="800" step="50" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>$1/mo subscription services</span><span class="input-value" id="subsV">5</span></div>
+            <input type="range" id="subs" min="0" max="1000" value="5" step="1" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Avg paid subscribers per service</span><span class="input-value" id="subUsersV">400</span></div>
+            <input type="range" id="subUsers" min="0" max="100000" value="400" step="50" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Premium products in catalog</span><span class="input-value" id="premV">2</span></div>
+            <input type="range" id="prem" min="0" max="500" value="2" step="1" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Avg annual revenue per premium product</span><span class="input-value" id="premRevV">$50,000</span></div>
+            <input type="range" id="premRev" min="0" max="2000000" value="50000" step="1000" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Virtual Members ($100/yr)</span><span class="input-value" id="vmV">500</span></div>
+            <input type="range" id="vm" min="0" max="100000" value="500" step="10" />
           </div>
 
+          <div class="pane-section">Trade pillars</div>
           <div class="input-group">
-            <div class="input-label">
-              <span>Catalog size</span>
-              <span class="input-value" id="catalogValue">25 apps</span>
-            </div>
-            <input type="range" id="catalog" min="5" max="200" value="25" step="1" />
-            <div class="input-help">Total apps live in the catalog. Patron dues are split across all of them.</div>
+            <div class="input-label"><span>Recycling depot annual revenue</span><span class="input-value" id="depotV">$80,000</span></div>
+            <input type="range" id="depot" min="0" max="10000000" value="80000" step="5000" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Hurricane prep team revenue</span><span class="input-value" id="hpV">$120,000</span></div>
+            <input type="range" id="hp" min="0" max="10000000" value="120000" step="5000" />
+          </div>
+          <div class="input-group">
+            <div class="input-label"><span>Marine pillar revenue</span><span class="input-value" id="marineV">$100,000</span></div>
+            <input type="range" id="marine" min="0" max="10000000" value="100000" step="5000" />
           </div>
 
+          <div class="pane-section">Corps cost structure</div>
           <div class="input-group">
-            <div class="input-label">
-              <span>Average Supporter unlocks per app you built</span>
-              <span class="input-value" id="supportersValue">2,000</span>
-            </div>
-            <input type="range" id="supporters" min="50" max="50000" value="2000" step="50" />
-            <div class="input-help">Annual Supporter unlocks ($1 each) on the apps you contributed to.</div>
+            <div class="input-label"><span>Operating cost %</span><span class="input-value" id="opPctV">20%</span></div>
+            <input type="range" id="opPct" min="5" max="50" value="20" step="1" />
           </div>
 
+          <div class="pane-section">Personal slice</div>
           <div class="input-group">
-            <div class="input-label">
-              <span>Active Patrons (whole catalog)</span>
-              <span class="input-value" id="patronsValue">5,000</span>
-            </div>
-            <input type="range" id="patrons" min="100" max="50000" value="5000" step="100" />
-            <div class="input-help">Total Patrons paying $1/month dues. Split evenly across the catalog.</div>
+            <div class="input-label"><span>Your hours / year</span><span class="input-value" id="myHrsV">2,000</span></div>
+            <input type="range" id="myHrs" min="0" max="3000" value="2000" step="50" />
           </div>
-
           <div class="input-group">
-            <div class="input-label">
-              <span>Your contribution share on those apps</span>
-              <span class="input-value" id="shareValue">40%</span>
-            </div>
-            <input type="range" id="share" min="10" max="100" value="40" step="5" />
-            <div class="input-help">Of all Member hours on the apps you contributed to, what percent are yours.</div>
+            <div class="input-label"><span>Your share of corps surplus pool</span><span class="input-value" id="myShareV">25%</span></div>
+            <input type="range" id="myShare" min="0" max="100" value="25" step="1" />
           </div>
         </div>
 
-        <div class="calc-outputs">
-          <div class="calc-section-title">What you draw</div>
-          <div class="calc-section-sub">Per year &middot; from corps rails</div>
+        <div class="calc-pane">
+          <div class="pane-title">Outputs</div>
+          <div class="pane-sub">Per year &middot; whole corps and you</div>
 
-          <div class="output-block">
-            <div class="output-label">Wage (guaranteed)</div>
-            <div class="output-amount" id="wageAmount">$62,400</div>
-            <div class="output-desc">Paid weekly. Comes from the product accounts you worked on; backstopped by the corps general fund.</div>
-            <div class="output-breakdown" id="wageBreakdown">$40/hr &times; 30 hrs &times; 52 weeks</div>
-          </div>
+          <div class="pane-section">Corps revenue</div>
+          <div class="output-row"><span class="output-row-label">$1 app sales</span><span class="output-row-value" id="oAppRev">$0</span></div>
+          <div class="output-row"><span class="output-row-label">$1/mo subscription</span><span class="output-row-value" id="oSubRev">$0</span></div>
+          <div class="output-row"><span class="output-row-label">Premium products</span><span class="output-row-value" id="oPremRev">$0</span></div>
+          <div class="output-row"><span class="output-row-label">Virtual Members</span><span class="output-row-value" id="oVmRev">$0</span></div>
+          <div class="output-row"><span class="output-row-label">Recycling depot</span><span class="output-row-value" id="oDepotRev">$0</span></div>
+          <div class="output-row"><span class="output-row-label">Hurricane prep</span><span class="output-row-value" id="oHpRev">$0</span></div>
+          <div class="output-row"><span class="output-row-label">Marine pillar</span><span class="output-row-value" id="oMarineRev">$0</span></div>
+          <div class="output-row total"><span class="output-row-label">Total corps revenue</span><span class="output-row-value" id="oTotalRev">$0</span></div>
 
-          <div class="output-block">
-            <div class="output-label">Surplus share (if products perform)</div>
-            <div class="output-amount" id="surplusAmount">$3,672</div>
-            <div class="output-desc">What's left from the apps you built after operating costs, corps cross-subsidy, and wages. Your share, by hours contributed.</div>
-            <div class="output-breakdown" id="surplusBreakdown">Revenue: $8,400 &middot; surplus pool: $9,180 &middot; your share: 40%</div>
-          </div>
+          <div class="pane-section">Corps cost structure</div>
+          <div class="output-row"><span class="output-row-label">Total wages paid</span><span class="output-row-value" id="oWages">$0</span></div>
+          <div class="output-row"><span class="output-row-label">Operating costs</span><span class="output-row-value" id="oOps">$0</span></div>
+          <div class="output-row total"><span class="output-row-label">Corps surplus pool</span><span class="output-row-value" id="oSurplus">$0</span></div>
 
-          <div class="output-block">
-            <div class="output-label">Total annual draw</div>
-            <div class="output-amount amount-total" id="totalAmount">$66,072</div>
-            <div class="output-desc">Wage plus surplus share. Plus member benefits not priced here (free apps, training, mentorship, the work).</div>
-          </div>
+          <div class="pane-section">Average per active person</div>
+          <div class="output-row"><span class="output-row-label">Avg revenue / person</span><span class="output-row-value" id="oRevPerPerson">$0</span></div>
+          <div class="output-row"><span class="output-row-label">Avg surplus / person</span><span class="output-row-value" id="oSurplusPerPerson">$0</span></div>
 
-          <div class="comparison-bar" id="comparison">
-            For comparison: a journeyman electrician in SC earns roughly <strong>$55,000-72,000</strong>. A senior engineer in mid-cost cities earns <strong>$140,000-180,000</strong>. The corps trades the upper-tail upside for wage-first stability and ownership.
-          </div>
+          <div class="pane-section">Your annual draw</div>
+          <div class="output-row"><span class="output-row-label">Your wage</span><span class="output-row-value" id="oMyWage">$0</span></div>
+          <div class="output-row"><span class="output-row-label">Your surplus share</span><span class="output-row-value" id="oMySurplus">$0</span></div>
+          <div class="output-row total"><span class="output-row-label">Your total</span><span class="output-row-value" id="oMyTotal">$0</span></div>
         </div>
 
       </div>
 
       <div class="math-section">
         <h3>How the math works</h3>
-        <p>The calculator does two separate calculations: <strong>wage</strong> (guaranteed by the corps general fund, paid weekly) and <strong>surplus</strong> (paid quarterly out of what's left from your products' accounts after the waterfall).</p>
-        <div class="math-formula">wage = hours_per_week &times; tier_rate &times; 52 weeks</div>
-        <p>Surplus is approximate. The model treats each app's revenue (Supporter unlocks plus its share of Patron dues) as flowing through the waterfall: 20% operating, then 15% corps cross-subsidy on what remains. The remaining cash supports wages plus surplus. We estimate the wage burn on those apps at 40% of revenue (a draft assumption) and the rest becomes the surplus pool. Your share is proportional to your contribution.</p>
-        <div class="math-formula">per_app_revenue = (supporters &times; $1) + (patrons &times; $12 / catalog_size)</div>
-        <div class="math-formula">total_revenue = per_app_revenue &times; apps_you_built</div>
-        <div class="math-formula">surplus_pool = total_revenue &times; 0.68 &minus; (total_revenue &times; 0.40)</div>
-        <div class="math-formula">your_surplus = surplus_pool &times; (contribution_share / 100)</div>
-        <p style="margin-top: 14px;">The wage burn assumption (40%) and the operating + subsidy percentages (20% + 15%) are draft. The waterfall <em>order</em> is the load-bearing part, not the exact percentages. See the <a href="/draft/governance/neobank/">neobank page</a> for the full waterfall.</p>
+        <p>The model rolls all revenue into a single pool, subtracts operating costs and wages (wage-first ordering), and treats what's left as the corps surplus pool. Your wage is your hours times your tier rate. Your surplus share is whatever percentage you set.</p>
+
+        <div class="math-formula">total_revenue = app_sales + sub_revenue + premium_revenue + virtual_member_revenue + recycling + hurricane_prep + marine</div>
+        <div class="math-formula">app_sales = $1 apps_count &times; avg_paid_uses_per_app</div>
+        <div class="math-formula">sub_revenue = $1/mo services_count &times; avg_subscribers &times; 12 months</div>
+        <div class="math-formula">premium_revenue = premium_count &times; avg_revenue_per_premium</div>
+        <div class="math-formula">virtual_member_revenue = vm_count &times; $100</div>
+
+        <div class="math-formula">total_wages = (apprentices &times; apprentice_wage + corps_members &times; member_wage) &times; hours_per_week &times; 50 weeks</div>
+        <div class="math-formula">operating_costs = total_revenue &times; operating_pct</div>
+        <div class="math-formula">corps_surplus = max(0, total_revenue &minus; total_wages &minus; operating_costs)</div>
+
+        <div class="math-formula">your_wage = your_hours &times; corps_member_wage</div>
+        <div class="math-formula">your_surplus_share = corps_surplus &times; your_share_pct</div>
+        <div class="math-formula">your_total = your_wage + your_surplus_share</div>
+
+        <p style="margin-top: 12px;">Active weeks per year defaulted to 50 (2 weeks paid time off). Wage is computed at the Corps Member rate for the personal slice; if modeling an apprentice, multiply manually or use a separate scenario.</p>
       </div>
 
       <div class="math-section">
-        <h3>Try these scenarios</h3>
-        <p style="margin-bottom: 6px;"><strong>The new Apprentice:</strong> Apprentice tier, 30 hrs/week, 1 app, 20 catalog, 500 Supporters, 1,000 Patrons, 20% share. Honest training wage.</p>
-        <p style="margin-bottom: 6px;"><strong>The steady Member:</strong> Member tier, 30 hrs/week, 3 apps, 25 catalog, 2,000 Supporters, 5,000 Patrons, 40% share. The default state.</p>
-        <p style="margin-bottom: 6px;"><strong>The breakout app:</strong> Member tier, 25 hrs/week, 2 apps, 30 catalog, 20,000 Supporters, 10,000 Patrons, 60% share. One app catches fire.</p>
-        <p style="margin-bottom: 6px;"><strong>The mature catalog:</strong> Member tier, 30 hrs/week, 8 apps, 100 catalog, 5,000 Supporters per app, 30,000 Patrons, 25% share. Sustainable Year 3.</p>
+        <h3>What the presets do</h3>
+        <p><strong>Year 1 (lean):</strong> 2 apprentices, 3 Corps Members (Justin FT, Jeremy 40 hr, Joey occasional). Small catalog. Modest trade pillar revenue. Recycling is mostly a dump collecting tipping fees.</p>
+        <p><strong>Year 3 (growing):</strong> 10 apprentices, 20 Corps Members across SC. Catalog at 200 apps. Recycling has equipment. Hurricane prep team established.</p>
+        <p><strong>Year 5+ (at scale):</strong> 100 apprentices, 200 Corps Members across multiple state chapters. 2,000-app catalog. Multi-stream recycling. Real revenue across all pillars.</p>
+        <p><strong>Bull case:</strong> Federation across 20 states. Thousands of apps. Tens of thousands of Virtual Members. A few breakout premium products. The wild scenario worth testing the math against.</p>
       </div>
 
     </div>
@@ -418,14 +365,14 @@
     <div class="footer-grid">
       <div>
         <div class="footer-mark">CCC&middot;BOYS</div>
-        <div class="footer-tag">A collective of builders. Earnings calculator draft.</div>
+        <div class="footer-tag">A collective of builders. Internal economics model.</div>
       </div>
       <div class="footer-credits">
         <div class="footer-credits-title">STATUS</div>
         <div>
-          Draft model for internal reasoning. Not financial advice. Not an offer.
-          Real numbers depend on actual product performance and the final waterfall
-          ratified by Membership vote.
+          Internal modeling tool. Not financial advice. Not an offer.
+          Real numbers depend on actual product performance and the final
+          waterfall ratified by Membership vote.
         </div>
       </div>
     </div>
@@ -437,106 +384,147 @@
   </footer>
 
   <script>
-    (function() {
-      'use strict';
+  (function () {
+    'use strict';
 
-      var RATES = { apprentice: 22, member: 40, founder: 40 };
-      var OPERATING_PCT = 0.20;
-      var SUBSIDY_PCT = 0.15;
-      var WAGE_BURN_PCT = 0.40;
+    var WEEKS_PER_YEAR = 50;
 
-      var els = {
-        hours: document.getElementById('hours'),
-        apps: document.getElementById('apps'),
-        catalog: document.getElementById('catalog'),
-        supporters: document.getElementById('supporters'),
-        patrons: document.getElementById('patrons'),
-        share: document.getElementById('share'),
-        hoursValue: document.getElementById('hoursValue'),
-        appsValue: document.getElementById('appsValue'),
-        catalogValue: document.getElementById('catalogValue'),
-        supportersValue: document.getElementById('supportersValue'),
-        patronsValue: document.getElementById('patronsValue'),
-        shareValue: document.getElementById('shareValue'),
-        wageAmount: document.getElementById('wageAmount'),
-        wageBreakdown: document.getElementById('wageBreakdown'),
-        surplusAmount: document.getElementById('surplusAmount'),
-        surplusBreakdown: document.getElementById('surplusBreakdown'),
-        totalAmount: document.getElementById('totalAmount')
-      };
+    var INPUTS = [
+      'appWage','memWage',
+      'appCount','memCount','hrs',
+      'apps','appUses','subs','subUsers','prem','premRev','vm',
+      'depot','hp','marine',
+      'opPct',
+      'myHrs','myShare'
+    ];
 
-      var currentTier = 'member';
+    var PRESETS = {
+      year1:  { appWage:25, memWage:55, appCount:2,  memCount:3,    hrs:40, apps:25,   appUses:800,   subs:5,   subUsers:400,  prem:2,  premRev:50000,  vm:500,   depot:80000,    hp:120000,   marine:100000,  opPct:20, myHrs:2000, myShare:25 },
+      year3:  { appWage:28, memWage:65, appCount:10, memCount:20,   hrs:40, apps:200,  appUses:1500,  subs:30,  subUsers:1500, prem:10, premRev:120000, vm:5000,  depot:600000,   hp:900000,   marine:600000,  opPct:22, myHrs:2000, myShare:8  },
+      year5:  { appWage:30, memWage:75, appCount:100,memCount:200,  hrs:40, apps:2000, appUses:3000,  subs:200, subUsers:5000, prem:50, premRev:250000, vm:30000, depot:3500000,  hp:5000000,  marine:3000000, opPct:25, myHrs:2000, myShare:3  },
+      bull:   { appWage:32, memWage:85, appCount:300,memCount:1500, hrs:40, apps:5000, appUses:8000,  subs:500, subUsers:12000,prem:200,premRev:500000, vm:80000, depot:8000000,  hp:10000000, marine:7000000, opPct:25, myHrs:2000, myShare:1  },
+      reset:  { appWage:25, memWage:55, appCount:2,  memCount:3,    hrs:40, apps:25,   appUses:800,   subs:5,   subUsers:400,  prem:2,  premRev:50000,  vm:500,   depot:80000,    hp:120000,   marine:100000,  opPct:20, myHrs:2000, myShare:25 }
+    };
 
-      function fmt(n) {
-        return '$' + Math.round(n).toLocaleString('en-US');
-      }
+    var els = {};
+    INPUTS.forEach(function (id) { els[id] = document.getElementById(id); els[id+'V'] = document.getElementById(id+'V'); });
 
-      function compute() {
-        var hours = parseInt(els.hours.value, 10);
-        var apps = parseInt(els.apps.value, 10);
-        var catalog = parseInt(els.catalog.value, 10);
-        var supporters = parseInt(els.supporters.value, 10);
-        var patrons = parseInt(els.patrons.value, 10);
-        var share = parseInt(els.share.value, 10);
-        var rate = RATES[currentTier];
+    var OUT_IDS = ['oAppRev','oSubRev','oPremRev','oVmRev','oDepotRev','oHpRev','oMarineRev','oTotalRev','oWages','oOps','oSurplus','oRevPerPerson','oSurplusPerPerson','oMyWage','oMySurplus','oMyTotal'];
+    var out = {};
+    OUT_IDS.forEach(function (id) { out[id] = document.getElementById(id); });
 
-        // Update input value labels
-        els.hoursValue.textContent = hours + ' hrs';
-        els.appsValue.textContent = apps + (apps === 1 ? ' app' : ' apps');
-        els.catalogValue.textContent = catalog + ' apps';
-        els.supportersValue.textContent = supporters.toLocaleString('en-US');
-        els.patronsValue.textContent = patrons.toLocaleString('en-US');
-        els.shareValue.textContent = share + '%';
+    function val(id) { return parseFloat(els[id].value); }
 
-        // Wage
-        var weeklyWage = hours * rate;
-        var yearlyWage = weeklyWage * 52;
+    function fmtMoney(n) {
+      var sign = n < 0 ? '-' : '';
+      n = Math.abs(Math.round(n));
+      return sign + '$' + n.toLocaleString('en-US');
+    }
+    function fmtNum(n) {
+      return Math.round(n).toLocaleString('en-US');
+    }
 
-        // Per-app revenue
-        var perAppSupporter = supporters * 1;
-        var perAppPatron = (patrons * 12) / catalog;
-        var perAppRevenue = perAppSupporter + perAppPatron;
-        var totalRevenue = perAppRevenue * apps;
+    function compute() {
+      var appWage = val('appWage');
+      var memWage = val('memWage');
+      var appCount = val('appCount');
+      var memCount = val('memCount');
+      var hrs = val('hrs');
+      var apps = val('apps');
+      var appUses = val('appUses');
+      var subs = val('subs');
+      var subUsers = val('subUsers');
+      var prem = val('prem');
+      var premRev = val('premRev');
+      var vm = val('vm');
+      var depot = val('depot');
+      var hp = val('hp');
+      var marine = val('marine');
+      var opPct = val('opPct');
+      var myHrs = val('myHrs');
+      var myShare = val('myShare');
 
-        // Surplus pool
-        var afterOpsSubsidy = totalRevenue * (1 - OPERATING_PCT) * (1 - SUBSIDY_PCT);
-        var wageBurn = totalRevenue * WAGE_BURN_PCT;
-        var surplusPool = Math.max(0, afterOpsSubsidy - wageBurn);
-        var yourSurplus = surplusPool * (share / 100);
+      els.appWageV.textContent = '$' + appWage + '/hr';
+      els.memWageV.textContent = '$' + memWage + '/hr';
+      els.appCountV.textContent = fmtNum(appCount);
+      els.memCountV.textContent = fmtNum(memCount);
+      els.hrsV.textContent = fmtNum(hrs);
+      els.appsV.textContent = fmtNum(apps);
+      els.appUsesV.textContent = fmtNum(appUses);
+      els.subsV.textContent = fmtNum(subs);
+      els.subUsersV.textContent = fmtNum(subUsers);
+      els.premV.textContent = fmtNum(prem);
+      els.premRevV.textContent = fmtMoney(premRev);
+      els.vmV.textContent = fmtNum(vm);
+      els.depotV.textContent = fmtMoney(depot);
+      els.hpV.textContent = fmtMoney(hp);
+      els.marineV.textContent = fmtMoney(marine);
+      els.opPctV.textContent = opPct + '%';
+      els.myHrsV.textContent = fmtNum(myHrs);
+      els.myShareV.textContent = myShare + '%';
 
-        var total = yearlyWage + yourSurplus;
+      var appRev = apps * appUses;
+      var subRev = subs * subUsers * 12;
+      var premTot = prem * premRev;
+      var vmRev = vm * 100;
+      var trade = depot + hp + marine;
+      var totalRev = appRev + subRev + premTot + vmRev + trade;
 
-        // Update outputs
-        els.wageAmount.textContent = fmt(yearlyWage);
-        els.wageBreakdown.textContent = '$' + rate + '/hr × ' + hours + ' hrs × 52 weeks';
+      var totalActive = appCount + memCount;
+      var wages = ((appCount * appWage) + (memCount * memWage)) * hrs * WEEKS_PER_YEAR;
+      var opCosts = totalRev * (opPct / 100);
+      var surplus = Math.max(0, totalRev - wages - opCosts);
 
-        els.surplusAmount.textContent = fmt(yourSurplus);
-        els.surplusBreakdown.textContent = 'Revenue: ' + fmt(totalRevenue) +
-          ' · surplus pool: ' + fmt(surplusPool) +
-          ' · your share: ' + share + '%';
+      var revPerPerson = totalActive > 0 ? totalRev / totalActive : 0;
+      var surplusPerPerson = totalActive > 0 ? surplus / totalActive : 0;
 
-        els.totalAmount.textContent = fmt(total);
-      }
+      var myWage = myHrs * memWage;
+      var mySurplusShare = surplus * (myShare / 100);
+      var myTotal = myWage + mySurplusShare;
 
-      // Tier radio handling
-      document.querySelectorAll('.tier-radio').forEach(function(el) {
-        el.addEventListener('click', function() {
-          document.querySelectorAll('.tier-radio').forEach(function(r) { r.classList.remove('active'); });
-          el.classList.add('active');
-          currentTier = el.getAttribute('data-tier');
-          el.querySelector('input').checked = true;
-          compute();
-        });
+      out.oAppRev.textContent = fmtMoney(appRev);
+      out.oSubRev.textContent = fmtMoney(subRev);
+      out.oPremRev.textContent = fmtMoney(premTot);
+      out.oVmRev.textContent = fmtMoney(vmRev);
+      out.oDepotRev.textContent = fmtMoney(depot);
+      out.oHpRev.textContent = fmtMoney(hp);
+      out.oMarineRev.textContent = fmtMoney(marine);
+      out.oTotalRev.textContent = fmtMoney(totalRev);
+      out.oWages.textContent = fmtMoney(wages);
+      out.oOps.textContent = fmtMoney(opCosts);
+      out.oSurplus.textContent = fmtMoney(surplus);
+      out.oRevPerPerson.textContent = fmtMoney(revPerPerson);
+      out.oSurplusPerPerson.textContent = fmtMoney(surplusPerPerson);
+      out.oMyWage.textContent = fmtMoney(myWage);
+      out.oMySurplus.textContent = fmtMoney(mySurplusShare);
+      out.oMyTotal.textContent = fmtMoney(myTotal);
+    }
+
+    function applyPreset(name) {
+      var preset = PRESETS[name];
+      if (!preset) return;
+      INPUTS.forEach(function (id) {
+        if (preset[id] !== undefined) els[id].value = preset[id];
       });
-
-      // Slider handling
-      ['hours', 'apps', 'catalog', 'supporters', 'patrons', 'share'].forEach(function(id) {
-        els[id].addEventListener('input', compute);
+      document.querySelectorAll('.preset-btn').forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-preset') === name);
       });
-
-      // Initial render
       compute();
-    })();
+    }
+
+    INPUTS.forEach(function (id) {
+      els[id].addEventListener('input', function () {
+        document.querySelectorAll('.preset-btn').forEach(function (b) { b.classList.remove('active'); });
+        compute();
+      });
+    });
+
+    document.querySelectorAll('.preset-btn').forEach(function (b) {
+      b.addEventListener('click', function () { applyPreset(b.getAttribute('data-preset')); });
+    });
+
+    applyPreset('year1');
+  })();
   </script>
 </body>
 </html>
