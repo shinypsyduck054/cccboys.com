@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DRAFT. Internal grant opportunity dashboard for CCC Boys." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>CCC BOYS · GRANT DASHBOARD (DRAFT)</title>
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23a83232'/><text x='50%25' y='62%25' font-family='Georgia,serif' font-size='34' font-weight='900' fill='%23f4ead5' text-anchor='middle'>C</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Big+Shoulders+Stencil+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/draft-gate.js" defer></script>
+  <style>
+    .draft-banner {
+      background: repeating-linear-gradient(45deg, #9c2a23 0 18px, #6f1d18 18px 36px);
+      color: #f6ecd4; text-align: center; padding: 14px 24px;
+      font-family: var(--font-type); letter-spacing: 0.22em;
+      text-transform: uppercase; font-size: 13px; font-weight: 700;
+      border-bottom: 3px double #1d160e; position: relative; z-index: 11;
+    }
+    .draft-banner strong { color: #fcd34d; letter-spacing: 0.3em; }
+    .gov-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 24px; position: relative; z-index: 10; }
+    .breadcrumb {
+      font-family: var(--font-type); font-size: 12px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-faded); margin-bottom: 20px;
+    }
+    .breadcrumb a { color: var(--red-deep); text-decoration: none; border-bottom: 1px solid var(--rule-soft); }
+
+    .internal-note {
+      margin: 16px 0 24px; padding: 14px 18px;
+      background: rgba(252,211,77,0.18); border: 2px solid var(--mustard);
+      border-left: 8px solid var(--red);
+      font-family: var(--font-body); font-size: 0.92rem; line-height: 1.5;
+    }
+    .internal-note strong { color: var(--red-deep); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+      margin: 20px 0;
+    }
+    @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat-card {
+      background: var(--paper-2); border: 2px solid var(--ink);
+      padding: 14px 16px;
+    }
+    .stat-label {
+      font-family: var(--font-type); font-size: 10px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--red-deep); margin-bottom: 6px;
+    }
+    .stat-value {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 1.7rem; color: var(--ink); line-height: 1;
+    }
+
+    .filter-bar {
+      background: var(--paper-2); border: 2px solid var(--ink);
+      padding: 18px 22px; margin-bottom: 22px;
+    }
+    .filter-section { margin-bottom: 14px; }
+    .filter-section:last-child { margin-bottom: 0; }
+    .filter-section-title {
+      font-family: var(--font-type); font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-soft); margin-bottom: 8px;
+    }
+    .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      cursor: pointer;
+      background: var(--paper); border: 2px solid var(--ink);
+      padding: 6px 12px;
+      font-family: var(--font-display); font-weight: 700; font-size: 0.78rem;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink);
+      transition: background 0.12s, color 0.12s;
+    }
+    .chip:hover { background: var(--paper-dark); }
+    .chip.active { background: var(--red); color: var(--cream); border-color: var(--red); }
+
+    .controls {
+      display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+      margin-bottom: 18px;
+    }
+    .controls-label {
+      font-family: var(--font-type); font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .controls select {
+      background: var(--paper); border: 2px solid var(--ink);
+      padding: 7px 10px;
+      font-family: var(--font-display); font-weight: 700; font-size: 0.8rem;
+      letter-spacing: 0.04em; color: var(--ink);
+      cursor: pointer; border-radius: 0;
+    }
+    .controls input[type="search"] {
+      background: var(--paper); border: 2px solid var(--ink);
+      padding: 7px 12px; min-width: 220px;
+      font-family: Georgia, serif; font-size: 0.92rem;
+      color: var(--ink); outline: none; border-radius: 0;
+    }
+    .clear-btn {
+      cursor: pointer; background: transparent;
+      border: 2px solid var(--ink); padding: 7px 12px;
+      font-family: var(--font-display); font-weight: 700; font-size: 0.78rem;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink);
+    }
+
+    .grant-list { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 900px) { .grant-list { grid-template-columns: 1fr 1fr; } }
+    .grant-card {
+      background: var(--paper-2); border: 2px solid var(--ink);
+      border-left: 8px solid var(--red);
+      padding: 16px 18px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .grant-card[data-level="federal"] { border-left-color: #9c2a23; }
+    .grant-card[data-level="state"] { border-left-color: #c9912f; }
+    .grant-card[data-level="county"] { border-left-color: #5a4632; }
+    .grant-card[data-level="private"] { border-left-color: #3f5e3a; }
+    .grant-card[data-level="regional"] { border-left-color: #6f4e10; }
+
+    .grant-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 12px;
+    }
+    .grant-name {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 1.1rem; letter-spacing: 0.02em; color: var(--ink);
+      line-height: 1.2; flex: 1;
+    }
+    .grant-level {
+      font-family: var(--font-type); font-size: 10px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 3px 8px; border: 1.5px solid var(--ink);
+      background: var(--paper); color: var(--ink);
+      white-space: nowrap;
+    }
+    .grant-issuer {
+      font-family: var(--font-type); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--red-deep);
+    }
+    .grant-categories {
+      display: flex; flex-wrap: wrap; gap: 4px;
+      margin: 4px 0;
+    }
+    .cat-tag {
+      font-family: var(--font-type); font-size: 9px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 2px 7px; background: var(--paper); border: 1px solid var(--rule-soft);
+      color: var(--ink-soft);
+    }
+    .grant-meta-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      font-family: var(--font-body); font-size: 0.85rem;
+      color: var(--ink); margin-top: 4px;
+    }
+    .grant-meta-label {
+      font-family: var(--font-type); font-size: 9px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-faded);
+      display: block; margin-bottom: 2px;
+    }
+    .grant-eligibility {
+      font-family: var(--font-body); font-size: 0.86rem;
+      color: var(--ink-soft); line-height: 1.45;
+    }
+    .grant-notes {
+      font-family: var(--font-body); font-size: 0.85rem;
+      color: var(--ink); line-height: 1.5;
+      padding-top: 6px; border-top: 1px dashed var(--rule-soft);
+      font-style: italic;
+    }
+    .grant-coop {
+      display: inline-block; padding: 2px 8px;
+      font-family: var(--font-type); font-size: 9px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+    }
+    .grant-coop[data-status="true"] { background: #5b8c5a; color: #f6ecd4; }
+    .grant-coop[data-status="likely"] { background: #c9912f; color: #1d160e; }
+    .grant-coop[data-status="false"] { background: #9c2a23; color: #f6ecd4; }
+    .grant-coop[data-status="unclear"] { background: var(--paper); color: var(--ink); border: 1px solid var(--rule-soft); }
+    .grant-action {
+      display: flex; gap: 8px; align-items: center;
+      margin-top: 6px;
+    }
+    .grant-link {
+      font-family: var(--font-display); font-weight: 700; font-size: 0.78rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--red-deep); text-decoration: underline;
+    }
+
+    .results-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 12px;
+      font-family: var(--font-type); font-size: 11px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .results-count {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 1.5rem; color: var(--red); letter-spacing: 0.02em;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center; padding: 40px 20px;
+      font-family: var(--font-body);
+      color: var(--ink-soft); font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="paper-grain" aria-hidden="true"></div>
+  <div class="paper-edge" aria-hidden="true"></div>
+
+  <div class="draft-banner">
+    <strong>DRAFT</strong> &middot; GRANT DASHBOARD &middot; INTERNAL ONLY &middot; VERIFY BEFORE APPLYING
+  </div>
+  <nav class="primary-nav" aria-label="Primary">
+    <div class="primary-nav-inner">
+      <a href="/" class="primary-nav-brand">CCC<span class="nav-dot">&middot;</span>BOYS</a>
+      <button class="primary-nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="primary-nav-links" id="primary-nav-drawer">
+        <button class="primary-nav-close" type="button" aria-label="Close menu">&times;</button>
+        <a href="/#past">Past</a>
+        <a href="/#present">Present</a>
+        <a href="/#future">Future</a>
+        <a href="/states">States</a>
+        <a href="mailto:join@cccboys.com?subject=Letter%20to%20the%20corps" class="nav-cta">Write Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-rule"></div>
+      <div class="hero-eyebrow">DRAFT &middot; GOVERNANCE &middot; INTERNAL TOOL</div>
+      <h1 class="hero-title">GRANT<span class="hero-amp">&middot;</span>DASHBOARD</h1>
+      <div class="hero-sub">Wide net. Federal, state, county, private. Cast lines, see what bites.</div>
+      <div class="hero-rule"></div>
+    </section>
+
+    <div class="gov-wrap">
+
+      <div class="breadcrumb">
+        <a href="/draft/governance/">Governance</a> &rsaquo; Grant Dashboard
+      </div>
+
+      <div class="internal-note">
+        <strong>Internal scouting tool.</strong> Curated by Psyduck from public sources 2026-06-26. Award amounts, deadlines, and eligibility are point-in-time and shift constantly. Always verify on the issuer's site before allocating effort. This page is not a substitute for reading the actual NOFO. Grants with `coop eligible: true` are confirmed coop-friendly; `likely` and `unclear` need a phone call.
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Total programs</div>
+          <div class="stat-value" id="statTotal">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Federal</div>
+          <div class="stat-value" id="statFed">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">State + county</div>
+          <div class="stat-value" id="statSC">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Coop friendly</div>
+          <div class="stat-value" id="statCoop">0</div>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-section">
+          <div class="filter-section-title">Level</div>
+          <div class="filter-chips" id="filterLevel"></div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section-title">Category</div>
+          <div class="filter-chips" id="filterCat"></div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-section-title">Coop eligibility</div>
+          <div class="filter-chips" id="filterCoop"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <span class="controls-label">Search</span>
+        <input type="search" id="search" placeholder="name, issuer, notes..." />
+        <span class="controls-label">Sort</span>
+        <select id="sort">
+          <option value="default">Default order</option>
+          <option value="amount-desc">Award (largest)</option>
+          <option value="deadline">Deadline (soonest)</option>
+          <option value="name">Name (A-Z)</option>
+        </select>
+        <button class="clear-btn" id="clearBtn">Clear filters</button>
+      </div>
+
+      <div class="results-header">
+        <span>Showing <span class="results-count" id="resultsCount">0</span> programs</span>
+        <span>Click any program name to open the issuer page</span>
+      </div>
+
+      <div class="grant-list" id="grantList"></div>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-rule"></div>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-mark">CCC&middot;BOYS</div>
+        <div class="footer-tag">A collective of builders. Internal grant dashboard.</div>
+      </div>
+      <div class="footer-credits">
+        <div class="footer-credits-title">STATUS</div>
+        <div>
+          Compiled 2026-06-26. Sources: federal grants.gov, USDA RD, DOL ETA, NOAA, FEMA, EPA, NSF, EDA,
+          SC Department of Commerce, SC RIA, SCDEW, NCBA CLUSA, USFWC, and SC private foundations.
+          Always verify before applying.
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; CCC BOYS &middot; EST. 2026 &middot; IN THE SPIRIT OF 1933 &middot; VOL. I
+      &middot; <a href="/draft/governance/">Back to governance</a>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // Curated grant data, 2026-06-26
+    var GRANTS = [
+      // -------- FEDERAL: COOPERATIVE / RURAL BUSINESS --------
+      {
+        id: 'usda-rcdg',
+        name: 'Rural Cooperative Development Grant (RCDG)',
+        issuer: 'USDA Rural Development',
+        level: 'federal',
+        geography: ['nationwide'],
+        categories: ['coop', 'rural', 'community-dev'],
+        award_range: 'up to $200K',
+        eligibility: 'Nonprofit institutions and accredited higher-ed only',
+        coop_eligible: 'likely',
+        deadline: 'annual recurring',
+        url: 'https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grant-program',
+        notes: 'Funds Cooperative Development Centers that provide technical assistance to nonprofit, mutually-owned and cooperative businesses. CCC Boys would partner with a center, not be the primary applicant.'
+      },
+      {
+        id: 'usda-rbdg',
+        name: 'Rural Business Development Grant (RBDG)',
+        issuer: 'USDA Rural Development',
+        level: 'federal',
+        geography: ['nationwide', 'rural'],
+        categories: ['rural', 'workforce', 'community-dev'],
+        award_range: 'no maximum, smaller preferred',
+        eligibility: 'Public bodies, tribes, or nonprofits serving rural areas (no for-profits direct)',
+        coop_eligible: 'likely',
+        deadline: '2026-06-30',
+        url: 'https://www.rd.usda.gov/programs-services/business-programs/rural-business-development-grants',
+        notes: 'Opportunity + Enterprise tracks. Funds projects that benefit small and emerging rural businesses. Apply through SC RD state office. No cost-share requirement.'
+      },
+      {
+        id: 'usda-cf',
+        name: 'Community Facilities Direct Loan & Grant',
+        issuer: 'USDA Rural Development',
+        level: 'federal',
+        geography: ['rural', 'communities under 20K'],
+        categories: ['rural', 'community-dev', 'apprenticeship'],
+        award_range: 'up to 75% of project cost',
+        eligibility: 'Nonprofits, public bodies, tribal governments serving rural communities',
+        coop_eligible: 'likely',
+        deadline: 'rolling',
+        url: 'https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program',
+        notes: 'Could fund a community training facility, apprenticeship center, or essential community infrastructure. Colleton County (pop ~38K) likely qualifies on the rural test.'
+      },
+
+      // -------- FEDERAL: APPRENTICESHIP / WORKFORCE --------
+      {
+        id: 'dol-aba',
+        name: 'Apprenticeship Building America (ABA)',
+        issuer: 'DOL Employment & Training Admin',
+        level: 'federal',
+        geography: ['nationwide'],
+        categories: ['apprenticeship', 'workforce'],
+        award_range: '$1M-$5M typical',
+        eligibility: 'States, nonprofits, education systems, intermediary organizations',
+        coop_eligible: 'likely',
+        deadline: 'annual recurring',
+        url: 'https://www.apprenticeship.gov/investments-tax-credits-and-tuition-support/apprenticeship-building-america-aba-grant-program',
+        notes: 'Recent rounds: $85M-$121M total. Diversifies and expands Registered Apprenticeships into new industries including AI infrastructure, shipbuilding, IT. Marine and software apprentice tracks would fit.'
+      },
+      {
+        id: 'dol-saef',
+        name: 'State Apprenticeship Expansion Formula (SAEF)',
+        issuer: 'DOL ETA',
+        level: 'federal',
+        geography: ['nationwide via states'],
+        categories: ['apprenticeship', 'ai', 'workforce'],
+        award_range: 'state allocations',
+        eligibility: 'State agencies only (apply via SCDEW partnership)',
+        coop_eligible: 'likely',
+        deadline: 'annual recurring',
+        url: 'https://learnworkecosystemlibrary.com/initiatives/state-apprenticeship-expansion-formula-saef-grants-u-s-department-of-labor/',
+        notes: 'April 2026 SAEF4 round prioritized AI infrastructure, nuclear, shipbuilding, IT, domestic minerals. CCC Boys could be a SC subgrantee through Apprenticeship Carolina or SCDEW.'
+      },
+      {
+        id: 'dol-scc',
+        name: 'Strengthening Community Colleges (SCC6)',
+        issuer: 'DOL ETA',
+        level: 'federal',
+        geography: ['nationwide'],
+        categories: ['workforce', 'apprenticeship', 'trade'],
+        award_range: 'up to $11M',
+        eligibility: 'Community colleges (CCC Boys would partner)',
+        coop_eligible: 'unclear',
+        deadline: '2026-05-20',
+        url: 'https://www.dol.gov/agencies/eta/skills-training-grants/scc',
+        notes: 'Round 6 closed but recurs. Partner with Trident Tech, Lowcountry Tech, or Spartanburg CC. Builds short-term training tied to Workforce Pell. Connects directly to trades pipeline.'
+      },
+      {
+        id: 'wioa-youth',
+        name: 'WIOA Youth Program',
+        issuer: 'DOL ETA via SCDEW',
+        level: 'federal',
+        geography: ['nationwide via states'],
+        categories: ['apprenticeship', 'workforce', 'community-dev'],
+        award_range: 'state formula allocation',
+        eligibility: 'Local Workforce Development Boards; subcontractors eligible',
+        coop_eligible: 'true',
+        deadline: 'rolling',
+        url: 'https://www.dol.gov/agencies/eta/wioa',
+        notes: 'PY 2026 federal allocation ~$2.9B across Adult/Youth/Dislocated. SC LWDB funds On-the-Job Training, Related Training Instruction, support services. CCC Boys could be an apprentice training provider.'
+      },
+
+      // -------- FEDERAL: AI / TECH --------
+      {
+        id: 'nsf-sbir',
+        name: 'NSF SBIR/STTR Phase I',
+        issuer: 'National Science Foundation',
+        level: 'federal',
+        geography: ['nationwide'],
+        categories: ['ai', 'tech'],
+        award_range: 'up to $305K Phase I, $1.25M Phase II',
+        eligibility: 'For-profit small business; nonprofit partner allowed via STTR',
+        coop_eligible: 'unclear',
+        deadline: 'rolling Project Pitch',
+        url: 'https://www.nsf.gov/funding/opportunities/small-business-innovation-research-small-business-technology',
+        notes: 'Solicitation NSF 26-510 (deep tech + workforce). Includes AI in education, workforce development tools, upskilling aging workforce. Worker coop eligibility depends on legal wrapper. Pitch process is fast.'
+      },
+      {
+        id: 'eda-b2s',
+        name: 'EDA Build to Scale (Regional Innovation)',
+        issuer: 'EDA',
+        level: 'federal',
+        geography: ['nationwide'],
+        categories: ['tech', 'ai', 'community-dev'],
+        award_range: '$50M total program',
+        eligibility: 'Universities, nonprofits, accelerators, state agencies',
+        coop_eligible: 'likely',
+        deadline: 'annual recurring',
+        url: 'https://ssti.org/blog/reauthorization-edas-popular-build-scale-program-introduced',
+        notes: 'Reauthorization act introduced May 2026. Funds regional tech-based economic development. Possible angle for an AI + trades regional ecosystem grant.'
+      },
+      {
+        id: 'eda-techhubs',
+        name: 'EDA Tech Hubs (Phase 2)',
+        issuer: 'EDA',
+        level: 'federal',
+        geography: ['designated hubs'],
+        categories: ['tech', 'ai', 'community-dev'],
+        award_range: 'up to $220M in implementation, spring 2026',
+        eligibility: 'Designated Tech Hubs only',
+        coop_eligible: 'unclear',
+        deadline: '2026 awards forthcoming',
+        url: 'https://www.eda.gov/funding/programs/regional-technology-and-innovation-hubs',
+        notes: 'Long shot but worth watching. SC has not had a Tech Hub designation. Partnership angle with an existing hub is possible.'
+      },
+
+      // -------- FEDERAL: RESILIENCE / RECYCLING --------
+      {
+        id: 'fema-bric',
+        name: 'FEMA BRIC (Building Resilient Infrastructure)',
+        issuer: 'FEMA',
+        level: 'federal',
+        geography: ['nationwide'],
+        categories: ['resilience', 'community-dev'],
+        award_range: '$1B FY24/25 cycle, $1M-$50M per project',
+        eligibility: 'States, locals, tribes, territories (CCC Boys subcontracts via SC)',
+        coop_eligible: 'unclear',
+        deadline: '2026-07-23',
+        url: 'https://www.fema.gov/grants/mitigation/learn/building-resilient-infrastructure-communities',
+        notes: 'Major hurricane prep angle. Requires Benefit-Cost Analysis and Hazard Mitigation Plan inclusion. CCC Boys hurricane prep team could be a subcontractor to a SC county BRIC application.'
+      },
+      {
+        id: 'noaa-coastal',
+        name: 'NOAA Coastal Resilience Grants',
+        issuer: 'NOAA Fisheries',
+        level: 'federal',
+        geography: ['coastal'],
+        categories: ['resilience', 'rural'],
+        award_range: '$750K-$10M per project',
+        eligibility: 'States, tribes, nonprofits, universities',
+        coop_eligible: 'likely',
+        deadline: 'annual recurring',
+        url: 'https://www.fisheries.noaa.gov/grant/noaa-coastal-resilience-grants',
+        notes: 'TNC got $14.9M for living shoreline work in SC. Sea-grass, salt marsh, and shoreline restoration projects fit the marine pillar and the hurricane prep mission.'
+      },
+      {
+        id: 'epa-swifr-pol',
+        name: 'EPA SWIFR (Political Subdivisions)',
+        issuer: 'EPA',
+        level: 'federal',
+        geography: ['nationwide'],
+        categories: ['recycling', 'community-dev'],
+        award_range: 'varies',
+        eligibility: 'Local governments and consortia (CCC Boys partners with Colleton or Charleston)',
+        coop_eligible: 'unclear',
+        deadline: 'not currently open',
+        url: 'https://www.epa.gov/circulareconomy/solid-waste-infrastructure-recycling-grant-program',
+        notes: 'Funds local recycling infrastructure. CCC Boys depot fits perfectly but the corps applies as a subrecipient via Colleton County. Watch for the 2026/2027 cycle.'
+      },
+      {
+        id: 'epa-swifr-states',
+        name: 'EPA SWIFR (States & Territories)',
+        issuer: 'EPA',
+        level: 'federal',
+        geography: ['nationwide via states'],
+        categories: ['recycling'],
+        award_range: '$3.5M additional FY26',
+        eligibility: 'State environmental agencies (SC DHEC)',
+        coop_eligible: 'unclear',
+        deadline: 'state-level',
+        url: 'https://www.epa.gov/circulareconomy/solid-waste-infrastructure-recycling-grants-states-and-territories',
+        notes: 'Build relationship with SC DHEC. State subgrants to local recyclers possible.'
+      },
+
+      // -------- STATE: SOUTH CAROLINA --------
+      {
+        id: 'sc-app-carolina',
+        name: 'Apprenticeship Carolina + Tax Credit',
+        issuer: 'SC Technical College System',
+        level: 'state',
+        geography: ['SC'],
+        categories: ['apprenticeship', 'trade'],
+        award_range: '$6,000 tax credit per apprentice/yr',
+        eligibility: 'Any SC employer registering apprentices',
+        coop_eligible: 'true',
+        deadline: 'rolling',
+        url: 'https://scworks.org/employer/education-and-training/registered-apprenticeships',
+        notes: 'No-cost assistance to register CCC Boys apprentices with USDOL. SC tax credit pays $6K/yr per apprentice who works 7+ months. Direct fit for marine + software apprentices.'
+      },
+      {
+        id: 'sc-ojt',
+        name: 'On-the-Job Training Wage Reimbursement',
+        issuer: 'SC Department of Commerce',
+        level: 'state',
+        geography: ['SC'],
+        categories: ['workforce', 'trade', 'apprenticeship'],
+        award_range: '50-90% wage reimbursement',
+        eligibility: 'SC employers training new workers',
+        coop_eligible: 'true',
+        deadline: 'rolling',
+        url: 'https://www.sccommerce.com/incentives/south-carolina-workforce-training',
+        notes: 'Reimburses 50-90% of training wages depending on company size. Direct hire-and-train support for the corps payroll model.'
+      },
+      {
+        id: 'sc-ria',
+        name: 'SC Rural Infrastructure Authority',
+        issuer: 'SC Rural Infrastructure Authority',
+        level: 'state',
+        geography: ['SC', 'rural'],
+        categories: ['rural', 'community-dev'],
+        award_range: '$27M total program FY26',
+        eligibility: 'Local governments and public service districts',
+        coop_eligible: 'false',
+        deadline: '2026-09-15 and 2027-03-23',
+        url: 'https://ria.sc.gov/grants/',
+        notes: 'Local government applicants only. CCC Boys partners with Colleton County or local public works for relevant infrastructure projects (depot site improvements, water/sewer for facility).'
+      },
+      {
+        id: 'sc-sea-grant',
+        name: 'SC Sea Grant Consortium Biennial Research',
+        issuer: 'SC Sea Grant Consortium',
+        level: 'state',
+        geography: ['SC coastal'],
+        categories: ['resilience', 'rural'],
+        award_range: 'project-based',
+        eligibility: 'University-based researchers primarily',
+        coop_eligible: 'unclear',
+        deadline: 'biennial cycle',
+        url: 'https://www.scseagrant.org/biennial-research-funding-recommended/',
+        notes: 'Long shot for direct funding. Partnership angle with Coastal Carolina, CofC, or USC marine science programs could fund applied research at Coastal Boat Works.'
+      },
+      {
+        id: 'sc-career-cluster',
+        name: 'SC Career Cluster Partnership Grant',
+        issuer: 'SC Department of Education',
+        level: 'state',
+        geography: ['SC'],
+        categories: ['apprenticeship', 'workforce', 'trade'],
+        award_range: 'competitive',
+        eligibility: 'Statewide trade associations with national CTE certification',
+        coop_eligible: 'unclear',
+        deadline: 'annual',
+        url: 'https://ed.sc.gov/finance/grants/scde-grant-opportunities/202526-career-cluster-partnership-program-competitive-grant/',
+        notes: 'Possible CCC Boys partnership with a trade association (NRCA, marine associations) to deliver instructor + student training.'
+      },
+
+      // -------- COUNTY: SC --------
+      {
+        id: 'charleston-cdbg',
+        name: 'Charleston County CDBG',
+        issuer: 'Charleston County Community Development',
+        level: 'county',
+        geography: ['Charleston County'],
+        categories: ['community-dev', 'rural', 'resilience'],
+        award_range: 'varies, town/nonprofit eligible',
+        eligibility: 'Towns, nonprofits, faith-based serving Charleston County',
+        coop_eligible: 'true',
+        deadline: 'annual',
+        url: 'https://charlestoncounty.gov/departments/community-development/grants.php',
+        notes: 'CDBG funds for neighborhood revitalization, economic development, community facilities. Hurricane prep + depot operations may fit. Charleston is adjacent to Colleton.'
+      },
+      {
+        id: 'colleton-ceda',
+        name: 'Colleton County Economic Alliance',
+        issuer: 'Colleton County Economic Alliance',
+        level: 'county',
+        geography: ['Colleton County'],
+        categories: ['rural', 'community-dev'],
+        award_range: 'project-based incentives',
+        eligibility: 'Businesses creating jobs in Colleton County',
+        coop_eligible: 'likely',
+        deadline: 'rolling',
+        url: 'https://cceainc.com/',
+        notes: 'Home county. Direct relationship-building opportunity. Likely supports CCC Boys as flagship Colleton-rooted enterprise. Infrastructure, site assistance, possible job creation grants.'
+      },
+
+      // -------- PRIVATE: SC-FOCUSED --------
+      {
+        id: 'ccf-sc',
+        name: 'Coastal Community Foundation Grants',
+        issuer: 'Coastal Community Foundation of SC',
+        level: 'private',
+        geography: ['Berkeley', 'Beaufort', 'Charleston', 'Colleton', 'Dorchester', 'Georgetown', 'Hampton', 'Jasper'],
+        categories: ['community-dev', 'rural', 'workforce'],
+        award_range: '$5K-$15K Northern; multi-year Southern',
+        eligibility: 'Nonprofits serving the 8 coastal SC counties',
+        coop_eligible: 'true',
+        deadline: 'annual regional cycles',
+        url: 'https://coastalcommunityfoundation.org/grants-scholarships/',
+        notes: 'Direct geographic fit. Northern Lowcountry: up to $5K (health/wellness) or $15K (arts, hospice, Alzheimer\'s). Southern Lowcountry Catalyst Grants: multi-year capacity building. Strong relationship to build first.'
+      },
+      {
+        id: 'duke-endow-cfwb',
+        name: 'Duke Endowment - Child & Family Well-Being',
+        issuer: 'The Duke Endowment',
+        level: 'private',
+        geography: ['NC', 'SC'],
+        categories: ['community-dev'],
+        award_range: 'large; deadline 2026-06-15',
+        eligibility: 'Nonprofits in NC + SC working with at-risk children',
+        coop_eligible: 'unclear',
+        deadline: '2026-06-15 (passed); next cycle TBD',
+        url: 'https://www.dukeendowment.org/',
+        notes: 'Not directly fit unless CCC Boys runs an at-risk youth apprentice program. Duke is committed to $5B in NC/SC grants over 15 years; build a relationship for future windows.'
+      },
+      {
+        id: 'duke-endow-health',
+        name: 'Duke Endowment - Health Care',
+        issuer: 'The Duke Endowment',
+        level: 'private',
+        geography: ['NC', 'SC'],
+        categories: ['workforce'],
+        award_range: 'large',
+        eligibility: 'NC + SC nonprofits',
+        coop_eligible: 'unclear',
+        deadline: '2026-06-15',
+        url: 'https://www.dukeendowment.org/',
+        notes: 'Health workforce development priority area. Tangential fit unless CCC Boys spins a health-trades apprentice track.'
+      },
+      {
+        id: 'sisters-charity-sc',
+        name: 'Sisters of Charity Foundation of SC',
+        issuer: 'Sisters of Charity Foundation of SC',
+        level: 'private',
+        geography: ['SC'],
+        categories: ['community-dev', 'rural', 'workforce'],
+        award_range: '~$10K-$50K typical, ~$1M annually across grantees',
+        eligibility: 'SC-serving nonprofits focused on poverty reduction',
+        coop_eligible: 'true',
+        deadline: 'spring and fall cycles',
+        url: 'https://sistersofcharitysc.com/grants/',
+        notes: 'Strong fit: economic mobility focus. CCC Boys structurally serves working-class poverty reduction via livable-wage trades + apprenticeships. Worth a LOI in next open window.'
+      },
+      {
+        id: 'bcbs-sc-fnd',
+        name: 'BlueCross BlueShield of SC Foundation',
+        issuer: 'BCBS of SC Foundation',
+        level: 'private',
+        geography: ['SC'],
+        categories: ['workforce', 'community-dev'],
+        award_range: 'varies',
+        eligibility: 'SC nonprofits',
+        coop_eligible: 'likely',
+        deadline: 'spring + fall LOI cycles',
+        url: 'https://www.bcbsscfoundation.org/grants',
+        notes: 'Workforce health focus area. Possible angle: hurricane prep team as health-resilience workforce. Mostly health-care funding; tangential fit unless health-services angle.'
+      },
+
+      // -------- PRIVATE: NATIONAL --------
+      {
+        id: 'wkkf',
+        name: 'W.K. Kellogg Foundation',
+        issuer: 'W.K. Kellogg Foundation',
+        level: 'private',
+        geography: ['nationwide'],
+        categories: ['coop', 'community-dev', 'workforce'],
+        award_range: '$100K-$1M+ multi-year',
+        eligibility: '501(c)(3) primarily; cooperatives via fiscal sponsor',
+        coop_eligible: 'true',
+        deadline: 'rolling LOI',
+        url: 'https://www.wkkf.org/grantseekers/',
+        notes: 'Good Jobs and Family Economic Equity focus area explicitly funds employee ownership and multigenerational wealth building. Direct philosophical fit. Granted $300K to Employee Ownership Expansion Network recently.'
+      },
+      {
+        id: 'surdna',
+        name: 'Surdna Foundation - Sustainable Economies',
+        issuer: 'Surdna Foundation',
+        level: 'private',
+        geography: ['nationwide'],
+        categories: ['coop', 'community-dev', 'workforce'],
+        award_range: '$300K-$700K typical',
+        eligibility: '501(c)(3) nonprofits',
+        coop_eligible: 'true',
+        deadline: 'invitation only (no unsolicited LOI)',
+        url: 'https://surdna.org/',
+        notes: 'Does NOT accept unsolicited applications. Build relationships through coop network connections (Common Future, USFWC, etc.). Strong philosophical fit but requires patient relationship-building.'
+      },
+      {
+        id: 'rsf',
+        name: 'RSF Social Finance - Integrated Capital',
+        issuer: 'RSF Social Finance',
+        level: 'private',
+        geography: ['nationwide'],
+        categories: ['coop', 'community-dev', 'rural'],
+        award_range: 'loans + grants + guarantees blended',
+        eligibility: 'Mission-aligned social enterprises and cooperatives',
+        coop_eligible: 'true',
+        deadline: 'rolling',
+        url: 'https://rsfsocialfinance.org/',
+        notes: 'Explicitly supports cooperatives, perpetual purpose trusts, community-led funds. Integrated capital blend can include grants alongside loans. Right philosophical match for the corps thesis.'
+      },
+      {
+        id: 'cdf',
+        name: 'Cooperative Development Fund',
+        issuer: 'Cooperative Development Foundation (NCBA CLUSA)',
+        level: 'private',
+        geography: ['nationwide'],
+        categories: ['coop'],
+        award_range: '$1K-$10K',
+        eligibility: 'Cooperatives, coop development orgs, coop members',
+        coop_eligible: 'true',
+        deadline: 'January 15 annual',
+        url: 'https://ncbaclusa.coop/foundation/',
+        notes: 'Two-stage process: concept note then full proposal. Small but coop-specific and high probability of yes if the application matches. Worth applying every year.'
+      },
+      {
+        id: 'cdf-strengthening',
+        name: 'Strengthening Cooperative Communities (ARPA)',
+        issuer: 'NCBA CLUSA',
+        level: 'private',
+        geography: ['nationwide'],
+        categories: ['coop', 'community-dev'],
+        award_range: 'up to $20K',
+        eligibility: 'Coops + coop development orgs serving underserved producers',
+        coop_eligible: 'true',
+        deadline: 'annual until 2027',
+        url: 'https://ncbaclusa.coop/strengthening-co-op-communities/',
+        notes: 'ARPA-funded, sunsets 2027. Targets underserved producers with coop development training, financial literacy, business planning. Direct fit for apprentice + coop training programs.'
+      },
+      {
+        id: 'usfwc-clinic',
+        name: 'USFWC Co-op Clinic + Mini Grants',
+        issuer: 'US Federation of Worker Cooperatives',
+        level: 'private',
+        geography: ['nationwide'],
+        categories: ['coop', 'workforce'],
+        award_range: '$500-$10K mini grants',
+        eligibility: 'USFWC members (CCC Boys joins as Member)',
+        coop_eligible: 'true',
+        deadline: 'rolling',
+        url: 'https://www.usworker.coop/programs/',
+        notes: 'USFWC is the national coop federation. Join as a Member. Mini-grants for consulting/TA via the Co-op Clinic. Also a feeder into USDA RCDG sub-allocations.'
+      },
+
+      // -------- PRIVATE: SMALL BUSINESS --------
+      {
+        id: 'lisc-coramino',
+        name: 'LISC Coramino Fund',
+        issuer: 'LISC + Gran Coramino',
+        level: 'private',
+        geography: ['Atlanta', 'Chicago', 'Detroit', 'Houston', 'LA'],
+        categories: ['community-dev'],
+        award_range: '$10K',
+        eligibility: 'Small businesses in 5 named cities only',
+        coop_eligible: 'unclear',
+        deadline: '2026-04-06 closed; future rounds possible',
+        url: 'https://www.lisc.org/our-initiatives/small-business/our-work/grants-small-businesses/coramino-fund/',
+        notes: 'No SC geography in current round. Including for completeness; track in case LISC expands the geographic footprint to Southeast.'
+      },
+      {
+        id: 'verizon-digital',
+        name: 'Verizon Small Business Digital Ready',
+        issuer: 'LISC + Verizon',
+        level: 'private',
+        geography: ['nationwide'],
+        categories: ['tech'],
+        award_range: '$10K monthly',
+        eligibility: 'Small businesses completing courses on Digital Ready platform',
+        coop_eligible: 'unclear',
+        deadline: 'monthly Jun-Dec 2026',
+        url: 'https://digitalready.verizonwireless.com/funding/details',
+        notes: 'Complete 2 courses on Digital Ready to unlock application. 10 grants/month through Dec 2026. Easy lift for the digital pillar.'
+      }
+    ];
+
+    var LEVELS = ['federal', 'state', 'county', 'private'];
+    var CATS = ['coop', 'apprenticeship', 'trade', 'workforce', 'rural', 'ai', 'tech', 'resilience', 'recycling', 'community-dev'];
+    var COOPS = ['true', 'likely', 'unclear', 'false'];
+
+    var state = {
+      level: null, cat: null, coop: null,
+      search: '', sort: 'default'
+    };
+
+    function makeChip(label, key, value) {
+      var el = document.createElement('div');
+      el.className = 'chip';
+      el.textContent = label;
+      el.addEventListener('click', function () {
+        if (state[key] === value) state[key] = null;
+        else state[key] = value;
+        render();
+      });
+      el.dataset.key = key;
+      el.dataset.value = value;
+      return el;
+    }
+
+    function buildFilters() {
+      var lvl = document.getElementById('filterLevel');
+      LEVELS.forEach(function (l) { lvl.appendChild(makeChip(l, 'level', l)); });
+      var cat = document.getElementById('filterCat');
+      CATS.forEach(function (c) { cat.appendChild(makeChip(c, 'cat', c)); });
+      var coop = document.getElementById('filterCoop');
+      coop.appendChild(makeChip('Coop yes', 'coop', 'true'));
+      coop.appendChild(makeChip('Likely', 'coop', 'likely'));
+      coop.appendChild(makeChip('Unclear', 'coop', 'unclear'));
+      coop.appendChild(makeChip('Coop no', 'coop', 'false'));
+    }
+
+    function refreshChipStates() {
+      document.querySelectorAll('.chip').forEach(function (c) {
+        var k = c.dataset.key, v = c.dataset.value;
+        c.classList.toggle('active', state[k] === v);
+      });
+    }
+
+    function parseAward(str) {
+      var match = str.match(/\$([\d,]+)(?:K|M|B)?/g);
+      if (!match) return 0;
+      var top = match[match.length - 1];
+      var n = parseFloat(top.replace(/[$,]/g, ''));
+      if (/M/.test(top)) n *= 1000000;
+      else if (/B/.test(top)) n *= 1000000000;
+      else if (/K/.test(top)) n *= 1000;
+      return n;
+    }
+
+    function parseDeadline(str) {
+      var m = str.match(/(\d{4})-(\d{2})-(\d{2})/);
+      if (m) return new Date(m[0]).getTime();
+      if (/rolling|annual|recurring/.test(str)) return Number.MAX_SAFE_INTEGER - 1;
+      return Number.MAX_SAFE_INTEGER;
+    }
+
+    function filterAndSort() {
+      var list = GRANTS.slice();
+      if (state.level) list = list.filter(function (g) { return g.level === state.level; });
+      if (state.cat) list = list.filter(function (g) { return g.categories.indexOf(state.cat) !== -1; });
+      if (state.coop) list = list.filter(function (g) { return String(g.coop_eligible) === state.coop; });
+      if (state.search) {
+        var q = state.search.toLowerCase();
+        list = list.filter(function (g) {
+          return (g.name + ' ' + g.issuer + ' ' + g.notes + ' ' + g.eligibility).toLowerCase().indexOf(q) !== -1;
+        });
+      }
+      if (state.sort === 'amount-desc') list.sort(function (a, b) { return parseAward(b.award_range) - parseAward(a.award_range); });
+      else if (state.sort === 'deadline') list.sort(function (a, b) { return parseDeadline(a.deadline) - parseDeadline(b.deadline); });
+      else if (state.sort === 'name') list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+      return list;
+    }
+
+    function renderCard(g) {
+      var card = document.createElement('div');
+      card.className = 'grant-card';
+      card.dataset.level = g.level;
+      var cats = g.categories.map(function (c) { return '<span class="cat-tag">' + c + '</span>'; }).join('');
+      card.innerHTML =
+        '<div class="grant-header">' +
+          '<div class="grant-name"><a href="' + g.url + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">' + g.name + '</a></div>' +
+          '<div class="grant-level">' + g.level + '</div>' +
+        '</div>' +
+        '<div class="grant-issuer">' + g.issuer + '</div>' +
+        '<div class="grant-categories">' + cats + '</div>' +
+        '<div class="grant-meta-row">' +
+          '<div><span class="grant-meta-label">Award</span>' + g.award_range + '</div>' +
+          '<div><span class="grant-meta-label">Deadline</span>' + g.deadline + '</div>' +
+        '</div>' +
+        '<div class="grant-meta-row">' +
+          '<div><span class="grant-meta-label">Geography</span>' + g.geography.join(', ') + '</div>' +
+          '<div><span class="grant-meta-label">Coop eligible</span><span class="grant-coop" data-status="' + g.coop_eligible + '">' + g.coop_eligible + '</span></div>' +
+        '</div>' +
+        '<div class="grant-eligibility"><strong>Who:</strong> ' + g.eligibility + '</div>' +
+        '<div class="grant-notes">' + g.notes + '</div>' +
+        '<div class="grant-action"><a class="grant-link" href="' + g.url + '" target="_blank" rel="noopener">Open issuer page →</a></div>';
+      return card;
+    }
+
+    function render() {
+      refreshChipStates();
+      var list = filterAndSort();
+      var holder = document.getElementById('grantList');
+      holder.innerHTML = '';
+      if (list.length === 0) {
+        var empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'No grants match these filters. Clear and try again.';
+        holder.appendChild(empty);
+      } else {
+        list.forEach(function (g) { holder.appendChild(renderCard(g)); });
+      }
+      document.getElementById('resultsCount').textContent = list.length;
+      document.getElementById('statTotal').textContent = GRANTS.length;
+      document.getElementById('statFed').textContent = GRANTS.filter(function (g) { return g.level === 'federal'; }).length;
+      document.getElementById('statSC').textContent = GRANTS.filter(function (g) { return g.level === 'state' || g.level === 'county'; }).length;
+      document.getElementById('statCoop').textContent = GRANTS.filter(function (g) { return g.coop_eligible === 'true' || g.coop_eligible === 'likely'; }).length;
+    }
+
+    document.getElementById('search').addEventListener('input', function (e) {
+      state.search = e.target.value;
+      render();
+    });
+    document.getElementById('sort').addEventListener('change', function (e) {
+      state.sort = e.target.value;
+      render();
+    });
+    document.getElementById('clearBtn').addEventListener('click', function () {
+      state.level = null; state.cat = null; state.coop = null;
+      state.search = ''; document.getElementById('search').value = '';
+      state.sort = 'default'; document.getElementById('sort').value = 'default';
+      render();
+    });
+
+    buildFilters();
+    render();
+  })();
+  </script>
+</body>
+</html>
