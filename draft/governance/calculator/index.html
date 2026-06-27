@@ -195,6 +195,8 @@
 
       <div class="internal-note">
         <strong>Internal.</strong> This is a scenario sandbox for the founders. Not a sales tool. Not financial advice. Test extreme inputs on purpose. Reality will be somewhere between the small case and the wild case, and the levers we hold most often are the ones that matter most.
+        <br/><br/>
+        <strong>Wage rule:</strong> same work, same dollar, regardless of location. No geographic cost-of-living adjustment. Welder is welder. Apprentice $50K/yr base, Corps Member $100K/yr base, both at 40 hr/wk × 50 wks. Sliders here let us model around that anchor, not replace it.
       </div>
 
       <div class="presets" id="presets">
@@ -213,12 +215,12 @@
 
           <div class="pane-section">Wages</div>
           <div class="input-group">
-            <div class="input-label"><span>Apprentice wage</span><span class="input-value" id="appWageV">$25/hr</span></div>
+            <div class="input-label"><span>Apprentice wage <span style="opacity:0.6;font-size:0.8em;">($50K/yr at 40hr/wk × 50wk)</span></span><span class="input-value" id="appWageV">$25/hr</span></div>
             <input type="range" id="appWage" min="15" max="60" value="25" step="1" />
           </div>
           <div class="input-group">
-            <div class="input-label"><span>Corps Member wage</span><span class="input-value" id="memWageV">$55/hr</span></div>
-            <input type="range" id="memWage" min="25" max="200" value="55" step="1" />
+            <div class="input-label"><span>Corps Member wage <span style="opacity:0.6;font-size:0.8em;">($100K/yr at 40hr/wk × 50wk)</span></span><span class="input-value" id="memWageV">$50/hr</span></div>
+            <input type="range" id="memWage" min="25" max="200" value="50" step="1" />
           </div>
 
           <div class="pane-section">People</div>
@@ -350,7 +352,7 @@
 
       <div class="math-section">
         <h3>What the presets do</h3>
-        <p><strong>Year 1 (lean):</strong> 2 apprentices, 3 Corps Members (Justin FT, Jeremy 40 hr, Joey occasional). Small catalog. Modest trade pillar revenue. Recycling is mostly a dump collecting tipping fees.</p>
+        <p><strong>Year 1 (lean):</strong> 2 apprentices, 3 Corps Members (Justin FT, Jeremy FT, Joey at 25% capacity since Magnolia is his main work — modeled by setting avg hours/wk to 30). Apprentice base $50K, Corps Member base $100K, both at flat federal rates (no geographic adjustment). Small software catalog. Marine pillar at $300K reflecting Coastal Boat Works–scale work. Recycling depot is mostly a dump collecting tipping fees.</p>
         <p><strong>Year 3 (growing):</strong> 10 apprentices, 20 Corps Members across SC. Catalog at 200 apps. Recycling has equipment. Hurricane prep team established.</p>
         <p><strong>Year 5+ (at scale):</strong> 100 apprentices, 200 Corps Members across multiple state chapters. 2,000-app catalog. Multi-stream recycling. Real revenue across all pillars.</p>
         <p><strong>Bull case:</strong> Federation across 20 states. Thousands of apps. Tens of thousands of Virtual Members. A few breakout premium products. The wild scenario worth testing the math against.</p>
@@ -399,11 +401,11 @@
     ];
 
     var PRESETS = {
-      year1:  { appWage:25, memWage:55, appCount:2,  memCount:3,    hrs:40, apps:25,   appUses:800,   subs:5,   subUsers:400,  prem:2,  premRev:50000,  vm:500,   depot:80000,    hp:120000,   marine:100000,  opPct:20, myHrs:2000, myShare:25 },
-      year3:  { appWage:28, memWage:65, appCount:10, memCount:20,   hrs:40, apps:200,  appUses:1500,  subs:30,  subUsers:1500, prem:10, premRev:120000, vm:5000,  depot:600000,   hp:900000,   marine:600000,  opPct:22, myHrs:2000, myShare:8  },
-      year5:  { appWage:30, memWage:75, appCount:100,memCount:200,  hrs:40, apps:2000, appUses:3000,  subs:200, subUsers:5000, prem:50, premRev:250000, vm:30000, depot:3500000,  hp:5000000,  marine:3000000, opPct:25, myHrs:2000, myShare:3  },
-      bull:   { appWage:32, memWage:85, appCount:300,memCount:1500, hrs:40, apps:5000, appUses:8000,  subs:500, subUsers:12000,prem:200,premRev:500000, vm:80000, depot:8000000,  hp:10000000, marine:7000000, opPct:25, myHrs:2000, myShare:1  },
-      reset:  { appWage:25, memWage:55, appCount:2,  memCount:3,    hrs:40, apps:25,   appUses:800,   subs:5,   subUsers:400,  prem:2,  premRev:50000,  vm:500,   depot:80000,    hp:120000,   marine:100000,  opPct:20, myHrs:2000, myShare:25 }
+      year1:  { appWage:25, memWage:50, appCount:2,  memCount:3,    hrs:30, apps:25,   appUses:800,   subs:5,   subUsers:400,  prem:2,  premRev:50000,  vm:500,   depot:80000,    hp:200000,   marine:300000,  opPct:20, myHrs:2000, myShare:25 },
+      year3:  { appWage:25, memWage:50, appCount:10, memCount:20,   hrs:40, apps:200,  appUses:1500,  subs:30,  subUsers:1500, prem:10, premRev:120000, vm:5000,  depot:600000,   hp:900000,   marine:800000,  opPct:22, myHrs:2000, myShare:8  },
+      year5:  { appWage:25, memWage:50, appCount:100,memCount:200,  hrs:40, apps:2000, appUses:3000,  subs:200, subUsers:5000, prem:50, premRev:250000, vm:30000, depot:3500000,  hp:5000000,  marine:3000000, opPct:25, myHrs:2000, myShare:3  },
+      bull:   { appWage:25, memWage:50, appCount:300,memCount:1500, hrs:40, apps:5000, appUses:8000,  subs:500, subUsers:12000,prem:200,premRev:500000, vm:80000, depot:8000000,  hp:10000000, marine:7000000, opPct:25, myHrs:2000, myShare:1  },
+      reset:  { appWage:25, memWage:50, appCount:2,  memCount:3,    hrs:30, apps:25,   appUses:800,   subs:5,   subUsers:400,  prem:2,  premRev:50000,  vm:500,   depot:80000,    hp:200000,   marine:300000,  opPct:20, myHrs:2000, myShare:25 }
     };
 
     var els = {};
