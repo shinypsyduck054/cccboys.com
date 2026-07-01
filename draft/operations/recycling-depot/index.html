@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>CCC BOYS · C&D Recycling Depot</title>
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23a83232'/><text x='50%25' y='62%25' font-family='Georgia,serif' font-size='34' font-weight='900' fill='%23f4ead5' text-anchor='middle'>C</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Big+Shoulders+Stencil+Display:wght@700;900&family=Special+Elite&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/draft-gate.js" defer></script>
+  <style>
+    body { background: #f4ead5; color: #1d160e; }
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+    .mast {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 3px double #1d160e;
+    }
+    .eyebrow {
+      font-family: 'Special Elite', monospace;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #9c2a23;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-family: 'Alfa Slab One', Georgia, serif;
+      font-size: 42px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #1d160e;
+      line-height: 1.1;
+      margin: 0 0 12px;
+    }
+    .subtitle {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      font-style: italic;
+      color: #4a3f2e;
+    }
+    .updated {
+      font-family: 'Special Elite', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #9c2a23;
+      margin-top: 16px;
+    }
+    h2 {
+      font-family: 'Alfa Slab One', Georgia, serif;
+      font-size: 22px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #1d160e;
+      margin: 48px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #1d160e33;
+    }
+    h3 {
+      font-family: 'Alfa Slab One', Georgia, serif;
+      font-size: 16px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #9c2a23;
+      margin: 28px 0 10px;
+    }
+    p {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 17px;
+      line-height: 1.7;
+      margin: 0 0 14px;
+      color: #1d160e;
+    }
+    ul, ol {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: #1d160e;
+      padding-left: 24px;
+      margin: 0 0 16px;
+    }
+    li { margin-bottom: 6px; }
+    .callout {
+      background: #fffaeb;
+      border: 2px solid #1d160e22;
+      border-left: 6px solid #9c2a23;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .callout p { margin: 0; font-size: 16px; }
+    .callout strong {
+      font-family: 'Special Elite', monospace;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #9c2a23;
+      display: block;
+      margin-bottom: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 16px;
+      margin: 20px 0 28px;
+    }
+    th {
+      font-family: 'Special Elite', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: #1d160e;
+      color: #f4ead5;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #1d160e22;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #fffaeb; }
+    .tag {
+      display: inline-block;
+      font-family: 'Special Elite', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: #9c2a23;
+      color: #f4ead5;
+      padding: 2px 8px;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+    .tag.green { background: #2a6b3c; }
+    .tag.amber { background: #8a5a00; }
+    .pros-cons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .pros, .cons {
+      background: #fffaeb;
+      border: 2px solid #1d160e22;
+      padding: 16px 20px;
+    }
+    .pros { border-top: 4px solid #2a6b3c; }
+    .cons { border-top: 4px solid #9c2a23; }
+    .pros h4, .cons h4 {
+      font-family: 'Special Elite', monospace;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin: 0 0 12px;
+    }
+    .pros h4 { color: #2a6b3c; }
+    .cons h4 { color: #9c2a23; }
+    .pros ul, .cons ul {
+      font-size: 15px;
+      margin: 0;
+      padding-left: 20px;
+    }
+    .action-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+    .action-item {
+      display: flex;
+      gap: 16px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      background: #fffaeb;
+      border: 1px solid #1d160e22;
+      border-left: 4px solid #9c2a23;
+      align-items: flex-start;
+    }
+    .action-num {
+      font-family: 'Alfa Slab One', Georgia, serif;
+      font-size: 22px;
+      color: #9c2a23;
+      min-width: 28px;
+      line-height: 1;
+      padding-top: 2px;
+    }
+    .action-text {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1d160e;
+    }
+    .foot {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid #1d160e33;
+      text-align: center;
+      font-family: 'Special Elite', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    .foot a { color: inherit; text-decoration: underline; }
+    @media (max-width: 600px) {
+      h1 { font-size: 30px; }
+      .pros-cons { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="mast">
+      <div class="eyebrow">CCC&middot;BOYS &mdash; Internal Research</div>
+      <h1>C&D Recycling Depot</h1>
+      <div class="subtitle">Hub-and-spoke construction debris recycling for South Carolina</div>
+      <div class="updated">Research compiled June 29, 2026</div>
+    </div>
+
+    <!-- CONCEPT -->
+    <h2>The Concept</h2>
+    <p>
+      South Carolina contractors and roofers currently pay to landfill construction and demolition (C&D) debris because no cost-competitive recycling infrastructure exists along the coast. We build that infrastructure as a worker-owned cooperative, pricing below every landfill in the state, and capture a market that has no incumbent.
+    </p>
+    <div class="callout">
+      <strong>Why this isn't a bet</strong>
+      <p>
+        Joey's Magnolia Roofing (Member #3) pays to landfill shingles right now. That's confirmed Day 1 feedstock from inside the corps, no sales effort required. No chicken-and-egg problem. Joey's contractor network is the distribution channel. The supply is already there -- it's going to the wrong place.
+      </p>
+    </div>
+
+    <h3>What We Recycle</h3>
+    <p>Four material streams sorted at the hub:</p>
+    <ul>
+      <li><strong>Asphalt shingles</strong> -- grind into road base and aggregate filler; secondary market via asphalt plants</li>
+      <li><strong>Metal</strong> -- scrap yards, commodity sale; pulled at spokes to reduce haul weight</li>
+      <li><strong>Clean wood</strong> -- mulch and biomass buyers</li>
+      <li><strong>Concrete and masonry</strong> -- crush into fill aggregate</li>
+    </ul>
+
+    <!-- HUB AND SPOKE -->
+    <h2>Hub-and-Spoke Structure</h2>
+    <p>
+      A single main facility handles sorting and processing. Regional spoke sites collect raw material and transfer it to the hub, keeping roofers' haul distances short across the state.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Site</th>
+          <th>Role</th>
+          <th>Market Served</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Midlands Hub</strong><br>Calhoun or Orangeburg Co.</td>
+          <td>Full processing: sort, grind, resell</td>
+          <td>Columbia, Lexington, statewide anchor</td>
+          <td><span class="tag">Day 1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Berkeley / Dorchester</strong><br>Charleston metro, I-26 corridor</td>
+          <td>Transfer station + metal pull</td>
+          <td>Charleston metro contractors</td>
+          <td><span class="tag amber">Phase 2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Horry County</strong><br>Myrtle Beach area</td>
+          <td>Transfer station + metal pull</td>
+          <td>Grand Strand -- biggest coastal market, highest storm exposure</td>
+          <td><span class="tag amber">Phase 2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Beaufort / Colleton</strong></td>
+          <td>Transfer station</td>
+          <td>Lowcountry, activates post-storm surge</td>
+          <td><span class="tag">Phase 3</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Without the Horry spoke, we lose most of the Grand Strand market -- Myrtle Beach to Orangeburg is a 2-hour haul, outside a contractor's willing-to-drive range. With it, we have statewide coverage.
+    </p>
+
+    <!-- SORTING ANALYSIS -->
+    <h2>Where to Sort: Hub vs. Spoke</h2>
+    <p>
+      This question is downstream of DHEC permitting because the answer changes the facility classification at each site. Here's the full breakdown:
+    </p>
+
+    <h3>Option A: Sort Everything at Hub</h3>
+    <div class="pros-cons">
+      <div class="pros">
+        <h4>Pros</h4>
+        <ul>
+          <li>Spokes need only Transfer Station permits (lighter, faster, cheaper)</li>
+          <li>One DHEC processing relationship to manage</li>
+          <li>Specialized equipment stays at one location</li>
+          <li>Simpler spoke operations -- containers in, containers out</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <h4>Cons</h4>
+        <ul>
+          <li>Hub receives mixed loads -- heavier trucks, more fuel cost</li>
+          <li>Hub processing volume is higher -- larger footprint required Day 1</li>
+          <li>Metal revenue flows to hub, not spokes</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Option B: Full Sort at Spokes</h3>
+    <div class="pros-cons">
+      <div class="pros">
+        <h4>Pros</h4>
+        <ul>
+          <li>Cleaner hub loads</li>
+          <li>Metal revenue stays local</li>
+          <li>Reduces hub processing load</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <h4>Cons</h4>
+        <ul>
+          <li>Each spoke becomes a processing facility under DHEC -- full Solid Waste Processing Facility permit at every site</li>
+          <li>5x the permitting burden and cost</li>
+          <li>Inconsistent labor quality across sites for skilled sort work</li>
+          <li>Equipment duplication across all locations</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Option C: Hybrid -- Metal Pull at Spokes, Everything Else to Hub</h3>
+    <div class="callout">
+      <strong>Recommended approach</strong>
+      <p>
+        Spokes pull metal only into a dedicated container (scrap yard picks it up directly). Everything else -- shingles, wood, concrete, mixed -- goes in the hub container. Pulling metal from mixed C&D at a transfer station is separating a clear commodity recyclable, not "processing" in DHEC's framework. Confirm in pre-application conference, but it's a reasonable interpretation. Eliminates 20-30% of hub-bound truckload weight, reduces fuel on every run, captures metal revenue without the permitting burden.
+      </p>
+    </div>
+
+    <!-- LOCATION -->
+    <h2>Hub Location Analysis</h2>
+    <p>Two viable locations emerged from the research. Both are on I-26 between Columbia and Charleston.</p>
+
+    <h3>Option 1 -- Calhoun County (Exit 90 on I-26)</h3>
+    <p>
+      <span class="tag green">Closer to Columbia</span>
+      <span class="tag green">Tier 4 incentives</span>
+      <span class="tag amber">Thin land inventory</span>
+    </p>
+    <p>
+      ~38 miles from Columbia, closer to the existing Magnolia Roofing market. Tier 4 county means better grant and incentive positioning than Orangeburg. The concern: Calhoun County has 15,000 total residents. Workforce for a 10-20 person operation likely has to commute from Columbia or Orangeburg anyway. The EDC is smaller and less resourced than Orangeburg's. Land availability at the I-26 interchange (Exit 90) is unconfirmed -- most current Zillow listings are near the county seat in St. Matthews, 10 miles off the interstate on a secondary road.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Parcel</th><th>Acres</th><th>Price</th><th>$/Acre</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ponderosa Rd, St. Matthews</td><td>25.1</td><td>$81,000</td><td>$3,227</td><td>~10mi off I-26 near county seat</td></tr>
+        <tr><td>Moorer Rd, St. Matthews</td><td>10</td><td>$89,000</td><td>$8,900</td><td>Smaller; near county seat</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Option 2 -- Orangeburg County (I-26 corridor, Neeses / Cope area)</h3>
+    <p>
+      <span class="tag green">Deep land inventory</span>
+      <span class="tag green">Active EDC</span>
+      <span class="tag amber">Tier 3 (vs Tier 4)</span>
+      <span class="tag amber">Slightly farther from Columbia</span>
+    </p>
+    <p>
+      60 miles from Columbia, 70 from Charleston. 221 active Zillow listings vs. 27 in Calhoun -- far more options and off-market industrial parcels likely. Orangeburg County Development Commission is active and resourced, has navigated DHEC pre-application conferences before, and would move fast on a project this size. I-26 access is straightforward from multiple exits.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Parcel</th><th>Acres</th><th>Price</th><th>$/Acre</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>New Light Dr, Neeses</td><td>25</td><td>$98,750</td><td>$3,950</td><td>33 days on market; near I-26</td></tr>
+        <tr><td>Stevenson Rd, Cope</td><td>--</td><td>--</td><td>~$4,000</td><td>Similar profile</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Current Ranking</h3>
+    <ol>
+      <li><strong>Calhoun County at I-26 Exit 90</strong> -- IF there is viable industrially-zoned or developable land at or near the interchange. Beats Orangeburg on cost-to-Columbia proximity and Tier 4 incentives. Unconfirmed land availability is the only open question.</li>
+      <li><strong>Orangeburg County near I-26</strong> -- if Calhoun has nothing at the interchange. More inventory, stronger EDC, slightly weaker incentive tier.</li>
+    </ol>
+
+    <!-- DHEC -->
+    <h2>DHEC Permitting</h2>
+    <p>
+      Permitting is the gating dependency before you can lock a site. Everything else -- grants, anchor commitments, site selection -- can run in parallel, but you need to know what DHEC requires before signing a lease.
+    </p>
+
+    <h3>Hub: Solid Waste Processing Facility Permit</h3>
+    <ul>
+      <li>Required for any site that mechanically processes C&D material (grinding, sorting, crushing)</li>
+      <li>Process: Pre-application conference with DHEC &rarr; formal application &rarr; 30-90 day review</li>
+      <li>Application must include facility design, operating plan, stormwater management, financial assurance for closure</li>
+      <li>This is the more complex permit -- start it first</li>
+    </ul>
+
+    <h3>Spokes: Solid Waste Transfer Station Permit</h3>
+    <ul>
+      <li>Lighter permit -- accept material, hold temporarily, load out to hub</li>
+      <li>Metal commodity separation at the spoke is likely NOT "processing" under DHEC -- confirm in pre-application conference</li>
+      <li>Faster to obtain than a processing permit</li>
+    </ul>
+
+    <h3>SC FastTrack Permitting</h3>
+    <p>
+      SC Commerce runs a state-level FastTrack program requiring participating agencies -- including DHEC -- to complete expedited 30-day reviews instead of standard 90+ day cycles. Qualifications: job creation, capital investment, Tier 3 or 4 county. A recycling facility creating 10+ jobs in a distressed county hits every qualification. FastTrack applies statewide, not county-specific. File via the SC Commerce Business One Stop portal, which lets you file across multiple state agencies simultaneously.
+    </p>
+
+    <!-- GRANTS -->
+    <h2>Grant Angle</h2>
+    <p>
+      A worker-owned cooperative bringing recycling jobs to a rural SC county is custom-designed for grant programs. The CCC Boys brand story -- rural SC, 1933 echoes, apprenticeships, trades -- is strong collateral across multiple funders simultaneously.
+    </p>
+    <ul>
+      <li><strong>SC rural county incentives:</strong> Tier 3/4 job creation programs, property tax abatements, infrastructure support through SC Commerce</li>
+      <li><strong>EPA Solid Waste and Recycling Grants:</strong> Direct fit for a C&D diversion facility; EPA has consistently funded infrastructure that diverts construction debris from landfills</li>
+      <li><strong>USDA Rural Development:</strong> Cooperative businesses in rural counties are a primary target; can fund building, equipment, and working capital</li>
+      <li><strong>Worker cooperative-specific grants:</strong> Multiple national foundations fund cooperative conversions and startups; the CCC Boys structure is a strong match</li>
+    </ul>
+    <div class="callout">
+      <strong>Timing note</strong>
+      <p>
+        Start grant applications before breaking ground. The DHEC permit application itself is evidence of seriousness -- funders want to see regulatory momentum, not just a pitch. File for grants as soon as you have a site and a pre-application conference date confirmed.
+      </p>
+    </div>
+
+    <!-- PRICING -->
+    <h2>Pricing Strategy</h2>
+    <p>
+      Price below every landfill in the state. Joey's roofing and contractor network handles distribution -- contractors save real money and get a sustainability story they can market to their own clients. The co-op brand turns every dump trip into a positive news beat for the county hosting the facility.
+    </p>
+    <p>
+      Shingle grinding is the high-margin product. Ground shingles sell into asphalt plants as modified aggregate. The landfill currently captures zero of this value. We capture it and share it with the contractor through a below-market tipping fee.
+    </p>
+
+    <!-- NEXT STEPS -->
+    <h2>Open Questions and Next Actions</h2>
+    <ul class="action-list">
+      <li class="action-item">
+        <span class="action-num">1</span>
+        <span class="action-text"><strong>Confirm Calhoun Exit 90 land availability.</strong> Call Calhoun County Development Board -- one call settles whether there is industrially-zoned or developable land at or near the I-26 interchange. If yes, Calhoun wins. If no, Orangeburg is the pick.</span>
+      </li>
+      <li class="action-item">
+        <span class="action-num">2</span>
+        <span class="action-text"><strong>DHEC pre-application conference.</strong> Request a pre-application conference for a Solid Waste Processing Facility in the target county. This is a free service and is how you learn the specific requirements before committing to a site design. DHEC staff will tell you exactly what the application needs.</span>
+      </li>
+      <li class="action-item">
+        <span class="action-num">3</span>
+        <span class="action-text"><strong>Confirm metal pull interpretation with DHEC.</strong> In the pre-application conference, ask whether pulling metal at transfer station spokes constitutes "processing." If confirmed as commodity separation only, the hybrid sort model is clean and the spoke permitting burden is minimal.</span>
+      </li>
+      <li class="action-item">
+        <span class="action-num">4</span>
+        <span class="action-text"><strong>Joey informal anchor commitment.</strong> Lock in Magnolia Roofing's tear-off volume as Day 1 feedstock even informally as Member #3. This is the anchor that validates hub economics to any funder or lender.</span>
+      </li>
+      <li class="action-item">
+        <span class="action-num">5</span>
+        <span class="action-text"><strong>Pull tax map on Neeses parcel.</strong> Verify Orangeburg County assessor records on the New Light Dr, Neeses parcel -- check for floodplain designation and road frontage before treating it as a live option.</span>
+      </li>
+      <li class="action-item">
+        <span class="action-num">6</span>
+        <span class="action-text"><strong>Grant calendar audit.</strong> Cross-reference EPA, USDA Rural Development, and SC Commerce grant cycles against the expected DHEC permitting timeline. File as early as permitting evidence allows.</span>
+      </li>
+    </ul>
+
+    <div class="foot">
+      <a href="/draft/">&larr; Draft Index</a> &middot; <a href="/">cccboys.com</a> &middot; Internal use only
+    </div>
+  </div>
+</body>
+</html>
